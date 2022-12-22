@@ -1,4 +1,9 @@
 # CloudCannon Config Migrator
+
+[<img src="https://img.shields.io/npm/v/cloudcannon-config-migrator?logo=npm" alt="version badge">](https://www.npmjs.com/package/cloudcannon-config-migrator)
+[<img src="https://img.shields.io/npm/dt/cloudcannon-config-migrator" alt="downloads badge">](https://www.npmjs.com/package/cloudcannon-config-migrator)
+
+
 Migrate your existing forestry or netlifycms configuration into CloudCannon config.
 
 To run in the current directory:
