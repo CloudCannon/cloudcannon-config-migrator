@@ -1,0 +1,62 @@
+repos:
+- repo: simarmannsingh/gatsby-netlifycms-starter-template
+  expectedFiles: 2
+# - repo: TylerMRoderick/fernfolio-11ty-template
+#   expectedFiles: 2
+- repo: vietanhdev/hugo-curious
+  expectedFiles: 2
+- repo: yinkakun/gatsby-starter-glass
+  expectedFiles: 2
+- repo: surjithctly/neat-starter
+  expectedFiles: 2
+- repo: peaceiris/hugo-theme-iris
+  expectedFiles: 2
+- repo: xdesro/nuxt-netlify-cms-starter
+  expectedFiles: 2
+- repo: bdougie/hyde-cms-theme
+  expectedFiles: 2
+- repo: netlify-templates/one-click-hugo-cms
+  expectedFiles: 2
+- repo: bdougie/casper-cms-template
+  expectedFiles: 2
+- repo: suits-at/netlifycms-gridsome
+  expectedFiles: 2
+- repo: W3Layouts/gatsby-starter-delog
+  expectedFiles: 2
+- repo: bigcommerce/gatsby-bigcommerce-netlify-cms-starter
+  expectedFiles: 2
+- repo: danielkellyio/awake-template
+  expectedFiles: 2
+- repo: gomah/bluise
+  expectedFiles: 2
+- repo: stackrole/gatsby-starter-foundation
+  expectedFiles: 2
+- repo: jake-101/bael-template
+  expectedFiles: 2
+- repo: andybelldesign/hylia
+  expectedFiles: 2
+- repo: damassi/gatsby-starter-typescript-rebass-netlifycms
+  expectedFiles: 2
+  expectedWarnings:
+    - level: 'critical'
+      message: 'Section has unknown body format "mdx'
+- repo: smolcodes/twentytwenyonetheme
+  expectedFiles: 2
+- repo: robertcoopercode/gatsby-netlify-cms
+  expectedFiles: 2
+- repo: thriveweb/yellowcake
+  expectedFiles: 2
+- repo: tomrutgers/middleman-starter-netlify-cms
+  expectedFiles: 2
+- repo: danurbanowicz/eleventy-netlify-boilerplate
+  expectedFiles: 2
+- repo: lunaceee/hexo-material-netlify
+  expectedFiles: 2
+- repo: konsumer/gatsby-starter-bootstrap-netlify
+  expectedFiles: 2
+- repo: netlify-templates/gatsby-starter-netlify-cms
+  expectedFiles: 2
+- repo: daviddarnes/alembic-netlifycms-kit
+  expectedFiles: 2
+- repo: codexfelis/paws-template
+  expectedFiles: 2

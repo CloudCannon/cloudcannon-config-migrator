@@ -1,0 +1,60 @@
+{
+  "name": "cloudcannon-config-migrator",
+  "version": "0.0.4",
+  "description": "Migrate your existing CMS configuration to CloudCannon config",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "ava",
+    "lint-autofix": "eslint --fix src/** tests/**.js",
+    "lint-code": "eslint src/** tests/**.js",
+    "lint": "npm run lint-autofix && npm run lint-code",
+    "release:latest": "npx np",
+    "release:next": "npx np prerelease --tag=next"
+  },
+  "bin": {
+    "cloudcannon-config-migrator": "src/index.js"
+  },
+  "files": [
+    "src/**/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CloudCannon/cloudcannon-config-migrator.git"
+  },
+  "keywords": [
+    "CloudCannon"
+  ],
+  "author": "CloudCannon <support@cloudcannon.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CloudCannon/cloudcannon-config-migrator/issues"
+  },
+  "homepage": "https://github.com/CloudCannon/cloudcannon-config-migrator#readme",
+  "devDependencies": {
+    "ava": "^5.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-cloudcannon": "^1.0.0-rc5",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-mocha": "^10.1.0"
+  },
+  "dependencies": {
+    "@iarna/toml": "^2.2.5",
+    "chalk": "^5.1.2",
+    "glob-to-regexp": "^0.4.1",
+    "js-yaml": "^4.1.0",
+    "meow": "^11.0.0",
+    "moment": "^2.29.4",
+    "slugify": "^1.6.5",
+    "underscore": "^1.13.6"
+  },
+  "ava": {
+    "files": [
+      "tests/**/*",
+      "!cloned/**/*",
+      "!output/**/*",
+      "!tests/TestMigrationClient.js"
+    ],
+    "concurrency": 5
+  }
+}

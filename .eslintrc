@@ -1,0 +1,11 @@
+{
+    "extends": [
+        "cloudcannon"
+    ],
+    "rules": {
+        "import/extensions": "off",
+        "no-loop-func": "off",
+        "no-async-promise-executor": "off",
+		"object-shorthand": "off"
+    }
+}
