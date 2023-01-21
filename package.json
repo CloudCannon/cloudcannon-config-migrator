@@ -1,6 +1,6 @@
 {
   "name": "cloudcannon-config-migrator",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Migrate your existing CMS configuration to CloudCannon config",
   "type": "module",
   "main": "src/MigrationClient.js",
