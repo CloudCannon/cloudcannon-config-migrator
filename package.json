@@ -1,9 +1,9 @@
 {
   "name": "cloudcannon-config-migrator",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Migrate your existing CMS configuration to CloudCannon config",
   "type": "module",
-  "main": "src/index.js",
+  "main": "src/MigrationClient.js",
   "scripts": {
     "test": "ava",
     "lint-autofix": "eslint --fix src/** tests/**.js",
