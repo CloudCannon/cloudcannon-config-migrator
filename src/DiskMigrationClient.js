@@ -8,10 +8,11 @@ const getAllFiles = function (directory, result) {
 	result = result || [];
 
 	files.forEach((file) => {
-		if (fs.statSync(`${directory}/${file}`).isDirectory()) {
-			result = getAllFiles(`${directory}/${file}`, result);
+		const dirPath = path.join(directory, file);
+		if (fs.statSync(dirPath).isDirectory()) {
+			result = getAllFiles(dirPath, result);
 		} else {
-			result.push(path.join(directory, file));
+			result.push(dirPath);
 		}
 	});
 
@@ -22,7 +23,8 @@ export default class DiskMigrationClient extends MigrationClient {
 	constructor(directory) {
 		const absolutePath = path.resolve(process.cwd(), directory);
 		const files = getAllFiles(absolutePath)
-			.map((filename) => filename.substring(absolutePath.length + 1));
+			.map((filename) => filename.substring(absolutePath.length + 1)
+				.replace(/\\/g, '/'));
 		super(files);
 		this.downloadCounts = {};
 		this.directory = directory;

@@ -64,7 +64,7 @@ export default {
 		if (migration?.buildConfig) {
 			empty = false;
 			saveToOutput({
-				path: '.cloudcannon/initial-site-settings.json',
+				path: path.join('.cloudcannon', 'initial-site-settings.json'),
 				contents: JSON.stringify(migration?.buildConfig || {}, null, '\t')
 			});
 		}
