@@ -1,5 +1,4 @@
 const id = 'cloudcannon';
-const buildSettingsFilename = '.cloudcannon/initial-site-settings.json';
 const configFilenames = [
 	'cloudcannon.config.json',
 	'cloudcannon.config.yaml',
@@ -10,7 +9,6 @@ const configFilenames = [
 
 function detect(migrator) {
 	return migrator.files.reduce((memo, filename) => memo
-            || filename === buildSettingsFilename
             || configFilenames.includes(filename), false);
 }
 
