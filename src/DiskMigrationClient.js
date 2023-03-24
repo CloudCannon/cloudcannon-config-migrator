@@ -20,12 +20,12 @@ const getAllFiles = function (directory, result) {
 };
 
 export default class DiskMigrationClient extends MigrationClient {
-	constructor(directory) {
+	constructor(directory, ssg) {
 		const absolutePath = path.resolve(process.cwd(), directory);
 		const files = getAllFiles(absolutePath)
 			.map((filename) => filename.substring(absolutePath.length + 1)
 				.replace(/\\/g, '/'));
-		super(files);
+		super(files, ssg);
 		this.downloadCounts = {};
 		this.directory = directory;
 	}

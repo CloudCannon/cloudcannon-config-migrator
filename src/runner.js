@@ -33,10 +33,18 @@ const warningLevels = {
 	}
 };
 
+const ssgLookup = {
+	jekyll: 'jekyll',
+	hugo: 'hugo',
+	'11ty': '11ty',
+	eleventy: '11ty'
+};
+
 export default {
 	run: async (flags) => {
 		log(`⭐️ Starting ${chalk.blue('cloudcannon-config-migrator')}`);
-		const client = new DiskMigrationClient(flags.source);
+		const ssg = ssgLookup[flags.ssg?.toLowerCase()];
+		const client = new DiskMigrationClient(flags.source, ssg);
 
 		const destFolder = path.resolve(process.cwd(), flags.output || flags.source);
 		log(`💡 Using ${chalk.blue(client.getConfigMigration().id)} migration`);

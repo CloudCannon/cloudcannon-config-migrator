@@ -740,8 +740,9 @@ async function migrate(migrator) {
 
 	siteConfig.collections_config = siteConfig.collections_config || {};
 
-	const ssg = getSSG(forestrySettings);
+	const ssg = migrator.ssg || getSSG(forestrySettings);
 	if (ssg === 'hugo') {
+		// TODO prevent filter on default pages collection
 		siteConfig.collections_config.default_hugo_pages = {
 			name: 'Pages',
 			path: 'content/'

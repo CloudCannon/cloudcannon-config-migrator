@@ -9,6 +9,7 @@ Usage
   $ cloudcannon-config-migrator [options]
 Options
   --version     Print the current version
+  --ssg, -g     Define your SSG: jekyll, hugo, 11ty, eleventy or other (default)
   --source, -s  Write to a different location than .
   --output, -o  Write to a different location than source
   --quiet, -q   Disable logging

@@ -16,7 +16,8 @@ const configMigrations = [
 ];
 
 export default class MigrationClient {
-	constructor(files) {
+	constructor(files, ssg) {
+		this.ssg = ssg || 'other';
 		this.files = files;
 		this.downloadMemos = {};
 		this.warnings = [];
