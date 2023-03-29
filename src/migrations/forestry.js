@@ -710,6 +710,47 @@ const conversions = {
 	}
 };
 
+async function fetchAllPendingStructures(migrator) {
+	let hasPendingTemplates = false;
+	const structureKeys = Object.keys(migrator.globalStructures);
+
+	for (let y = 0; y < structureKeys.length; y += 1) {
+		const key = structureKeys[y];
+		const value = migrator.globalStructures[key];
+
+		if (value.pendingTemplates) {
+			hasPendingTemplates = true;
+
+			const structuresDef = [];
+			for (let j = 0; j < value.pendingTemplates.templates.length; j += 1) {
+				const template = value.pendingTemplates.templates[j];
+				const templateContents = await loadTemplate(migrator, template);
+
+				const childField = await processFields(
+					template, migrator, templateContents.fields, null
+				);
+
+				structuresDef.push({
+					label: templateContents.label,
+					value: {
+						template: template,
+						...childField.contents
+					},
+					text_key: templateContents.display_field,
+					_inputs: childField.inputConfig
+				});
+			}
+
+			delete value.pendingTemplates;
+			value.values = structuresDef;
+		}
+	}
+
+	if (hasPendingTemplates) {
+		return fetchAllPendingStructures(migrator);
+	}
+}
+
 function detect(migrator) {
 	// TODO this could exist within a subfolder
 	return migrator.files.includes(configFileName);
@@ -782,49 +823,10 @@ async function migrate(migrator) {
 		}
 	}));
 
+	await fetchAllPendingStructures(migrator);
+
 	siteConfig.data_config = checkEmpty(migrator.dataConfig);
 	siteConfig._select_data = checkEmpty(migrator.globalSelectData);
-
-	let structureLoops = 0;
-	let hasPendingTemplates = true;
-	while (hasPendingTemplates) {
-		structureLoops += 1;
-		hasPendingTemplates = false;
-		const structureKeys = Object.keys(migrator.globalStructures);
-
-		for (let y = 0; y < structureKeys.length; y += 1) {
-			const key = structureKeys[y];
-			const value = migrator.globalStructures[key];
-
-			if (value.pendingTemplates) {
-				hasPendingTemplates = true;
-
-				const structuresDef = [];
-				for (let j = 0; j < value.pendingTemplates.templates.length; j += 1) {
-					const template = value.pendingTemplates.templates[j];
-					const templateContents = await loadTemplate(migrator, template);
-
-					const childField = await processFields(
-						template, migrator, templateContents.fields, null
-					);
-
-					structuresDef.push({
-						label: templateContents.label,
-						value: {
-							template: template,
-							...childField.contents
-						},
-						text_key: templateContents.display_field,
-						_inputs: childField.inputConfig
-					});
-				}
-
-				delete value.pendingTemplates;
-				value.values = structuresDef;
-			}
-		}
-	}
-
 	siteConfig._structures = checkEmpty(formatStructuresObject(migrator.globalStructures));
 
 	// Used as the id_key for blocks
