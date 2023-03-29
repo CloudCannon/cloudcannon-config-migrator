@@ -184,7 +184,6 @@ async function readSource(field, safeConfigPath, templateName, migrator) {
 
 	return options;
 }
-
 async function processFields(templateName, migrator, fields, parentConfigPath) {
 	const contents = {};
 	let inputConfig = {};
@@ -278,7 +277,7 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 				if (!migrator.downloadMemos[templateKey]) {
 					migrator.downloadMemos[templateKey] = (async () => {
 						const templateContents = await loadTemplate(migrator, field.template);
-						const childField = await processFields(templateName, migrator, templateContents.fields, '===');
+						const childField = await processFields(field.template, migrator, templateContents.fields, '===');
 						return childField;
 					})();
 				}
@@ -320,8 +319,6 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 					type = 'multiselect';
 				}
 				options = await readSource(field, safeConfigPath, templateName, migrator);
-
-				// console.log(field.type, field.config);
 				break;
 			case 'list':
 				if (!field.config?.use_select) {
@@ -340,28 +337,13 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 
 				const structuresId = field.template_types.join();
 				if (!migrator.globalStructures[structuresId]) {
-					const structuresDef = await Promise.all(field.template_types.map(async (template) => {
-						const templateContents = await loadTemplate(migrator, template);
-
-						const childField = await processFields(
-							templateName, migrator, templateContents.fields, null
-						);
-
-						return {
-							label: templateContents.label,
-							value: {
-								template: template,
-								...childField.contents
-							},
-							text_key: templateContents.display_field,
-							_inputs: childField.inputConfig
-						};
-					}));
-
 					migrator.globalStructures[structuresId] = {
 						id_key: 'template',
 						name: getUnclashedConfigName(`${templateName}-${field.name}`, migrator.globalStructures),
-						values: structuresDef
+						pendingTemplates: {
+							templateName,
+							templates: field.template_types
+						}
 					};
 				}
 
@@ -376,6 +358,9 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 
 				const structuresId = field.fields.map((entry) => entry.name).join(',');
 				if (!migrator.globalStructures[structuresId]) {
+					migrator.globalStructures[structuresId] = {
+						name: getUnclashedConfigName(`${templateName}-${field.name}`, migrator.globalStructures)
+					};
 					const childField = await processFields(templateName, migrator, field.fields, null);
 					const structuresDef = [
 						{
@@ -384,10 +369,7 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 						}
 					];
 
-					migrator.globalStructures[structuresId] = {
-						name: getUnclashedConfigName(`${templateName}-${field.name}`, migrator.globalStructures),
-						values: structuresDef
-					};
+					migrator.globalStructures[structuresId].values = structuresDef;
 				}
 
 				options = {
@@ -408,7 +390,6 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 				break;
 			}
 			default:
-				console.log('Unknown input type', field.type);
 				break;
 			}
 		} catch (error) {
@@ -587,7 +568,8 @@ const conversions = {
 				}
 
 				if (section.templates && section.templates.length > 0) {
-					await Promise.all(section.templates.map(async (templateName, index) => {
+					for (let index = 0; index < section.templates.length; index += 1) {
+						const templateName = section.templates[index];
 						const templatePath = `.forestry/front_matter/templates/${templateName}.yml`;
 						try {
 							const schema = await buildSchema(migrator, templatePath, section.new_doc_ext);
@@ -604,7 +586,7 @@ const conversions = {
 								level: 'medium'
 							});
 						}
-					}));
+					}
 				}
 
 				const match = section.match || '**/*';
@@ -802,6 +784,47 @@ async function migrate(migrator) {
 
 	siteConfig.data_config = checkEmpty(migrator.dataConfig);
 	siteConfig._select_data = checkEmpty(migrator.globalSelectData);
+
+	let structureLoops = 0;
+	let hasPendingTemplates = true;
+	while (hasPendingTemplates) {
+		structureLoops += 1;
+		hasPendingTemplates = false;
+		const structureKeys = Object.keys(migrator.globalStructures);
+
+		for (let y = 0; y < structureKeys.length; y += 1) {
+			const key = structureKeys[y];
+			const value = migrator.globalStructures[key];
+
+			if (value.pendingTemplates) {
+				hasPendingTemplates = true;
+
+				const structuresDef = [];
+				for (let j = 0; j < value.pendingTemplates.templates.length; j += 1) {
+					const template = value.pendingTemplates.templates[j];
+					const templateContents = await loadTemplate(migrator, template);
+
+					const childField = await processFields(
+						template, migrator, templateContents.fields, null
+					);
+
+					structuresDef.push({
+						label: templateContents.label,
+						value: {
+							template: template,
+							...childField.contents
+						},
+						text_key: templateContents.display_field,
+						_inputs: childField.inputConfig
+					});
+				}
+
+				delete value.pendingTemplates;
+				value.values = structuresDef;
+			}
+		}
+	}
+
 	siteConfig._structures = checkEmpty(formatStructuresObject(migrator.globalStructures));
 
 	// Used as the id_key for blocks
