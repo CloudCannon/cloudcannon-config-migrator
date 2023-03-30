@@ -4,25 +4,21 @@ repos:
   branch: master
   ssg: jekyll
   preview: https://github.com/sujaykundu777/devlopr-jekyll/raw/master/assets/img/screenshot.PNG?raw=true
-  expectedFiles: 0
 
 - repo: DirtyF/hugo-twenty-twenty-forestry
   branch: master
   ssg: hugo
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/twenty-twenty.png"
-  expectedFiles: 1
 
 - repo: forestryio/novela-hugo-starter
   branch: master
   ssg: hugo
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/novela.png"
-  expectedFiles: 2
 
 - repo: itsnwa/gridsome-forestry-starter
   branch: master
   ssg: other
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/unstad.png"
-  expectedFiles: 8
   fileTests: []
   migratorId: 'forestry'
 
@@ -30,127 +26,106 @@ repos:
   branch: master
   ssg: gatsby
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/brevifolia.jpg"
-  expectedFiles: 8
 
 - repo: kendallstrautman/brevifolia-nuxt-forestry
   branch: master
   ssg: other
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/brevifolia.jpg"
-  expectedFiles: 7
 
-- repo: kendallstrautman/brevifolia-gridsome-forestry
-  branch: master
-  ssg: other
-  preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/brevifolia.jpg"
-  expectedFiles: 7
+# - repo: kendallstrautman/brevifolia-gridsome-forestry
+#   branch: master
+#   ssg: other
+#   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/brevifolia.jpg"
 
 - repo: kendallstrautman/brevifolia-hugo-forestry
   branch: master
   ssg: hugo
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/brevifolia.jpg"
-  expectedFiles: 7
 
 - repo: forestryio/kross-hugo-starter
   branch: master
   ssg: hugo
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/kross.png"
-  expectedFiles: 1
 
 - repo: DirtyF/mediumish-vuepress-blog-theme
   branch: master
   ssg: vuepress
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/mediumish.jpg"
-  expectedFiles: 5
 
 - repo: forestryio/portfolio-vuepress
   branch: master
   ssg: vuepress
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/joeren.jpg"
-  expectedFiles: 4
 
 - repo: DirtyF/hylia
   branch: forestry
   ssg: other
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/hylia.png"
-  expectedFiles: 2
 
 - repo: forestryio/casper3-hugo-starter
   branch: master
   ssg: hugo
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/casper.jpg"
-  expectedFiles: 1
 
 - repo: itsnwa/darkfolio
   branch: master
   ssg: other
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/darkfolio.jpg"
-  expectedFiles: 4
 
 - repo: DirtyF/docusaurus-forestry-starter
   branch: master
   ssg: other
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/docusaurus.png"
-  expectedFiles: 1
 
 - repo: forestryio/hugo-parsa-forestry
   branch: master
   ssg: hugo
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/parsa.jpg"
-  expectedFiles: 1
 
 - repo: forestryio/jekyll-mundana-forestry
   branch: master
   ssg: jekyll
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/mundana.jpg"
-  expectedFiles: 2
 
 - repo: samuelhorn/jamdocs
   branch: master
   ssg: other
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/jamdocs.png"
-  expectedFiles: 2
 
 - repo: forestryio/hugo-northendlab-forestry
   branch: master
   ssg: hugo
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/northendlab.png"
-  expectedFiles: 4
 
 - repo: DirtyF/just-the-docs-forestry
   branch: master
   ssg: jekyll
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/just-the-docs.jpg"
-  expectedFiles: 4
 
 - repo: forestryio/hugo-ananke-forestry
   branch: master
   ssg: hugo
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/ananke.jpg"
-  expectedFiles: 7
 
 - repo: forestryio/ubuild-jekyll
   branch: master
   ssg: jekyll
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/ubuild.png"
-  expectedFiles: 2
 
 - repo: forestryio/ubuild-hugo-starter
   branch: master
   ssg: hugo
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/ubuild.png"
-  expectedFiles: 2
 
 - repo: DirtyF/jekyll-minimal-mistakes-forestry
   branch: master
   ssg: jekyll
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/minimal-mistakes.png"
-  expectedFiles: 4
 
 - repo: forestryio-templates/belkirk-jekyll-demo
   branch: master
   ssg: jekyll
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/belkirk.jpg"
-  expectedFiles: 6
   expectedWarnings:
     - level: 'medium'
       message: 'Section template "page" not found for section "Pages" at .forestry/front_matter/templates/page.yml'

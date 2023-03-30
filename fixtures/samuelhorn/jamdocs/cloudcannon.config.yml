@@ -1,0 +1,23 @@
+collections_config:
+  docs:
+    name: Docs
+    path: docs
+    schemas:
+      default:
+        path: .cloudcannon/schemas/documentation-page.md
+        name: Documentation Page
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            type: date
+collection_groups:
+  - heading: Content
+    collections:
+      - docs
+paths:
+  static: static
+  uploads: ''
+_inputs:
+  template:
+    hidden: true

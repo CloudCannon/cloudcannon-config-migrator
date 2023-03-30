@@ -1,0 +1,42 @@
+collections_config:
+  post:
+    name: Posts
+    path: _posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post.md
+        name: Posts
+        _enabled_editors:
+          - content
+        _inputs:
+          $.layout:
+            hidden: true
+          $.feature_image:
+            label: Featured image
+          $.feature_text:
+            type: markdown
+          $.image:
+            label: Meta image
+    text_key: title
+  page:
+    name: Pages
+    path: /
+    schemas:
+      default:
+        path: .cloudcannon/schemas/page.md
+        name: Pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.layout:
+            hidden: true
+          $.feature_image:
+            label: Featured image
+          $.feature_text:
+            type: markdown
+          $.image:
+            label: Meta image
+    text_key: title
+paths:
+  static: assets/uploads
+  uploads: assets/uploads

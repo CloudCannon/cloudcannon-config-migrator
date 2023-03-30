@@ -1,0 +1,52 @@
+collections_config:
+  home-en:
+    name: Home en
+    path: content/en
+    schemas:
+      default:
+        path: .cloudcannon/schemas/home-en.md
+        name: Home en
+        _enabled_editors:
+          - content
+    add_options: []
+    text_key: title
+  home-ja:
+    name: Home ja
+    path: content/ja
+    schemas:
+      default:
+        path: .cloudcannon/schemas/home-ja.md
+        name: Home ja
+        _enabled_editors:
+          - content
+    add_options: []
+    text_key: title
+  post-en:
+    name: Post en
+    path: content/en/posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post-en.md
+        name: Post en
+        _enabled_editors:
+          - content
+        _inputs:
+          $.eyecatch:
+            type: image
+    text_key: title
+  post-ja:
+    name: Post ja
+    path: content/ja/posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post-ja.md
+        name: Post ja
+        _enabled_editors:
+          - content
+        _inputs:
+          $.eyecatch:
+            type: image
+    text_key: title
+paths:
+  static: assets
+  uploads: assets/images

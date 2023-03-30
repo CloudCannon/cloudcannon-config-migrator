@@ -1,0 +1,55 @@
+collections_config:
+  blog:
+    name: Blog
+    path: src/pages/blog
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog.md
+        name: Blog
+        _enabled_editors:
+          - content
+        _inputs:
+          $.contentType:
+            hidden: true
+          $.date:
+            label: Publish Date
+          $.attachments:
+            type: array
+            label: Attachment
+            structures:
+              - value: {}
+                _inputs:
+                  filename:
+                    type: file
+          $.related:
+            type: array
+            label: Related Post
+            structures:
+              - value:
+                  post: null
+                _inputs:
+                  post:
+                    type: select
+                    options:
+                      values: collection.blog
+                      value_key: path
+    text_key: title
+  about:
+    name: About
+    path: src/pages/about
+    schemas:
+      default:
+        path: .cloudcannon/schemas/about.md
+        name: About
+        _enabled_editors:
+          - content
+        _inputs:
+          $.contentType:
+            hidden: true
+          $.path:
+            hidden: true
+    add_options: []
+    text_key: title
+paths:
+  static: /static
+  uploads: /static/files

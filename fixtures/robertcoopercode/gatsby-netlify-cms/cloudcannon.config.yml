@@ -1,0 +1,185 @@
+collections_config:
+  meetups:
+    name: Meetups
+    path: src/pages/meetups
+    schemas:
+      default:
+        path: .cloudcannon/schemas/meetups.md
+        name: Meetups
+        _enabled_editors:
+          - content
+        _inputs:
+          $.templateKey:
+            hidden: true
+          $.presenters:
+            type: array
+            structures:
+              - value:
+                  name: ''
+                  presentationTitle: ''
+                  image: null
+                  text: ''
+                  links: []
+                _inputs:
+                  links:
+                    type: array
+                    structures:
+                      - value:
+                          linkText: ''
+                          linkURL: ''
+                        _inputs:
+                          linkText:
+                            label: Text
+                          linkURL:
+                            label: URL
+          $.location.mapsLink:
+            label: Google Maps Link
+          $.location.mapsLatitude:
+            type: number
+            label: Latitude
+          $.location.mapsLongitude:
+            type: number
+            label: Longitude
+    text_key: title
+  pages:
+    name: Pages
+    schemas:
+      about:
+        path: .cloudcannon/schemas/pages/about.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.templateKey:
+            hidden: true
+          $.mainImage.imageAlt:
+            label: Image Description
+          $.gallery:
+            type: array
+            label: Image Gallery
+            structures:
+              - value:
+                  image: null
+                  imageAlt: ''
+                _inputs:
+                  imageAlt:
+                    label: Image Description
+          $.developerGroups:
+            type: markdown
+          $.organizers.gallery:
+            type: array
+            label: Images
+            structures:
+              - value:
+                  name: ''
+                  image: null
+                  imageAlt: ''
+                _inputs:
+                  imageAlt:
+                    label: Image Description
+          $.seo.browserTitle:
+            label: Browser Tab Title
+      pastMeetups:
+        path: .cloudcannon/schemas/pages/pastMeetups.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.templateKey:
+            hidden: true
+          $.seo.browserTitle:
+            label: Browser Tab Title
+      home:
+        path: .cloudcannon/schemas/pages/home.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.templateKey:
+            hidden: true
+          $.headerImage.imageAlt:
+            label: Image Description
+          $.callToActions.firstCTA.linkType:
+            type: select
+            options:
+              values:
+                - internal
+                - external
+              allow_create: false
+              allow_empty: true
+          $.callToActions.secondCTA.linkType:
+            type: select
+            options:
+              values:
+                - internal
+                - external
+              allow_create: false
+              allow_empty: true
+          $.seo.browserTitle:
+            label: Browser Tab Title
+    filter:
+      base: none
+      include:
+        - src/pages/about/index.md
+        - src/pages/pastMeetups/index.md
+        - src/pages/home/index.md
+    add_options: []
+    text_key: title
+  navbarAndFooter:
+    name: Navbar & Footer
+    schemas:
+      navbar:
+        path: .cloudcannon/schemas/navbarAndFooter/navbar.md
+        name: navbarAndFooter
+        _enabled_editors:
+          - content
+        _inputs:
+          $.templateKey:
+            hidden: true
+          $.menuItems:
+            type: array
+            structures:
+              - value:
+                  label: ''
+                  linkType: null
+                  linkURL: ''
+                _inputs:
+                  linkType:
+                    type: select
+                    options:
+                      values:
+                        - internal
+                        - external
+                      allow_create: false
+                      allow_empty: true
+      footer:
+        path: .cloudcannon/schemas/navbarAndFooter/footer.md
+        name: navbarAndFooter
+        _enabled_editors:
+          - content
+        _inputs:
+          $.templateKey:
+            hidden: true
+          $.logoImage.imageAlt:
+            label: Image Description
+          $.socialLinks:
+            type: array
+            structures:
+              - value:
+                  image: null
+                  imageAlt: ''
+                  label: ''
+                  linkURL: ''
+                _inputs:
+                  imageAlt:
+                    label: Image Description
+    filter:
+      base: none
+      include:
+        - src/pages/navbar/index.md
+        - src/pages/footer/index.md
+    add_options: []
+    text_key: title
+paths:
+  static: static
+  uploads: static/img

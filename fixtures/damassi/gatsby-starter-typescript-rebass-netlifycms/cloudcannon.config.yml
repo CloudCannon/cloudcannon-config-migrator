@@ -1,0 +1,31 @@
+collections_config:
+  mdx:
+    name: Mdx Example
+    path: content/mdx
+    schemas:
+      default:
+        path: .cloudcannon/schemas/mdx.mdx
+        name: Mdx Example
+        _enabled_editors:
+          - content
+    text_key: title
+  blog:
+    name: Blog
+    path: content/blog
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog.md
+        name: Blog
+        _enabled_editors:
+          - content
+        _inputs:
+          $.templateKey:
+            hidden: true
+          $.date:
+            label: Publish Date
+          $.tags:
+            type: array
+    text_key: title
+paths:
+  static: static
+  uploads: static/assets

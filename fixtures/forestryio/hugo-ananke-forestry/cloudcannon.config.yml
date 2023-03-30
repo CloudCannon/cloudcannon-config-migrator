@@ -1,0 +1,59 @@
+collections_config:
+  pages:
+    name: Pages
+    path: content
+    filter:
+      exclude:
+        - about/_index.md
+        - post/_index.md
+        - post/chapter-1.md
+        - post/chapter-2.md
+        - post/chapter-3.md
+        - post/chapter-4.md
+        - post/chapter-5.md
+        - post/chapter-6.md
+  post:
+    name: Post
+    path: content/post
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post.md
+        name: Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            instance_value: NOW
+          $.tags:
+            type: multiselect
+            options:
+              values: []
+              allow_create: true
+              allow_empty: true
+  about:
+    name: About
+    path: content/about
+  default_hugo_pages:
+    name: Pages
+    path: content/
+    schemas:
+      contact:
+        path: .cloudcannon/schemas/contact.md
+        name: Contact
+        _enabled_editors:
+          - content
+        _inputs:
+          $.type:
+            hidden: true
+collection_groups:
+  - heading: Content
+    collections:
+      - pages
+      - post
+      - about
+paths:
+  static: static/
+  uploads: images
+_inputs:
+  template:
+    hidden: true

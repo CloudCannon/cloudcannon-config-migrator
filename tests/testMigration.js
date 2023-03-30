@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import childProcess from 'child_process';
-import { loadYaml } from '../src/helpers/yaml-helper.js';
+import { loadYaml, stringifyYaml } from '../src/helpers/yaml-helper.js';
 import runner from '../src/runner.js';
 import { toggleLogging } from '../src/util/logger.js';
 
@@ -22,8 +22,8 @@ const netlifycmsStarters = loadYaml(fs.readFileSync('./tests/netlifycms-starters
 
 const clonedReposPath = './cloned';
 
-const testMigration = async (t, srcFolder, destFolder, {
-	fileTests, migratorId, expectedWarnings
+const testMigration = async (t, srcFolder, destFolder, fileTests, {
+	migratorId, expectedWarnings
 }) => {
 	const { client, migration } = await runner.run({
 		source: srcFolder,
@@ -33,8 +33,11 @@ const testMigration = async (t, srcFolder, destFolder, {
 
 	t.is(migration.id, migratorId);
 
-	// t.is(client.extraFiles?.length, expectedFiles)
 	fileTests.forEach((fileTest) => {
+		if (fileTest.path === 'cloudcannon.config.yml') {
+			t.is(stringifyYaml(migration?.siteConfig || {}), fileTest.contents, `${fileTest.path} does not match expected output`);
+			return;
+		}
 		const newFile = client.extraFiles.find((file) => file.path === fileTest.path);
 		t.assert(newFile, `${fileTest.path} does not exist`);
 
@@ -46,6 +49,33 @@ const testMigration = async (t, srcFolder, destFolder, {
 
 	const badWarnings = client.warnings.filter((warning) => !ignoredWarningLevels[warning.level]);
 	t.deepEqual(badWarnings, expectedWarnings || []);
+
+	t.is(client.extraFiles?.length, fileTests.length - 1);
+};
+
+const readFixtures = async (destFolder) => {
+	const items = await fs.promises.readdir(destFolder);
+
+	const files = await Promise.all(items.map(async (pathname) => {
+		const fullPath = path.join(destFolder, pathname);
+		const stat = await fs.promises.stat(fullPath);
+
+		if (stat.isFile()) {
+			const contents = await (await fs.promises.readFile(fullPath)).toString('utf-8');
+			return {
+				path: pathname,
+				contents
+			};
+		}
+
+		const subfiles = await readFixtures(fullPath);
+		return subfiles.map((file) => ({
+			...file,
+			path: path.join(pathname, file.path)
+		}));
+	}));
+
+	return files.flat();
 };
 
 const runGitTest = async (t, owner, repo, options) => {
@@ -66,6 +96,7 @@ const runGitTest = async (t, owner, repo, options) => {
 	}
 
 	const srcFolder = path.join(parentFolder, repo);
+	const fixturesFolder = path.join('./fixtures/', owner, repo);
 	const destFolder = path.join('./output/', owner, repo);
 	try {
 		await fs.promises.rm(destFolder, { recursive: true });
@@ -75,16 +106,15 @@ const runGitTest = async (t, owner, repo, options) => {
 		}
 	}
 
-	await fs.promises.cp(srcFolder, destFolder, { recursive: true });
+	const fileTests = await readFixtures(fixturesFolder);
 
-	return testMigration(t, srcFolder, destFolder, options);
+	return testMigration(t, srcFolder, destFolder, fileTests, options);
 };
 
 forestryStarters.repos.forEach((row) => {
 	const [owner, name] = row.repo.split('/');
 	test(`https://github.com/${row.repo}`, async (t) => runGitTest(t, owner, name, {
 		...row,
-		fileTests: [],
 		migratorId: 'forestry'
 	}));
 });
@@ -93,7 +123,6 @@ netlifycmsStarters.repos.forEach((row) => {
 	const [owner, name] = row.repo.split('/');
 	test(`https://github.com/${row.repo}`, async (t) => runGitTest(t, owner, name, {
 		...row,
-		fileTests: [],
 		migratorId: 'netlifycms'
 	}));
 });

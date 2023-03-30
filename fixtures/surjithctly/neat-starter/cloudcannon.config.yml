@@ -1,0 +1,76 @@
+collections_config:
+  blog:
+    name: Blog
+    path: src/posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog.md
+        name: Blog
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            label: Publish Date
+          $.tags:
+            type: multiselect
+            options:
+              values:
+                - Tags
+                - created
+                - from
+                - config.yml
+              allow_create: true
+              allow_empty: true
+    text_key: title
+  settings:
+    name: Settings
+    schemas:
+      items:
+        path: .cloudcannon/schemas/settings/items.md
+        name: settings
+        _enabled_editors:
+          - content
+        _inputs:
+          $.items:
+            type: array
+            label: Nav Items
+            structures:
+              - value:
+                  text: ''
+                  url: ''
+                _inputs:
+                  text:
+                    label: Title
+      links:
+        path: .cloudcannon/schemas/settings/links.md
+        name: settings
+        _enabled_editors:
+          - content
+        _inputs:
+          $.links:
+            type: array
+            label: Nav Items
+            structures:
+              - value:
+                  title: ''
+                  url: ''
+                  desc: ''
+                _inputs:
+                  desc:
+                    label: Description
+      settings:
+        path: .cloudcannon/schemas/settings/settings.md
+        name: settings
+        _enabled_editors:
+          - content
+    filter:
+      base: none
+      include:
+        - src/_data/navigation.yaml
+        - src/_data/quicklinks.yaml
+        - src/_data/settings.yaml
+    add_options: []
+    text_key: title
+paths:
+  static: src
+  uploads: src/static/img

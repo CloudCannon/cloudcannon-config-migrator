@@ -1,0 +1,64 @@
+collections_config:
+  works:
+    name: Works
+    path: portfolio/works
+    schemas:
+      default:
+        path: .cloudcannon/schemas/works.md
+        name: works
+        _enabled_editors:
+          - content
+        _inputs:
+          $.categories:
+            type: multiselect
+            options:
+              values: []
+              allow_create: true
+              allow_empty: true
+          $.year:
+            type: number
+          $.date:
+            hidden: true
+  journal:
+    name: Journal
+    path: portfolio/journal
+    schemas:
+      default:
+        path: .cloudcannon/schemas/journal.md
+        name: journal
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            hidden: true
+    filter:
+      exclude:
+        - cms-and-auto-deployment-for-vuepress.md
+collection_groups:
+  - heading: Content
+    collections:
+      - works
+      - journal
+paths:
+  static: portfolio/.vuepress/public/
+  uploads: upload
+_select_data:
+  position:
+    - left
+    - right
+_structures:
+  settings-navigation:
+    values:
+      - value:
+          text: ''
+          link: ''
+          position: null
+          external: false
+        _inputs:
+          position:
+            type: select
+            options:
+              values: _select_data.position
+_inputs:
+  template:
+    hidden: true

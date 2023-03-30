@@ -1,0 +1,185 @@
+collections_config:
+  pages:
+    name: Page
+    schemas:
+      contact-page:
+        path: .cloudcannon/schemas/pages/contact-page.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.template:
+            hidden: true
+          $.slug:
+            hidden: true
+          $.subtitle:
+            type: markdown
+          $.email:
+            label: Email Address
+          $.locations:
+            type: array
+            structures:
+              - value:
+                  mapLink: ''
+                  lat: ''
+                  lng: ''
+                _inputs:
+                  lat:
+                    label: latitude
+                  lng:
+                    label: longitude
+      blog-page:
+        path: .cloudcannon/schemas/pages/blog-page.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.template:
+            hidden: true
+          $.slug:
+            hidden: true
+          $.subtitle:
+            type: markdown
+      components-page:
+        path: .cloudcannon/schemas/pages/components-page.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.template:
+            hidden: true
+          $.slug:
+            hidden: true
+          $.featuredImage:
+            label: Featured Images
+          $.subtitle:
+            type: markdown
+          $.section1:
+            type: markdown
+            label: Section 1
+          $.section2:
+            type: markdown
+            label: Section 2
+          $.video:
+            type: file
+          $.videoPoster:
+            type: image
+          $.accordion:
+            type: array
+            structures:
+              - value:
+                  title: ''
+                  description: ''
+          $.gallery:
+            type: array
+            structures:
+              - value:
+                  image: null
+                  alt: ''
+                  title: ''
+      home-page:
+        path: .cloudcannon/schemas/pages/home-page.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.template:
+            hidden: true
+          $.slug:
+            hidden: true
+          $.subtitle:
+            type: markdown
+          $.accordion:
+            type: array
+            structures:
+              - value:
+                  title: ''
+                  content: ''
+    filter:
+      base: none
+      include:
+        - content/pages/contact.md
+        - content/pages/blog.md
+        - content/pages/components.md
+        - content/pages/home.md
+    add_options: []
+    text_key: title
+  infoPages:
+    name: Info Page
+    path: content/infoPages
+    schemas:
+      default:
+        path: .cloudcannon/schemas/infoPages.md
+        name: Info Page
+        _enabled_editors:
+          - content
+        _inputs:
+          $.template:
+            hidden: true
+    text_key: title
+  posts:
+    name: Post
+    path: content/posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/posts.md
+        name: Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.template:
+            hidden: true
+          $.status:
+            type: select
+            options:
+              values:
+                - Published
+                - Featured
+                - Draft
+              allow_create: false
+              allow_empty: true
+          $.date:
+            type: date
+            label: Date / Order
+          $.categories:
+            type: array
+            structures:
+              - value:
+                  category: null
+                _inputs:
+                  category:
+                    type: select
+                    options:
+                      values: collection.postCategories
+                      value_key: title
+    text_key: title
+  postCategories:
+    name: Post Category
+    path: content/postCategories
+    schemas:
+      default:
+        path: .cloudcannon/schemas/postCategories.md
+        name: Post Category
+        _enabled_editors:
+          - content
+        _inputs:
+          $.template:
+            hidden: true
+    text_key: title
+  settings:
+    name: Settings
+    schemas:
+      global-settings:
+        path: .cloudcannon/schemas/settings/global-settings.md
+        name: settings
+        _enabled_editors:
+          - content
+        _inputs:
+          $.googleTrackingId:
+            label: Google Analytics Tracking Id
+    filter:
+      base: none
+      include:
+        - content/settings/global.yml
+    add_options: []
+    text_key: title

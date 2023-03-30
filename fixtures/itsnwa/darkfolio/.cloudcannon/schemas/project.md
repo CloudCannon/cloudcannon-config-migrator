@@ -1,0 +1,6 @@
+---
+title: ''
+thumbnail:
+year: ''
+categories: []
+---

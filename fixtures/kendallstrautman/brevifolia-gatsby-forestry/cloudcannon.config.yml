@@ -1,0 +1,40 @@
+collections_config:
+  blog-posts:
+    name: Blog Posts
+    path: content/posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog-post.md
+        name: Blog Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.author:
+            type: select
+            comment: Enter author of post
+            options:
+              values: _select_data.authors
+          $.date:
+            instance_value: NOW
+            comment: Date post was created
+          $.hero_image:
+            comment: Enter hero image for blog post here
+collection_groups:
+  - heading: Content
+    collections:
+      - blog-posts
+paths:
+  static: ''
+  uploads: content/images
+_select_data:
+  authors:
+    - Robert Thoreau
+    - Allen Ginsberg
+    - Friedrich Nietzsche
+    - Walt Whitman
+    - Grace Hopper
+    - Ralph Waldo Emerson
+    - Watson & Crick
+_inputs:
+  template:
+    hidden: true
