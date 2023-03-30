@@ -339,7 +339,7 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 				if (!migrator.globalStructures[structuresId]) {
 					migrator.globalStructures[structuresId] = {
 						id_key: 'template',
-						name: getUnclashedConfigName(`${templateName}-${field.name}`, migrator.globalStructures),
+						name: getUnclashedConfigName(field.name, migrator.globalStructures),
 						pendingTemplates: {
 							templateName,
 							templates: field.template_types
@@ -359,7 +359,7 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 				const structuresId = field.fields.map((entry) => entry.name).join(',');
 				if (!migrator.globalStructures[structuresId]) {
 					migrator.globalStructures[structuresId] = {
-						name: getUnclashedConfigName(`${templateName}-${field.name}`, migrator.globalStructures)
+						name: getUnclashedConfigName(field.name, migrator.globalStructures)
 					};
 					const childField = await processFields(templateName, migrator, field.fields, null);
 					const structuresDef = [

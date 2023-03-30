@@ -47,7 +47,7 @@ _select_data:
     - left
     - right
 _structures:
-  settings-navigation:
+  navigation:
     values:
       - value:
           text: ''

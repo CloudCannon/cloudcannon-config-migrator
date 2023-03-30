@@ -46,7 +46,7 @@ paths:
   static: static/
   uploads: images
 _structures:
-  config-main:
+  main:
     values:
       - value:
           identifier: ''

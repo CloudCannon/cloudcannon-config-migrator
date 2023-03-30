@@ -41,7 +41,7 @@ collections_config:
             type: array
             label: Social Media
             options:
-              structures: _structures.author-social
+              structures: _structures.social
           $.featured:
             label: Featured Author
             comment: Feature this author on the home page
@@ -63,7 +63,7 @@ paths:
   static: static/
   uploads: images
 _structures:
-  author-social:
+  social:
     values:
       - value:
           title: ''

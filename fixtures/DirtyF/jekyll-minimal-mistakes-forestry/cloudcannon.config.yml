@@ -42,7 +42,7 @@ collections_config:
           $.layouts_gallery:
             type: array
             options:
-              structures: _structures.about-layouts_gallery
+              structures: _structures.layouts_gallery
   recipes:
     name: Recipes
     path: _recipes
@@ -62,7 +62,7 @@ paths:
   static: assets/
   uploads: images
 _structures:
-  about-layouts_gallery:
+  layouts_gallery:
     values:
       - value:
           url: null

@@ -51,7 +51,7 @@ collections_config:
           $.services:
             type: array
             options:
-              structures: _structures.landing-page-services
+              structures: _structures.services
           $.show_news:
             label: Show News?
             comment: Enables a news section with a twitter feed & latest posts
@@ -125,7 +125,7 @@ paths:
   static: ''
   uploads: uploads
 _structures:
-  landing-page-services:
+  services:
     values:
       - value:
           heading: ''
