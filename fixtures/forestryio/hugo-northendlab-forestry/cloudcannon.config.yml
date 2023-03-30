@@ -31,7 +31,7 @@ collections_config:
           $.tools:
             type: array
             options:
-              structures: _structures.tools-tools
+              structures: _structures.tools
       tools:
         path: .cloudcannon/schemas/tools.md
         name: Tools
@@ -41,7 +41,7 @@ collections_config:
           $.tools:
             type: array
             options:
-              structures: _structures.tools-tools
+              structures: _structures.tools
   author:
     name: Author
     path: content/author
@@ -66,13 +66,7 @@ paths:
   static: static/
   uploads: images
 _structures:
-  tools-tool:
-    values:
-      - value:
-          name: ''
-          image: null
-          link: ''
-  tools-tools:
+  tools:
     values:
       - value:
           title: ''
@@ -81,7 +75,13 @@ _structures:
           tool:
             type: array
             options:
-              structures: _structures.tools-tool
+              structures: _structures.tool
+  tool:
+    values:
+      - value:
+          name: ''
+          image: null
+          link: ''
 _inputs:
   template:
     hidden: true

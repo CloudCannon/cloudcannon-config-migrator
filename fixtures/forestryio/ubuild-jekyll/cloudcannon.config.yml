@@ -24,7 +24,7 @@ collections_config:
           $.page_sections:
             type: array
             options:
-              structures: _structures.page-builder-page_sections
+              structures: _structures.page_sections
 collection_groups:
   - heading: Content
     collections:
@@ -38,12 +38,7 @@ _select_data:
     - Left
     - Right
 _structures:
-  page-builder-navigation-1:
-    values:
-      - value:
-          link: ''
-          link_text: ''
-  page-builder-page_sections:
+  page_sections:
     id_key: template
     values:
       - label: navigation-header
@@ -60,7 +55,7 @@ _structures:
           navigation:
             type: array
             options:
-              structures: _structures.page-builder-navigation
+              structures: _structures.navigation
       - label: navigation-header-w-button
         value:
           template: navigation-header-w-button
@@ -78,7 +73,7 @@ _structures:
           navigation:
             type: array
             options:
-              structures: _structures.page-builder-navigation-1
+              structures: _structures.navigation
       - label: simple-header
         value:
           template: simple-header
@@ -263,6 +258,11 @@ _structures:
           col_4:
             type: html
             label: Column 4 Content
+  navigation:
+    values:
+      - value:
+          link: ''
+          link_text: ''
 _inputs:
   template:
     hidden: true

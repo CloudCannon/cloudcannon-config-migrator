@@ -8,7 +8,7 @@ import { loadYaml, stringifyYaml } from '../src/helpers/yaml-helper.js';
 import runner from '../src/runner.js';
 import { toggleLogging } from '../src/util/logger.js';
 
-toggleLogging(false);
+toggleLogging(process.env.LOGGING);
 
 const ignoredWarningLevels = {
 	info: true,
@@ -22,39 +22,16 @@ const netlifycmsStarters = loadYaml(fs.readFileSync('./tests/netlifycms-starters
 
 const clonedReposPath = './cloned';
 
-const testMigration = async (t, srcFolder, destFolder, fileTests, {
-	migratorId, expectedWarnings
-}) => {
-	const { client, migration } = await runner.run({
-		source: srcFolder,
-		output: destFolder,
-		quiet: true
-	});
-
-	t.is(migration.id, migratorId);
-
-	fileTests.forEach((fileTest) => {
-		if (fileTest.path === 'cloudcannon.config.yml') {
-			t.is(stringifyYaml(migration?.siteConfig || {}), fileTest.contents, `${fileTest.path} does not match expected output`);
-			return;
-		}
-		const newFile = client.extraFiles.find((file) => file.path === fileTest.path);
-		t.assert(newFile, `${fileTest.path} does not exist`);
-
-		t.is(newFile?.contents, fileTest.contents, `${fileTest.path} does not match expected output`);
-	});
-
-	const noLevelWarnings = client.warnings.filter((warning) => !warning.level);
-	t.is(noLevelWarnings.length, 0, 'Warnings should all have levels attached');
-
-	const badWarnings = client.warnings.filter((warning) => !ignoredWarningLevels[warning.level]);
-	t.deepEqual(badWarnings, expectedWarnings || []);
-
-	t.is(client.extraFiles?.length, fileTests.length - 1);
-};
-
 const readFixtures = async (destFolder) => {
-	const items = await fs.promises.readdir(destFolder);
+	let items;
+	try {
+		items = await fs.promises.readdir(destFolder);
+	} catch (err) {
+		if (err.code !== 'ENOENT') {
+			throw err;
+		}
+		items = [];
+	}
 
 	const files = await Promise.all(items.map(async (pathname) => {
 		const fullPath = path.join(destFolder, pathname);
@@ -76,6 +53,45 @@ const readFixtures = async (destFolder) => {
 	}));
 
 	return files.flat();
+};
+
+const testMigration = async (t, srcFolder, destFolder, fixturesFolder, {
+	migratorId, expectedWarnings
+}) => {
+	const { client, migration } = await runner.run({
+		source: srcFolder,
+		output: destFolder,
+		quiet: true
+	});
+
+	let fileTests = await readFixtures(fixturesFolder);
+	if (fileTests.length === 0) {
+		await fs.promises.cp(destFolder, fixturesFolder, { recursive: true });
+		fileTests = await readFixtures(fixturesFolder);
+	}
+
+	t.is(migration.id, migratorId);
+
+	fileTests.forEach((fileTest) => {
+		if (fileTest.path === 'cloudcannon.config.yml') {
+			t.is(stringifyYaml(migration?.siteConfig || {}), fileTest.contents, `${fileTest.path} does not match expected output`);
+			return;
+		}
+		const newFile = client.extraFiles.find((file) => file.path === fileTest.path);
+		t.assert(newFile, `${fileTest.path} does not exist`);
+
+		t.is(newFile?.contents, fileTest.contents, `${fileTest.path} does not match expected output`);
+	});
+
+	t.is(client.extraFiles?.length, fileTests.length - 1);
+
+	const noLevelWarnings = client.warnings.filter((warning) => !warning.level);
+	t.is(noLevelWarnings.length, 0, 'Warnings should all have levels attached');
+
+	const badWarnings = client.warnings
+		.filter((warning) => !ignoredWarningLevels[warning.level])
+		.map((warning) => ({ level: warning.level, message: warning.message }));
+	t.deepEqual(badWarnings, expectedWarnings || []);
 };
 
 const runGitTest = async (t, owner, repo, options) => {
@@ -106,9 +122,7 @@ const runGitTest = async (t, owner, repo, options) => {
 		}
 	}
 
-	const fileTests = await readFixtures(fixturesFolder);
-
-	return testMigration(t, srcFolder, destFolder, fileTests, options);
+	await testMigration(t, srcFolder, destFolder, fixturesFolder, options);
 };
 
 forestryStarters.repos.forEach((row) => {

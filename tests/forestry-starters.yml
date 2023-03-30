@@ -129,3 +129,14 @@ repos:
   expectedWarnings:
     - level: 'medium'
       message: 'Section template "page" not found for section "Pages" at .forestry/front_matter/templates/page.yml'
+
+- repo: fcongson/frankcongson.com
+  branch: main
+  ssg: gatsby
+  expectedWarnings:
+    - level: 'medium'
+      message: 'content/data/images.json could not append inputs to a non-object json file'
+      
+- repo: psiu-gt/psiu-gt
+  branch: dev
+  ssg: gatsby

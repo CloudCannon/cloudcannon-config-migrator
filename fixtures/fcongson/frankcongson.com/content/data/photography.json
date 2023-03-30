@@ -1,0 +1,185 @@
+{
+	"hero_image": {
+		"image": "/content/images/iceland-west-coast.jpg",
+		"alt_text": "A close up of a field in the Snæfellsnes peninsula of western Iceland"
+	},
+	"page_header": "Photography.",
+	"sections": [
+		{
+			"template": "image-caption",
+			"image": "/content/images/banff-vermillion-lakes.jpg",
+			"alt_text": "Jami sitting at the end of a dock at Vermillion Lakes located within Banff National Park in Alberta, Canada",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/banff-gondola-1.jpg",
+			"alt_text": "A view of the Canadian Rocky Mountains at the top of the Banff Gondola in Alberta, Canada",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/banff-gondola-2.jpg",
+			"alt_text": "A view of the Canadian Rocky Mountains at the top of the Banff Gondola in Alberta, Canada",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/indonesia-borobudur-1.jpg",
+			"alt_text": "Jami at Borobudur Buddhist temple in Central Java, Indonesia",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/indonesia-borobudur-2.jpg",
+			"alt_text": "Jami at Borobudur Buddhist temple in Central Java, Indonesia",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/iceland-church-1.jpg",
+			"alt_text": "An Icelandic Church in the Snæfellsnes peninsula of western Iceland",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/iceland-church-2.jpg",
+			"alt_text": "An Icelandic Church in the Snæfellsnes peninsula of western Iceland",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/iceland-village.jpg",
+			"alt_text": "A village in the Snæfellsnes peninsula of western Iceland",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/iceland-west-coast.jpg",
+			"alt_text": "A close up of a field in the Snæfellsnes peninsula of western Iceland",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/norway-flam.jpg",
+			"alt_text": "Jami standing on a dock at Flåm, a village in southwestern Norway",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/norway-bergen.jpg",
+			"alt_text": "Jami walking through Bergen, a city on Norway’s southwestern coast",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/sydney-opera-house-1.jpg",
+			"alt_text": "The Sydney Opera House in New South Wales, Australia",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/sydney-opera-house-2.jpg",
+			"alt_text": "The Sydney Opera House in New South Wales, Australia",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/jami-sydney-australia.jpg",
+			"alt_text": "Jami on a rocky beach in Sydney, Australia",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/sydney-australia.jpg",
+			"alt_text": "Overlooking blue water in Sydney, Australia",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/whitsundays-queensland-australia-1.jpg",
+			"alt_text": "Hill Inlet Lookout in Whitsunday Islands National Park in Queensland, Australia",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/whitsundays-queensland-australia-2.jpg",
+			"alt_text": "Jami walking on a beach towards our boat in Whitsunday Islands National Park in Queensland, Australia",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/jami-san-francisco-kirby-cove.jpg",
+			"alt_text": "A portrait of Jami at Kirby Cove in San Francisco, California",
+			"caption": "",
+			"emphasized": false,
+			"fullwidth": false
+		}
+	],
+	"seo": {
+		"title": "Photography",
+		"description": "Photography & Visual Stories",
+		"keywords": [
+			"storytelling",
+			"stories",
+			"visual storytelling",
+			"visual stories",
+			"travel",
+			"photography"
+		],
+		"image": "",
+		"alt_text": "",
+		"pathname": "",
+		"article": false
+	},
+	"_inputs": {
+		"$.seo.keywords": {
+			"type": "multiselect",
+			"options": {
+				"values": [],
+				"allow_create": true,
+				"allow_empty": true
+			}
+		},
+		"$.sections": {
+			"type": "array",
+			"options": {
+				"structures": "_structures.sections"
+			}
+		}
+	}
+}

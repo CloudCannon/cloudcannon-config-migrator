@@ -40,7 +40,7 @@
 		"$.navigation": {
 			"type": "array",
 			"options": {
-				"structures": "_structures.settings-navigation"
+				"structures": "_structures.navigation"
 			}
 		}
 	}
