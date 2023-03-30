@@ -108,10 +108,12 @@ export default class MigrationClient {
 				if (contents.trim().charAt(0) !== '{') {
 					console.warn(file, 'is not a json object');
 				} else {
+					// TODO detect original indentation
+					const indentation = '\t';
 					updatedContents = JSON.stringify({
 						...parsed,
 						...extraData
-					});
+					}, null, indentation);
 				}
 			} catch (error) {
 				console.warn(file, 'failed to parse', error);

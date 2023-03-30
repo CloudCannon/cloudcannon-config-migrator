@@ -32,10 +32,10 @@ repos:
   ssg: other
   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/brevifolia.jpg"
 
-# - repo: kendallstrautman/brevifolia-gridsome-forestry
-#   branch: master
-#   ssg: other
-#   preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/brevifolia.jpg"
+- repo: kendallstrautman/brevifolia-gridsome-forestry
+  branch: master
+  ssg: other
+  preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/brevifolia.jpg"
 
 - repo: kendallstrautman/brevifolia-hugo-forestry
   branch: master

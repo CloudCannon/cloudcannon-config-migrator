@@ -1,0 +1,37 @@
+collections_config:
+  blog-posts:
+    name: Blog Posts
+    path: src/assets/content/blog
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog-post.md
+        name: Blog Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.author:
+            type: select
+            comment: Choose author, to add a new author go to the Authors List file
+            options:
+              values: _select_data.authors
+collection_groups:
+  - heading: Content
+    collections:
+      - blog-posts
+paths:
+  static: ''
+  uploads: src/assets/content/images
+_select_data:
+  authors:
+    - Allen Ginsberg
+    - Henry David Thoreau
+    - Friedrich Nietzsche
+    - Watson & Crick
+    - Walt Whitman
+    - Grace Hopper
+    - Paramahansa Yogananda
+    - Valentina Tereshkova
+    - Ralph Waldo Emerson
+_inputs:
+  template:
+    hidden: true
