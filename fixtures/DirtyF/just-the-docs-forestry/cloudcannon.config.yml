@@ -1,0 +1,26 @@
+collections_config:
+  docs:
+    name: Docs
+    path: docs
+    schemas:
+      default:
+        path: .cloudcannon/schemas/page.md
+        name: Parent Page
+        _enabled_editors:
+          - content
+        _inputs:
+          $.layout:
+            hidden: true
+          $.nav_order:
+            type: number
+        text_key: title
+collection_groups:
+  - heading: Content
+    collections:
+      - docs
+paths:
+  static: ''
+  uploads: assets/images
+_inputs:
+  template:
+    hidden: true

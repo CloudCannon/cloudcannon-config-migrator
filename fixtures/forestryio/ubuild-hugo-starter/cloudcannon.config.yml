@@ -1,0 +1,243 @@
+collections_config:
+  pages:
+    name: Pages
+    path: content
+    schemas:
+      page-builder:
+        path: .cloudcannon/schemas/page-builder.md
+        _enabled_editors:
+          - data
+        _inputs:
+          $.layout:
+            hidden: true
+          $.page_sections:
+            type: array
+            options:
+              structures: _structures.page-builder-page_sections
+collection_groups:
+  - heading: Content
+    collections:
+      - pages
+paths:
+  static: static/
+  uploads: uploads
+_select_data:
+  media_alignment:
+    - Left
+    - Right
+_structures:
+  page-builder-navigation-1:
+    values:
+      - value:
+          link_text: ''
+          link_url: ''
+          open_in_new_tab: false
+  page-builder-page_sections:
+    id_key: template
+    values:
+      - value:
+          template: navigation-header
+          block: header-1
+          logo: null
+          navigation: []
+        _inputs:
+          block:
+            hidden: true
+          logo:
+            type: file
+          navigation:
+            type: array
+            options:
+              structures: _structures.page-builder-navigation
+      - value:
+          template: navigation-header-w-button
+          block: header-2
+          logo: null
+          navigation: []
+          cta:
+            link_text: ''
+            link_url: ''
+            open_in_new_tab: false
+        _inputs:
+          block:
+            hidden: true
+          logo:
+            type: file
+          navigation:
+            type: array
+            options:
+              structures: _structures.page-builder-navigation-1
+      - value:
+          template: simple-header
+          block: header-3
+          logo: null
+        _inputs:
+          block:
+            hidden: true
+          logo:
+            type: file
+      - value:
+          template: text-only-hero-banner
+          block: hero-1
+          heading: ''
+        _inputs:
+          block:
+            hidden: true
+          heading:
+            type: html
+            label: Headline
+      - value:
+          template: hero-banner-w-image
+          block: hero-2
+          background_image: null
+          image:
+            image: null
+            alt_text: ''
+          headline: ''
+          content: ''
+          cta:
+            enabled: false
+            link_text: ''
+            link_url: ''
+            open_in_new_tab: false
+        _inputs:
+          block:
+            hidden: true
+          headline:
+            type: html
+          content:
+            type: html
+      - value:
+          template: content-feature
+          block: feature-1
+          headline: ''
+          content: ''
+          media:
+            image: null
+            alt_text: ''
+          media_alignment: Right
+        _inputs:
+          block:
+            hidden: true
+          content: &ref_0
+            type: html
+          media_alignment:
+            type: select
+            options:
+              values: _select_data.media_alignment
+      - value:
+          template: detail-content
+          block: text-1
+          headline: ''
+          content: ''
+        _inputs:
+          block:
+            hidden: true
+          content: *ref_0
+      - value:
+          template: 1-column-text
+          block: one-column-1
+          headline: ''
+          content: ''
+        _inputs:
+          block:
+            hidden: true
+          content: *ref_0
+      - value:
+          template: 2-column-text
+          block: two-column-1
+          col_1:
+            headline: ''
+            content: ''
+          col_2:
+            headline: ''
+            content: ''
+        _inputs:
+          block:
+            hidden: true
+          col_1.content: *ref_0
+          col_2.content: *ref_0
+      - value:
+          template: 3-column-text
+          block: three-column-1
+          col_1:
+            headline: ''
+            content: ''
+          col_2:
+            headline: ''
+            content: ''
+          col_3:
+            headline: ''
+            content: ''
+        _inputs:
+          block:
+            hidden: true
+          col_1.content: *ref_0
+          col_2.content: *ref_0
+          col_3.content: *ref_0
+      - value:
+          template: full-width-media-element
+          block: media-1
+          image: null
+          caption: ''
+        _inputs:
+          block:
+            hidden: true
+      - value:
+          template: 2-column-media-element
+          block: media-2
+          image_1:
+            image: null
+            caption: ''
+          image_2:
+            image: null
+            caption: ''
+        _inputs:
+          block:
+            hidden: true
+      - value:
+          template: signup-bar
+          block: cta-bar
+          content: ''
+          email_recipient: ''
+        _inputs:
+          block:
+            hidden: true
+          content:
+            type: html
+          email_recipient:
+            comment: Form submissions will be sent to this email address.
+      - value:
+          template: simple-footer
+          block: footer-1
+          content: ''
+        _inputs:
+          block:
+            hidden: true
+          content:
+            type: html
+            label: Footer Text
+      - value:
+          template: 4-column-footer
+          block: footer-2
+          image: null
+          col_2: ''
+          col_3: ''
+          col_4: ''
+        _inputs:
+          block:
+            hidden: true
+          image:
+            label: Column 1 Image
+          col_2:
+            type: html
+            label: Column 2 Content
+          col_3:
+            type: html
+            label: Column 3 Content
+          col_4:
+            type: html
+            label: Column 4 Content
+_inputs:
+  template:
+    hidden: true

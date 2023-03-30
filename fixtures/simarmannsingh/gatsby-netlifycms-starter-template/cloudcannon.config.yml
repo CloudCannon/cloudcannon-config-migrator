@@ -1,0 +1,58 @@
+collections_config:
+  blog:
+    name: Blog
+    path: src/pages/blog
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog.md
+        name: Blog
+        _enabled_editors:
+          - content
+        _inputs:
+          $.templateKey:
+            hidden: true
+          $.date:
+            label: Publish Date
+          $.featuredpost:
+            label: Featured Post
+          $.featuredimage:
+            type: image
+            label: Featured Image
+          $.tags:
+            type: array
+    text_key: title
+  pages:
+    name: Pages
+    schemas:
+      index:
+        path: .cloudcannon/schemas/pages/index.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.templateKey:
+            hidden: true
+          $.intro.blurbs:
+            type: array
+            structures:
+              - value:
+                  image: null
+                  text: ''
+      about:
+        path: .cloudcannon/schemas/pages/about.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.templateKey:
+            hidden: true
+    filter:
+      base: none
+      include:
+        - src/pages/index.md
+        - src/pages/about/index.md
+    add_options: []
+    text_key: title
+paths:
+  static: static
+  uploads: static/img

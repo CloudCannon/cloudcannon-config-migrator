@@ -1,0 +1,76 @@
+collections_config:
+  posts:
+    name: Posts
+    path: _posts
+    schemas:
+      post-header:
+        path: .cloudcannon/schemas/post-header.md
+        name: 'Post: Header'
+        _enabled_editors:
+          - content
+        _inputs:
+          $.last_modified_at:
+            instance_value: NOW
+          $.header.teaser:
+            type: file
+          $.categories:
+            type: multiselect
+            options:
+              values: []
+              allow_create: true
+              allow_empty: true
+          $.tags:
+            type: multiselect
+            options:
+              values: []
+              allow_create: true
+              allow_empty: true
+  pages:
+    name: Pages
+    path: _pages
+    filter:
+      exclude:
+        - collection-archive.html
+        - post-archive-feature-rows.html
+    schemas:
+      about:
+        path: .cloudcannon/schemas/about.md
+        name: About
+        _enabled_editors:
+          - content
+        _inputs:
+          $.layouts_gallery:
+            type: array
+            options:
+              structures: _structures.about-layouts_gallery
+  recipes:
+    name: Recipes
+    path: _recipes
+  pets:
+    name: Pets
+    path: _pets
+collection_groups:
+  - heading: Content
+    collections:
+      - posts
+      - pages
+  - heading: Collections
+    collections:
+      - recipes
+      - pets
+paths:
+  static: assets/
+  uploads: images
+_structures:
+  about-layouts_gallery:
+    values:
+      - value:
+          url: null
+          image_path: null
+          alt: ''
+        _inputs:
+          url:
+            type: file
+_inputs:
+  template:
+    hidden: true

@@ -1,0 +1,61 @@
+collections_config:
+  post:
+    name: Post
+    path: content/post
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post.md
+        name: Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            instance_value: NOW
+          $.tags:
+            type: multiselect
+            options:
+              values: []
+              allow_create: true
+              allow_empty: true
+  pages:
+    name: Pages
+    path: content
+    filter:
+      exclude:
+        - homepage/about.md
+        - homepage/index.md
+        - homepage/work.md
+        - post/_index.md
+        - post/emoji-support.md
+        - post/markdown-syntax.md
+        - post/placeholder-text.md
+        - post/rich-content.md
+  homepage:
+    name: Homepage
+    path: content/homepage
+  default_hugo_pages:
+    name: Pages
+    path: content/
+collection_groups:
+  - heading: Content
+    collections:
+      - post
+      - pages
+      - homepage
+paths:
+  static: static/
+  uploads: images
+_structures:
+  config-main:
+    values:
+      - value:
+          identifier: ''
+          name: ''
+          url: ''
+          weight: null
+        _inputs:
+          weight:
+            type: number
+_inputs:
+  template:
+    hidden: true

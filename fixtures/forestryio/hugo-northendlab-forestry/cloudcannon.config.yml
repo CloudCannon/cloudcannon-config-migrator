@@ -1,0 +1,87 @@
+collections_config:
+  post:
+    name: Post
+    path: content
+    schemas:
+      default: &ref_0
+        path: .cloudcannon/schemas/post.md
+        name: Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.categories:
+            type: array
+    filter:
+      exclude:
+        - author/john-doe.md
+        - author/mark-dinn.md
+        - contact/_index.md
+        - search/_index.md
+        - tools/_index.md
+  data:
+    name: Data
+    path: data
+    schemas:
+      default:
+        path: .cloudcannon/schemas/tools.yml
+        name: Tools
+        _enabled_editors:
+          - data
+        _inputs:
+          $.tools:
+            type: array
+            options:
+              structures: _structures.tools-tools
+      tools:
+        path: .cloudcannon/schemas/tools.md
+        name: Tools
+        _enabled_editors:
+          - data
+        _inputs:
+          $.tools:
+            type: array
+            options:
+              structures: _structures.tools-tools
+  author:
+    name: Author
+    path: content/author
+    schemas:
+      default:
+        path: .cloudcannon/schemas/author.md
+        name: Author
+        _enabled_editors:
+          - content
+  default_hugo_pages:
+    name: Pages
+    path: content/
+    schemas:
+      post: *ref_0
+collection_groups:
+  - heading: Content
+    collections:
+      - post
+      - data
+      - author
+paths:
+  static: static/
+  uploads: images
+_structures:
+  tools-tool:
+    values:
+      - value:
+          name: ''
+          image: null
+          link: ''
+  tools-tools:
+    values:
+      - value:
+          title: ''
+          tool: []
+        _inputs:
+          tool:
+            type: array
+            options:
+              structures: _structures.tools-tool
+_inputs:
+  template:
+    hidden: true

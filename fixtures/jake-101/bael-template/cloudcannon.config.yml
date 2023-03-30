@@ -1,0 +1,106 @@
+collections_config:
+  blog:
+    name: Blog
+    path: content/blog
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog.md
+        name: Blog
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            label: Publish Date
+          $.thumbnail:
+            label: Featured Image
+          $.category:
+            type: select
+            options:
+              values: collection.blogcategories
+              value_key: title
+    text_key: title
+  page:
+    name: Pages
+    path: content/page
+    schemas:
+      default:
+        path: .cloudcannon/schemas/page.md
+        name: Pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            label: Publish Date
+          $.thumbnail:
+            label: Featured Image
+    text_key: title
+  setup:
+    name: Setup
+    schemas:
+      info:
+        path: .cloudcannon/schemas/setup/info.md
+        name: setup
+        _enabled_editors:
+          - content
+        _inputs:
+          $.sitename:
+            label: Site Name
+          $.sitedescription:
+            label: Site Description
+          $.siteicon:
+            type: image
+            label: Site Icon (Must be 512x512 or larger square PNG)
+          $.showmenu:
+            label: Show Icon in Menu
+          $.emailsignup:
+            label: Email Newsletter Signup
+          $.altlayout:
+            label: Full Page Alt Layout
+          $.linkcolor:
+            type: color
+            options:
+              format: rgb
+          $.menu:
+            type: array
+            label: Menu Links
+            structures:
+              - value:
+                  name: ''
+                  position: ''
+                  link: ''
+      connect:
+        path: .cloudcannon/schemas/setup/connect.md
+        name: setup
+        _enabled_editors:
+          - content
+        _inputs:
+          $.connectlinks:
+            type: array
+            label: Links
+            structures:
+              - value:
+                  name: ''
+                  url: ''
+                _inputs:
+                  name:
+                    label: Link Name
+    filter:
+      base: none
+      include:
+        - content/setup/info.json
+        - content/setup/connect.json
+    add_options: []
+    text_key: title
+  blogcategories:
+    name: Categories
+    path: content/category
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blogcategories.json
+        name: Categories
+        _enabled_editors:
+          - data
+    text_key: title
+paths:
+  static: static
+  uploads: static/images/uploads

@@ -1,0 +1,155 @@
+collections_config:
+  posts:
+    name: Posts
+    path: src/content/posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/posts.md
+        name: Posts
+        _enabled_editors:
+          - content
+        _inputs:
+          $.template:
+            hidden: true
+          $.date:
+            label: Publish Date
+          $.description:
+            label: SEO Description
+    text_key: title
+  pages:
+    name: Pages
+    schemas:
+      home:
+        path: .cloudcannon/schemas/pages/home.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.template:
+            hidden: true
+          $.slug:
+            hidden: true
+      about:
+        path: .cloudcannon/schemas/pages/about.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.template:
+            hidden: true
+          $.slug:
+            hidden: true
+      contact:
+        path: .cloudcannon/schemas/pages/contact.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.template:
+            hidden: true
+          $.slug:
+            hidden: true
+    filter:
+      base: none
+      include:
+        - src/content/pages/index.md
+        - src/content/pages/about.md
+        - src/content/pages/contact.md
+    add_options: []
+    text_key: title
+  settings:
+    name: Settings
+    schemas:
+      general:
+        path: .cloudcannon/schemas/settings/general.md
+        name: settings
+        _enabled_editors:
+          - content
+        _inputs:
+          $.meta.title:
+            label: Site Title
+          $.meta.siteUrl:
+            label: Website URL
+          $.meta.iconimage:
+            type: image
+            label: favicon
+          $.meta.twitterUsername:
+            type: text
+            label: Twitter
+          $.ga:
+            label: Google Analytics
+      socialIcons:
+        path: .cloudcannon/schemas/settings/socialIcons.md
+        name: settings
+        _enabled_editors:
+          - content
+        _inputs:
+          $.socialIcons:
+            type: array
+            structures:
+              - value:
+                  icon: null
+                  url: ''
+                _inputs:
+                  icon:
+                    type: select
+                    label: Icons
+                    options:
+                      values:
+                        - facebook
+                        - twitter
+                        - linkedin
+                        - youtube
+                        - instagram
+                        - rss
+                        - github
+                        - telegram
+                        - pinterest
+                        - snapchat
+                        - skype
+                        - wordpress
+                        - tiktok
+                        - dribbble
+                        - medium
+                        - behance
+                        - vk
+                      allow_create: false
+                      allow_empty: true
+    filter:
+      base: none
+      include:
+        - src/util/site.json
+        - src/util/socialmedia.json
+    add_options: []
+    text_key: title
+  appearance:
+    name: Appearance
+    schemas:
+      themescolors:
+        path: .cloudcannon/schemas/appearance/themescolors.md
+        name: appearance
+        _enabled_editors:
+          - content
+        _inputs:
+          $.siteColor:
+            options:
+              format: rgba
+      darkthemescolors:
+        path: .cloudcannon/schemas/appearance/darkthemescolors.md
+        name: appearance
+        _enabled_editors:
+          - content
+        _inputs:
+          $.siteColor:
+            options:
+              format: rgba
+    filter:
+      base: none
+      include:
+        - src/util/default-colors.json
+        - src/util/dark-theme-colors.json
+    add_options: []
+    text_key: name
+paths:
+  static: static
+  uploads: static/assets

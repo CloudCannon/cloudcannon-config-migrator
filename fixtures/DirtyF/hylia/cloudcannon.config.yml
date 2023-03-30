@@ -1,0 +1,29 @@
+collections_config:
+  posts:
+    name: Posts
+    path: src/posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post.md
+        name: Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            instance_value: NOW
+            type: date
+          $.tags:
+            type: array
+    filter:
+      exclude:
+        - posts.json
+collection_groups:
+  - heading: Content
+    collections:
+      - posts
+paths:
+  static: src/
+  uploads: images
+_inputs:
+  template:
+    hidden: true

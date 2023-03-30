@@ -1,0 +1,49 @@
+collections_config:
+  post:
+    name: Post
+    path: content
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post.md
+        name: Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.categories:
+            type: array
+          $.tags:
+            type: multiselect
+            options:
+              values: []
+              allow_create: true
+              allow_empty: true
+          $.type:
+            comment: 'type: post or featured'
+    filter:
+      exclude:
+        - about/_index.md
+        - contact/_index.md
+        - search/_index.md
+  about:
+    name: About
+    path: content/about
+    add_options: []
+  contact:
+    name: Contact
+    path: content/contact
+    add_options: []
+  default_hugo_pages:
+    name: Pages
+    path: content/
+collection_groups:
+  - heading: Content
+    collections:
+      - post
+      - about
+      - contact
+paths:
+  static: static/
+  uploads: images
+_inputs:
+  template:
+    hidden: true

@@ -1,0 +1,24 @@
+collections_config:
+  blog:
+    name: Blog
+    path: src/routes/blog
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog.md
+        name: Blog
+        _enabled_editors:
+          - content
+        _inputs:
+          $.layout:
+            hidden: true
+          $.tags:
+            type: array
+          $.lastUpdated:
+            type: date
+            label: Last Updated Date
+    text_key: title
+    url: blog/{title|slugify}
+    output: true
+paths:
+  static: static
+  uploads: static/images
