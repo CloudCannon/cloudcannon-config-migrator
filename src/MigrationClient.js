@@ -106,7 +106,10 @@ export default class MigrationClient {
 				const parsed = JSON.parse(contents);
 
 				if (contents.trim().charAt(0) !== '{') {
-					console.warn(file, 'is not a json object');
+					this.addWarning(`${file} could not append inputs to a non-object json file`, {
+						level: 'medium',
+						extraData: extraData
+					});
 				} else {
 					// TODO detect original indentation
 					const indentation = '\t';

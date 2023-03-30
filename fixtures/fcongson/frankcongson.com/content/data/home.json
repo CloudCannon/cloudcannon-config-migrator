@@ -1,0 +1,110 @@
+{
+	"hero_image": {
+		"image": "/content/images/iceland-village.jpg",
+		"alt_text": "A village in the Snæfellsnes peninsula of western Iceland"
+	},
+	"main_content": {
+		"header": "Hello.",
+		"text": "I’m Frank. Welcome to my ever-growing space on the web. A digital garden for continuous growth. Join me as I share my photography, travels, and other stories along the way.",
+		"image": "frank-huacachina-peru.jpeg",
+		"alt_text": "Frank in Huacachina, Peru"
+	},
+	"sections": [
+		{
+			"template": "featured-section",
+			"background_color": "",
+			"image": "/content/images/banff-gondola-1.jpg",
+			"alt_text": "A view of the Canadian Rocky Mountains at the top of the Banff Gondola in Alberta, Canada",
+			"image_as_background": true,
+			"sections": [
+				{
+					"template": "call-to-action",
+					"header": "Photography.",
+					"text": "Photography is one of my passions in life. I love incorporating it into other aspects of my life and capturing the world around me.",
+					"call_to_action": {
+						"url": "photography",
+						"text": "See my photography"
+					}
+				}
+			]
+		},
+		{
+			"template": "featured-section",
+			"background_color": "",
+			"image": "",
+			"alt_text": "",
+			"image_as_background": false,
+			"sections": [
+				{
+					"template": "call-to-action",
+					"header": "Me.",
+					"text": "I’m a dad, husband, traveler, minimalist, ux engineer, and rock climber.",
+					"call_to_action": {
+						"url": "about",
+						"text": "Learn about me"
+					}
+				}
+			]
+		},
+		{
+			"template": "featured-section",
+			"background_color": "",
+			"image": "/content/images/desk-setup.jpg",
+			"alt_text": "Frank's desk setup and essential items",
+			"image_as_background": true,
+			"sections": [
+				{
+					"template": "call-to-action",
+					"header": "Minimalism.",
+					"text": "Minimalism has been a part of my life for years. Live deliberately. Curate the things around you.",
+					"call_to_action": {
+						"url": "uses",
+						"text": "See my essentials"
+					}
+				}
+			]
+		},
+		{
+			"template": "featured-section",
+			"background_color": "#cacfc9",
+			"image": "",
+			"alt_text": "",
+			"image_as_background": false,
+			"sections": [
+				{
+					"template": "call-to-action",
+					"header": "UX.",
+					"text": "Creating this digital space from design to implementation provided the perfect base to hone my craft as a UX practitioner.",
+					"call_to_action": {
+						"url": "style-guide",
+						"text": "Learn about the user experience"
+					}
+				}
+			]
+		}
+	],
+	"page_header": "",
+	"seo": {
+		"title": "",
+		"description": "",
+		"keywords": [],
+		"image": "",
+		"alt_text": ""
+	},
+	"_inputs": {
+		"$.seo.keywords": {
+			"type": "multiselect",
+			"options": {
+				"values": [],
+				"allow_create": true,
+				"allow_empty": true
+			}
+		},
+		"$.sections": {
+			"type": "array",
+			"options": {
+				"structures": "_structures.sections"
+			}
+		}
+	}
+}

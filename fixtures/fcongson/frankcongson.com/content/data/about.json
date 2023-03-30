@@ -1,0 +1,89 @@
+{
+	"hero_image": {
+		"image": "/content/images/frank-huacachina-peru.jpeg",
+		"alt_text": "Frank in Huacachina, Peru"
+	},
+	"page_header": "About.",
+	"sections": [
+		{
+			"template": "text",
+			"text": "<h2>Hello, I'm Frank.</h2>"
+		},
+		{
+			"template": "text",
+			"text": "<p>Photography has always been a passion of mine. As a young child, I loved taking pictures with my dad's camera when we would go on trips.</p><p>Years later, I took my first class in photography, where I learned how to develop film and fell in love with the craft all over again.</p><p>I always try to incorporate photography into my other passions in life. Most recently, that involves photographing my two sons, Luca and Milo, as they grow into their early stages of life.</p>"
+		},
+		{
+			"template": "text",
+			"text": "<p>My wife, Jami, and I currently live in New Zealand with our two sons, but we didn't begin that way. Jami and I have a shared passion for travel (we even started a <a href=\"https://www.heythereeverywhere.com/\"><strong>travel blog</strong></a>).</p><p>Originally from the United States, we were only able to explore the world two weeks at a time. We decided that it wasn't enough. So, we sold everything, embraced the minimalist lifestyle, quit our jobs, and packed what we had left on a trip around the world.</p><p>We left our home in Seattle and traveled through South America, Africa, Asia, the South Pacific, and ended up here, living in New Zealand and growing from a family of two to a family of four.</p>"
+		},
+		{
+			"template": "image-caption",
+			"image": "/content/images/banff-vermillion-lakes.jpg",
+			"alt_text": "Jami sitting at the end of a dock at Vermillion Lakes located within Banff National Park in Alberta, Canada",
+			"fullwidth": true,
+			"caption": "",
+			"emphasized": false
+		},
+		{
+			"template": "text",
+			"text": "<h2>What can you expect here?</h2>"
+		},
+		{
+			"template": "text",
+			"text": "<p>The idea of this website is to have a place to showcase my favorite images through my photography journey. I've taken so many photos over the years. It's time to go back, find the best, and give them a home here.</p><p>Have a look at <a href=\"https://frankcongson.com/photography\"><strong>the highlights</strong></a>.</p>"
+		},
+		{
+			"template": "text",
+			"text": "<p>As for the blog, that will be a place to share a bit more about me. It will include stories about my family and the photographs I take throughout our life. I'll also share thoughts about other interests of mine (look out for posts about coffee and minimalism - <a href=\"https://frankcongson.com/uses\"><strong>the essentials</strong></a>) and my process in how I work (what's involved in design and development).</p><p>Have a read of <a href=\"https://frankcongson.com/blog\"><strong>the blog</strong></a>.</p>"
+		},
+		{
+			"template": "featured-section",
+			"image_as_background": false,
+			"sections": [
+				{
+					"template": "text",
+					"text": "<p>This website also gave me the perfect opportunity to practice my craft as a full stack developer and ux engineer. I decided to redesign and rebuild my old website. I designed this in <a href=\"https://www.figma.com/\"><strong>Figma</strong></a>, built it using <a href=\"https://www.gatsbyjs.org/\"><strong>Gatsby</strong></a> and <a href=\"https://reactjs.org/\"><strong>React</strong></a>, managed content using <a href=\"https://forestry.io/\" title=\"\"><strong>Forestry</strong></a>, and hosted on <a href=\"https://www.netlify.com/\"><strong>Netlify</strong></a>.</p><p>Check out the code on <a href=\"https://github.com/fcongson/frankcongson.com\"><strong>GitHub</strong></a>.</p><p>Want to work together? Let's connect on <a href=\"https://www.linkedin.com/in/fcongson/\"><strong>LinkedIn</strong></a>.</p>"
+				},
+				{
+					"template": "text",
+					"text": "<h2>If you'd like to send me a personal message, you can find me on <a href=\"https://www.instagram.com/fcongson\" target=\"_blank\">Instagram</a> and <a href=\"https://twitter.com/fcongson\" target=\"_blank\">Twitter</a>.</h2>"
+				}
+			],
+			"background_color": "",
+			"image": "",
+			"alt_text": ""
+		}
+	],
+	"seo": {
+		"title": "About",
+		"description": "I’m a dad, husband, traveler, minimalist, ux engineer, and rock climber.",
+		"keywords": [
+			"dad",
+			"husband",
+			"traveler",
+			"minimalist",
+			"full stack developer",
+			"ux engineer",
+			"rock climber"
+		],
+		"image": "",
+		"alt_text": ""
+	},
+	"_inputs": {
+		"$.seo.keywords": {
+			"type": "multiselect",
+			"options": {
+				"values": [],
+				"allow_create": true,
+				"allow_empty": true
+			}
+		},
+		"$.sections": {
+			"type": "array",
+			"options": {
+				"structures": "_structures.sections"
+			}
+		}
+	}
+}

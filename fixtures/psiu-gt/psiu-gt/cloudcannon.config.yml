@@ -1,0 +1,190 @@
+collections_config:
+  news-posts:
+    name: News Posts
+    path: src/pages/posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post.md
+        name: Post
+        _enabled_editors:
+          - content
+    filter:
+      exclude:
+        - index.md
+  all-pages:
+    name: All Pages
+    path: src/pages
+    schemas:
+      blocks-page:
+        path: .cloudcannon/schemas/blocks-page.md
+        name: Blocks Page
+        _enabled_editors:
+          - data
+        _inputs:
+          $.template:
+            hidden: true
+          $.blocks:
+            type: array
+            options:
+              structures: _structures.blocks
+      page:
+        path: .cloudcannon/schemas/page.md
+        name: Page
+        _enabled_editors:
+          - content
+    filter:
+      exclude:
+        - posts/index.md
+        - posts/racial-inequality.md
+collection_groups:
+  - heading: Content
+    collections:
+      - news-posts
+  - heading: Content
+    collections:
+      - all-pages
+paths:
+  static: ''
+  uploads: src/images
+_select_data:
+  background:
+    - dark
+    - light
+    - primary
+    - transparent
+  orientation:
+    - normal
+    - reverse
+  block__cta-background:
+    - dark
+    - info
+    - light
+    - primary
+    - transparent
+  block__news-background:
+    - dark
+    - info
+    - light
+    - primary
+    - transparent
+_structures:
+  blocks:
+    id_key: template
+    values:
+      - label: block__hero
+        value:
+          template: block__hero
+          component: hero
+          title: ''
+          subtitle: ''
+          background: transparent
+        text_key: title
+        _inputs:
+          component:
+            hidden: true
+          background:
+            type: select
+            options:
+              values: _select_data.background
+      - label: block__hero_carousel
+        value:
+          template: block__hero_carousel
+          component: hero
+          title: ''
+          subtitle: ''
+          sliderImage1: null
+          sliderImage2: null
+          sliderImage3: null
+        text_key: title
+        _inputs:
+          component:
+            hidden: true
+          sliderImage1:
+            type: file
+            label: Slider Image 1
+          sliderImage2:
+            type: file
+            label: Slider Image 2
+          sliderImage3:
+            type: file
+            label: Slider Image 3
+      - label: block__feature
+        value:
+          template: block__feature
+          component: feature
+          title: ''
+          content: ''
+          image: null
+          background: primary
+          orientation: normal
+        text_key: title
+        _inputs:
+          component:
+            hidden: true
+          content:
+            type: html
+          background:
+            type: select
+            options:
+              values: _select_data.background
+          orientation:
+            type: select
+            options:
+              values: _select_data.orientation
+      - label: block__3col
+        value:
+          template: block__3col
+          component: 3col
+          title: ''
+          col1:
+            image: null
+            title: ''
+            content: ''
+          col2:
+            image: null
+            title: ''
+            content: ''
+          col3:
+            image: null
+            title: ''
+            content: ''
+        text_key: title
+        _inputs:
+          component:
+            hidden: true
+          col1.content: &ref_0
+            type: html
+          col2.content: *ref_0
+          col3.content: *ref_0
+      - label: block__cta
+        value:
+          template: block__cta
+          component: cta
+          title: ''
+          subtitle: ''
+          background: transparent
+          button:
+            url: ''
+            text: ''
+        text_key: title
+        _inputs:
+          background:
+            type: select
+            options:
+              values: _select_data.block__cta-background
+      - label: block__news
+        value:
+          template: block__news
+          component: cta
+          title: ''
+          subtitle: ''
+          background: transparent
+        text_key: title
+        _inputs:
+          background:
+            type: select
+            options:
+              values: _select_data.block__news-background
+_inputs:
+  template:
+    hidden: true
