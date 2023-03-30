@@ -1,0 +1,40 @@
+collections_config:
+  settings:
+    name: Settings
+    schemas:
+      config:
+        path: .cloudcannon/schemas/settings/config.md
+        name: settings
+        _enabled_editors:
+          - content
+        _inputs:
+          $.title:
+            label: Site Title
+          $.siteUrl:
+            label: Website URL
+          $.home.description:
+            type: markdown
+    filter:
+      base: none
+      include:
+        - site-meta-data.json
+    add_options: []
+    text_key: title
+  blog:
+    name: Blog
+    path: _data/blog
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog.md
+        name: Blog
+        _enabled_editors:
+          - content
+        _inputs:
+          $.template:
+            hidden: true
+          $.thumbnail:
+            label: Featured Image
+    text_key: title
+paths:
+  static: static
+  uploads: static/assets

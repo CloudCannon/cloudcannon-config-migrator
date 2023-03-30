@@ -1,0 +1,24 @@
+collections_config:
+  posts:
+    name: Post
+    path: source/_posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/posts.md
+        name: Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.layout:
+            hidden: true
+          $.date:
+            label: Publish Date
+          $.thumbnail:
+            label: Featured Image
+          $.rating:
+            type: number
+            label: Rating (scale of 1-5)
+    text_key: title
+paths:
+  static: source
+  uploads: source/images/uploads

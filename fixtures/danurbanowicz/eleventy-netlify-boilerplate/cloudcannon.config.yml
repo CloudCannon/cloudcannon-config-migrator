@@ -1,0 +1,35 @@
+collections_config:
+  blog:
+    name: Post
+    path: posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog.md
+        name: Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            label: Publish Date
+          $.tags:
+            type: array
+    text_key: title
+  pages:
+    name: Page
+    path: pages
+    schemas:
+      default:
+        path: .cloudcannon/schemas/pages.md
+        name: Page
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            label: Publish Date
+          $.eleventyNavigation.order:
+            type: number
+    add_options: []
+    text_key: title
+paths:
+  static: static/img
+  uploads: static/img

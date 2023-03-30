@@ -1,0 +1,64 @@
+collections_config:
+  projects:
+    name: Projects
+    path: projects
+    schemas:
+      default:
+        path: .cloudcannon/schemas/project.md
+        name: Project
+        _enabled_editors:
+          - content
+        _inputs:
+          $.thumbnail:
+            comment: This will only show up on the front page
+          $.date:
+            instance_value: NOW
+            hidden: true
+            type: date
+          $.categories:
+            type: multiselect
+            options:
+              values: []
+              allow_create: true
+              allow_empty: true
+          $.project_bg_color:
+            label: Background color
+            options:
+              format: hex
+          $.project_fg_color:
+            label: Foreground color
+            options:
+              format: hex
+  journal:
+    name: Journal
+    path: journal
+    schemas:
+      default:
+        path: .cloudcannon/schemas/journal.md
+        name: Journal
+        _enabled_editors:
+          - content
+        _inputs:
+          $.excerpt:
+            comment: Short snippet that will show outside of the actual post
+          $.date:
+            instance_value: NOW
+            type: date
+          $.author:
+            type: select
+            options:
+              values: _select_data.author
+collection_groups:
+  - heading: Content
+    collections:
+      - projects
+      - journal
+paths:
+  static: ''
+  uploads: uploads
+_select_data:
+  author:
+    - Nichlas W. Andersen
+_inputs:
+  template:
+    hidden: true

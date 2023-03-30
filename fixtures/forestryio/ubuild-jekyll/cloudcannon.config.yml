@@ -1,0 +1,268 @@
+collections_config:
+  posts:
+    name: Posts
+    path: _posts
+  pages:
+    name: Pages
+    path: ''
+    filter:
+      exclude:
+        - FORESTRY-README.md
+        - README.md
+        - _config.yml
+        - _config_development.yml
+        - _config_staging.yml
+    schemas:
+      page-builder:
+        path: .cloudcannon/schemas/page-builder.md
+        name: page-builder
+        _enabled_editors:
+          - data
+        _inputs:
+          $.layout:
+            hidden: true
+          $.page_sections:
+            type: array
+            options:
+              structures: _structures.page-builder-page_sections
+collection_groups:
+  - heading: Content
+    collections:
+      - posts
+      - pages
+paths:
+  static: ''
+  uploads: uploads
+_select_data:
+  media_alignment:
+    - Left
+    - Right
+_structures:
+  page-builder-navigation-1:
+    values:
+      - value:
+          link: ''
+          link_text: ''
+  page-builder-page_sections:
+    id_key: template
+    values:
+      - label: navigation-header
+        value:
+          template: navigation-header
+          block: header-1
+          logo: null
+          navigation: []
+        _inputs:
+          block:
+            hidden: true
+          logo:
+            type: file
+          navigation:
+            type: array
+            options:
+              structures: _structures.page-builder-navigation
+      - label: navigation-header-w-button
+        value:
+          template: navigation-header-w-button
+          block: header-2
+          logo: null
+          navigation: []
+          cta:
+            url: ''
+            button_text: ''
+        _inputs:
+          block:
+            hidden: true
+          logo:
+            type: file
+          navigation:
+            type: array
+            options:
+              structures: _structures.page-builder-navigation-1
+      - label: simple-header
+        value:
+          template: simple-header
+          block: header-3
+          logo: null
+        _inputs:
+          block:
+            hidden: true
+          logo:
+            type: file
+      - label: hero-banner-w-image
+        value:
+          template: hero-banner-w-image
+          block: hero-2
+          background_image: null
+          image:
+            image: null
+            alt_text: ''
+          headline: ''
+          content: ''
+          cta:
+            enabled: false
+            url: ''
+            button_text: ''
+        _inputs:
+          block:
+            hidden: true
+          headline:
+            type: html
+          content:
+            type: html
+      - label: content-feature
+        value:
+          template: content-feature
+          block: feature-1
+          headline: ''
+          slug: ''
+          content: ''
+          media:
+            image: null
+            alt_text: ''
+          media_alignment: Right
+        _inputs:
+          block:
+            hidden: true
+          headline:
+            type: html
+          content:
+            type: html
+          media_alignment:
+            type: select
+            options:
+              values: _select_data.media_alignment
+      - label: detail-content
+        value:
+          template: detail-content
+          block: text-1
+          headline: ''
+          content: ''
+        _inputs:
+          block:
+            hidden: true
+          content:
+            type: html
+      - label: 1-column-text
+        value:
+          template: 1-column-text
+          block: one-column-1
+          headline: ''
+          slug: ''
+          content: ''
+        _inputs:
+          block:
+            hidden: true
+          content: &ref_0
+            type: html
+      - label: 2-column-text
+        value:
+          template: 2-column-text
+          block: two-column-1
+          col_1:
+            headline: ''
+            slug: ''
+            content: ''
+          col_2:
+            headline: ''
+            slug: ''
+            content: ''
+        _inputs:
+          block:
+            hidden: true
+          col_1.content: *ref_0
+          col_2.content: *ref_0
+      - label: 3-column-text
+        value:
+          template: 3-column-text
+          block: three-column-1
+          col_1:
+            headline: ''
+            slug: ''
+            content: ''
+          col_2:
+            headline: ''
+            slug: ''
+            content: ''
+          col_3:
+            headline: ''
+            slug: ''
+            content: ''
+        _inputs:
+          block:
+            hidden: true
+          col_1.content: *ref_0
+          col_2.content: *ref_0
+          col_3.content: *ref_0
+      - label: full-width-media-element
+        value:
+          template: full-width-media-element
+          block: media-1
+          slug: ''
+          image: null
+          caption: ''
+        _inputs:
+          block:
+            hidden: true
+      - label: 2-column-media-element
+        value:
+          template: 2-column-media-element
+          block: media-2
+          image_1:
+            image: null
+            caption: ''
+          image_2:
+            image: null
+            caption: ''
+        _inputs:
+          block:
+            hidden: true
+      - label: signup-bar
+        value:
+          template: signup-bar
+          block: cta-bar
+          content: ''
+          email_recipient: ''
+        _inputs:
+          block:
+            hidden: true
+          content:
+            type: html
+          email_recipient:
+            comment: Form submissions will be sent to this email address.
+      - label: simple-footer
+        value:
+          template: simple-footer
+          block: footer-1
+          content: ''
+        _inputs:
+          block:
+            hidden: true
+          content:
+            type: html
+            label: Footer Text
+      - label: 4-column-footer
+        value:
+          template: 4-column-footer
+          block: footer-2
+          image: null
+          col_2: ''
+          col_3: ''
+          col_4: ''
+        _inputs:
+          block:
+            hidden: true
+          image:
+            label: Column 1 Image
+          col_2:
+            type: html
+            label: Column 2 Content
+          col_3:
+            type: html
+            label: Column 3 Content
+          col_4:
+            type: html
+            label: Column 4 Content
+_inputs:
+  template:
+    hidden: true

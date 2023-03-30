@@ -1,0 +1,105 @@
+collections_config:
+  post:
+    name: Post
+    path: site/content/post
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post.md
+        name: Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            label: Publish Date
+          $.description:
+            label: Intro Blurb
+    text_key: title
+  pages:
+    name: Pages
+    schemas:
+      home:
+        path: .cloudcannon/schemas/pages/home.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.products:
+            type: array
+            structures:
+              - value:
+                  image: null
+                  text: ''
+      contact:
+        path: .cloudcannon/schemas/pages/contact.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.logo:
+            type: image
+          $.contact_entries:
+            type: array
+            structures:
+              - value:
+                  heading: ''
+                  text: ''
+      products:
+        path: .cloudcannon/schemas/pages/products.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.intro.blurbs:
+            type: array
+            structures:
+              - value:
+                  image: null
+                  text: ''
+          $.testimonials:
+            type: array
+            structures:
+              - value:
+                  quote: ''
+                  author: ''
+          $.full_image:
+            label: Full_image
+          $.pricing.plans:
+            type: array
+            structures:
+              - value:
+                  plan: ''
+                  price: ''
+                  description: ''
+                  items: []
+                _inputs:
+                  items:
+                    type: array
+      values:
+        path: .cloudcannon/schemas/pages/values.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.values:
+            type: array
+            structures:
+              - value:
+                  heading: ''
+                  text: ''
+                  imageUrl: null
+                _inputs:
+                  imageUrl:
+                    type: image
+                    label: Image
+    filter:
+      base: none
+      include:
+        - site/content/_index.md
+        - site/content/contact/_index.md
+        - site/content/products/_index.md
+        - site/content/values/_index.md
+    add_options: []
+    text_key: title
+paths:
+  static: site/static
+  uploads: site/static/img

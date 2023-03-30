@@ -1,0 +1,73 @@
+collections_config:
+  posts:
+    name: Posts
+    path: content/post
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post.md
+        name: Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.timeToRead:
+            type: number
+            label: Read Time
+            comment: The time it takes to read the post (in minutes)
+          $.hero:
+            type: file
+            label: Hero Image
+          $.authors:
+            type: multiselect
+            options:
+              values: []
+              allow_create: true
+              allow_empty: true
+  authors:
+    name: Authors
+    path: content/authors
+    schemas:
+      default:
+        path: .cloudcannon/schemas/author.md
+        name: Author
+        _enabled_editors:
+          - data
+        _inputs:
+          $.title:
+            label: Name
+          $.avatar:
+            type: file
+            label: Avatar Image
+          $.social:
+            type: array
+            label: Social Media
+            options:
+              structures: _structures.author-social
+          $.featured:
+            label: Featured Author
+            comment: Feature this author on the home page
+  config:
+    name: Config
+    path: config/_default
+  default_hugo_pages:
+    name: Pages
+    path: content/
+collection_groups:
+  - heading: Content
+    collections:
+      - posts
+  - heading: Data
+    collections:
+      - authors
+      - config
+paths:
+  static: static/
+  uploads: images
+_structures:
+  author-social:
+    values:
+      - value:
+          title: ''
+          url: ''
+_inputs:
+  template:
+    hidden: true

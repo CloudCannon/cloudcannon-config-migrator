@@ -9,7 +9,7 @@ function getConfigMigrationId(files) {
 
 test('CloudCannon migration detection', (t) => {
 	const id = getConfigMigrationId([
-		'.cloudcannon/initial-site-settings.json'
+		'cloudcannon.config.json'
 	]);
 	t.is(id, 'cloudcannon');
 });

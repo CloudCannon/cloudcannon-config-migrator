@@ -1,0 +1,98 @@
+collections_config:
+  product:
+    name: Product
+    path: data/products/
+    schemas:
+      default:
+        path: .cloudcannon/schemas/product.yml
+        name: Product
+        _enabled_editors:
+          - data
+        _inputs:
+          $.date:
+            label: Publish Date
+          $.weight:
+            type: number
+          $.price:
+            type: number
+    text_key: title
+  blog:
+    name: Blog
+    path: source/posts/
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog..html.md
+        name: Blog
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            label: Publish Date
+    text_key: title
+  pages:
+    name: Pages
+    schemas:
+      home:
+        path: .cloudcannon/schemas/pages/home.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.story:
+            type: markdown
+    filter:
+      base: none
+      include:
+        - data/pages/home.yml
+    add_options: []
+    text_key: title
+  settings:
+    name: Settings
+    schemas:
+      navigation:
+        path: .cloudcannon/schemas/settings/navigation.md
+        name: settings
+        _enabled_editors:
+          - content
+        _inputs:
+          $.nav_items:
+            type: array
+            label: Navigation
+            structures:
+              - value:
+                  label: ''
+                  path: ''
+      units:
+        path: .cloudcannon/schemas/settings/units.md
+        name: settings
+        _enabled_editors:
+          - content
+        _inputs:
+          $.currency:
+            type: select
+            options:
+              values:
+                - €
+                - $
+                - £
+              allow_create: false
+              allow_empty: true
+          $.weight:
+            type: select
+            options:
+              values:
+                - kg
+                - ' st'
+                - ' lb'
+              allow_create: false
+              allow_empty: true
+    filter:
+      base: none
+      include:
+        - data/settings/navigation.yml
+        - data/settings/units.yml
+    add_options: []
+    text_key: title
+paths:
+  static: source
+  uploads: source/images/uploads

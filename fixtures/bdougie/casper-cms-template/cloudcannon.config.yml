@@ -1,0 +1,17 @@
+collections_config:
+  blog:
+    name: Blog
+    path: site/content/post
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog.md
+        name: Blog
+        _enabled_editors:
+          - content
+        _inputs:
+          $.date:
+            label: Publish Date
+    text_key: title
+paths:
+  static: site/static
+  uploads: site/static/img/blog

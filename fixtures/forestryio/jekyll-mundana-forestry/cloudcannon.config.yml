@@ -1,0 +1,33 @@
+collections_config:
+  posts:
+    name: Posts
+    path: _posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post.md
+        name: Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.layout:
+            hidden: true
+          $.categories:
+            type: multiselect
+            options:
+              values: []
+              allow_create: true
+              allow_empty: true
+  pages:
+    name: Pages
+    path: ''
+collection_groups:
+  - heading: Content
+    collections:
+      - posts
+      - pages
+paths:
+  static: ''
+  uploads: assets/images
+_inputs:
+  template:
+    hidden: true

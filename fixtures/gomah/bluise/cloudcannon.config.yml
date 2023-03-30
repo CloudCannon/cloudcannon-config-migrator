@@ -1,0 +1,66 @@
+collections_config:
+  settings:
+    name: Settings
+    schemas:
+      general:
+        path: .cloudcannon/schemas/settings/general.md
+        name: settings
+        _enabled_editors:
+          - content
+        _inputs:
+          $.welcomeText:
+            type: markdown
+          $.logo:
+            type: image
+          $.icon:
+            type: image
+          $.loadingColor:
+            type: text
+      manifest:
+        path: .cloudcannon/schemas/settings/manifest.md
+        name: settings
+        _enabled_editors:
+          - content
+        _inputs:
+          $.themeColor:
+            type: text
+          $.backgroundColor:
+            type: text
+    filter:
+      base: none
+      include:
+        - app/content/settings/general.json
+        - app/content/settings/manifest.json
+    add_options: []
+    text_key: title
+  pages:
+    name: Pages
+    path: app/content/pages
+    schemas:
+      default:
+        path: .cloudcannon/schemas/pages.json
+        name: Pages
+        _enabled_editors:
+          - data
+        _inputs:
+          $.content:
+            type: markdown
+    text_key: title
+  blog:
+    name: Blog
+    path: app/content/blog
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog.json
+        name: Blog
+        _enabled_editors:
+          - data
+        _inputs:
+          $.publishedAt:
+            type: date
+          $.content:
+            type: markdown
+    text_key: title
+paths:
+  static: app/static
+  uploads: app/static/images/uploads

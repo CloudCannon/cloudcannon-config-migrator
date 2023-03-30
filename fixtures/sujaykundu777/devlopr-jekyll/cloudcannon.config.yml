@@ -1,0 +1,22 @@
+collections_config:
+  pages:
+    name: Pages
+    path: ''
+  posts:
+    name: Posts
+    path: _posts
+  products:
+    name: Products
+    path: _products
+collection_groups:
+  - heading: Content
+    collections:
+      - pages
+      - posts
+      - products
+paths:
+  static: ''
+  uploads: uploads
+_inputs:
+  template:
+    hidden: true

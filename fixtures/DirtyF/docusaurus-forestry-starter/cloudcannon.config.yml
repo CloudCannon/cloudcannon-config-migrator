@@ -1,0 +1,24 @@
+collections_config:
+  docs:
+    name: Docs
+    path: docs
+    schemas:
+      default:
+        path: .cloudcannon/schemas/page.md
+        name: Page
+        _enabled_editors:
+          - content
+  blog:
+    name: Blog
+    path: blog
+collection_groups:
+  - heading: Content
+    collections:
+      - docs
+      - blog
+paths:
+  static: static/
+  uploads: img
+_inputs:
+  template:
+    hidden: true

@@ -1,0 +1,153 @@
+collections_config:
+  pages:
+    name: Pages
+    schemas:
+      home:
+        path: .cloudcannon/schemas/pages/home.md
+        name: pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.layout:
+            hidden: true
+          $.metaTitle:
+            label: SEO Meta Title
+          $.metaDesc:
+            label: SEO Meta Description
+          $.postsHeading:
+            label: Post Feed Heading
+          $.archiveButtonText:
+            label: Archive Link Text
+    filter:
+      base: none
+      include:
+        - src/index.md
+    add_options: []
+    text_key: title
+  generic_pages:
+    name: Generic Pages
+    path: src/pages
+    schemas:
+      default:
+        path: .cloudcannon/schemas/generic_pages.md
+        name: Generic Pages
+        _enabled_editors:
+          - content
+        _inputs:
+          $.layout:
+            hidden: true
+          $.permalink:
+            label: 'Permalink Override (Pattern: ''/your-slug/index.html'')'
+          $.metaTitle:
+            label: SEO Meta Title
+          $.metaDesc:
+            label: SEO Meta Description
+    text_key: title
+    url: pages/{title|slugify}
+    output: true
+  posts:
+    name: Posts
+    path: src/posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/posts.md
+        name: Posts
+        _enabled_editors:
+          - content
+        _inputs:
+          $.layout:
+            hidden: true
+          $.metaTitle:
+            label: SEO Meta Title
+          $.metaDesc:
+            label: SEO Meta Description
+          $.date:
+            label: Publish Date
+          $.tags:
+            type: array
+    text_key: title
+    url: posts/{title|slugify}
+    output: true
+  globals:
+    name: Globals
+    schemas:
+      site_data:
+        path: .cloudcannon/schemas/globals/site_data.md
+        name: globals
+        _enabled_editors:
+          - content
+        _inputs:
+          $.name:
+            label: Site Name
+          $.url:
+            label: Site Url
+          $.authorEmail:
+            label: Author Email Address
+          $.authorHandle:
+            label: Author Twitter Handle
+          $.shortDesc:
+            label: Footer Short Description
+          $.maxPostsPerPage:
+            type: number
+            label: Maximum Posts Per Page
+          $.enableThirdPartyComments:
+            label: Enable Third Party Comments Area
+          $.paymentPointer:
+            label: 'Payment Pointer (Web Monetization: https://bit.ly/2kTRI1b)'
+          $.faviconPath:
+            label: 'Favicon path (EG: /images/favicon.png)'
+      nav:
+        path: .cloudcannon/schemas/globals/nav.md
+        name: globals
+        _enabled_editors:
+          - content
+        _inputs:
+          $.items:
+            type: array
+            structures:
+              - value:
+                  text: ''
+                  url: ''
+                  external: false
+                _inputs:
+                  external:
+                    label: Is url to external site?
+      theme:
+        path: .cloudcannon/schemas/globals/theme.md
+        name: globals
+        _enabled_editors:
+          - content
+        _inputs:
+          $.size-scale.base:
+            label: Base Size
+          $.size-scale.300:
+            label: 'Ratio: 300'
+          $.size-scale.500:
+            label: 'Ratio: 500'
+          $.size-scale.600:
+            label: 'Ratio: 600'
+          $.size-scale.700:
+            label: 'Ratio: 700'
+          $.size-scale.800:
+            label: 'Ratio: 800'
+          $.size-scale.900:
+            label: 'Ratio: 900'
+          $.size-scale.max:
+            label: Max Size
+          $.colors.primary-shade:
+            label: Primary Shade (darker)
+          $.colors.primary-glare:
+            label: Primary Glare (lighter)
+          $.fonts:
+            hidden: true
+    filter:
+      base: none
+      include:
+        - src/_data/site.json
+        - src/_data/navigation.json
+        - src/_data/tokens.json
+    add_options: []
+    text_key: title
+paths:
+  static: src
+  uploads: src/images

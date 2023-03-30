@@ -1,0 +1,61 @@
+collections_config:
+  blog-posts:
+    name: Blog posts
+    path: content/blog-posts
+    schemas:
+      default:
+        path: .cloudcannon/schemas/blog.md
+        name: Blog Post
+        _enabled_editors:
+          - content
+        _inputs:
+          $.author:
+            type: multiselect
+            comment: Choose author here, add new authors in Authors List
+            options:
+              values: _select_data.authors
+          $.type:
+            hidden: true
+          $.hero:
+            type: file
+            label: Hero Image
+  default_hugo_pages:
+    name: Pages
+    path: content/
+    schemas:
+      about-page:
+        path: .cloudcannon/schemas/about-page.md
+        name: Info Page
+        _enabled_editors:
+          - content
+        _inputs:
+          $.type:
+            hidden: true
+          $.contact_info.twitter_handle:
+            comment: Enter Twitter Handle Here
+          $.contact_info.github_handle:
+            comment: Enter github handle here
+          $.contact_info.email:
+            comment: Enter contact email here
+collection_groups:
+  - heading: Content
+    collections:
+      - blog-posts
+paths:
+  static: static/
+  uploads: images
+_select_data:
+  authors:
+    - Henry Thoreau
+    - Friedrich Nietzsche
+    - Allen Ginsberg
+    - Paramhansa Yogananda
+    - Walt Whitman
+    - Grace Hopper
+    - Ralph Waldo Emerson
+    - Valentina Tereshkova
+    - Siddhartha Gautama
+    - Watson & Crick
+_inputs:
+  template:
+    hidden: true
