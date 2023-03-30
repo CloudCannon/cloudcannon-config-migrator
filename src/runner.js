@@ -55,7 +55,7 @@ export default {
 		if (migration?.siteConfig) {
 			empty = false;
 			const configContents = stringifyYaml(migration?.siteConfig || {});
-			saveToOutput({
+			await saveToOutput({
 				path: 'cloudcannon.config.yml',
 				contents: configContents
 			});
@@ -63,7 +63,7 @@ export default {
 
 		if (migration?.buildConfig) {
 			empty = false;
-			saveToOutput({
+			await saveToOutput({
 				path: path.join('.cloudcannon', 'initial-site-settings.json'),
 				contents: JSON.stringify(migration?.buildConfig || {}, null, '\t')
 			});
@@ -71,7 +71,7 @@ export default {
 
 		if (client.extraFiles.length > 0) {
 			empty = false;
-			client.extraFiles.forEach(saveToOutput);
+			await Promise.all(client.extraFiles.map(saveToOutput));
 		}
 
 		if (empty) {
