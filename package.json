@@ -43,6 +43,7 @@
     "chalk": "^5.1.2",
     "glob-to-regexp": "^0.4.1",
     "js-yaml": "^4.1.0",
+    "json2toml": "^4.0.1",
     "meow": "^11.0.0",
     "moment": "^2.29.4",
     "slugify": "^1.6.5",
