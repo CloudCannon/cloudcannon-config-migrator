@@ -430,18 +430,21 @@ async function buildSchema(migrator, templatePath, extension) {
 				const filePath = `.cloudcannon/schemas/${templateName}.${extension}`;
 				const schema = await processFields(templateName, migrator, templateContents.fields, '$');
 				let schemaFile = {};
-				if(extension === "toml" ){
-					schemaFile = {
-						path: filePath,
-						contents: `${stringifyToml(schema.contents)}`.replace(/: null/img, ':')
-					};
-				}
-				else{
-					schemaFile = {
-						path: filePath,
-						contents: `---\n${stringifyYaml(schema.contents)}---`.replace(/: null/img, ':')
-					};
 
+				// Switch statement to allow for future file extension additions 
+				switch(extension){
+					case "toml":
+						schemaFile = {
+							path: filePath,
+							contents: `${stringifyToml(schema.contents)}`.replace(/: null/img, ':')
+						};
+						break;
+					default: 
+						schemaFile = {
+							path: filePath,
+							contents: `---\n${stringifyYaml(schema.contents)}---`.replace(/: null/img, ':')
+						};
+						break;
 				}
 
 				const schemaDef = {
