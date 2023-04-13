@@ -114,9 +114,16 @@ function getUnclashedConfigName(initialName, configObj) {
 }
 
 async function loadTemplate(migrator, templateName) {
-	// TODO support subpaths on .forestry
-	const templatePath = `.forestry/front_matter/templates/${templateName}.yml`;
-	return loadYaml(await migrator.readFile(templatePath));
+    // TODO support subpaths on .forestry
+    for (const extension in supportedExtensions) {
+        try{
+            if(migrator.readFile(`.forestry/front_matter/templates/${templateName}.${extension}`)){
+                return loadYaml(await migrator.readFile(`.forestry/front_matter/templates/${templateName}.${extension}`));
+            }
+        } catch(error){
+        }
+    }
+    console.error(`❌ Template: ${templateName} not found`)
 }
 
 function arrayEquals(first, second) {
