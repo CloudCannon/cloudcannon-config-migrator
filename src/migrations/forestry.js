@@ -21,6 +21,8 @@ const supportedExtensions = {
 	md: true, json: true, yaml: true, yml: true, html: true, htm: true, toml: true
 };
 
+const extensions = ["yaml", "yml"];
+
 function getEnabledEditors(extension, hideBody) {
 	if (extension === 'html' || extension === 'htm') {
 		return ['visual', 'data'];
@@ -114,16 +116,14 @@ function getUnclashedConfigName(initialName, configObj) {
 }
 
 async function loadTemplate(migrator, templateName) {
-    // TODO support subpaths on .forestry
-    for (const extension in supportedExtensions) {
-        try{
-            if(migrator.readFile(`.forestry/front_matter/templates/${templateName}.${extension}`)){
-                return loadYaml(await migrator.readFile(`.forestry/front_matter/templates/${templateName}.${extension}`));
-            }
-        } catch(error){
-        }
-    }
-    console.error(`❌ Template: ${templateName} not found`)
+    // TODO: support subpaths on .forestry
+	for(let i = 0; i < extensions.length; i ++){
+		if(migrator.files.find(file => file === `.forestry/front_matter/templates/${templateName}.${extensions[i]}`)){
+			return loadYaml(await migrator.readFile(`.forestry/front_matter/templates/${templateName}.${extensions[i]}`));
+		}
+	}
+	throw new Error(`❌ Template: ${templateName} not found`);
+	
 }
 
 function arrayEquals(first, second) {
