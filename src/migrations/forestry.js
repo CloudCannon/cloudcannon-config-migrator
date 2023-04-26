@@ -444,6 +444,8 @@ async function buildSchema(migrator, templatePath, extension) {
 				const schemaDef = {
 					path: filePath,
 					name: templateContents.label,
+					remove_extra_inputs: false,
+					hide_extra_inputs: true,
 					_enabled_editors: getEnabledEditors(extension, templateContents.hide_body),
 					_inputs: schema.inputConfig
 				};
