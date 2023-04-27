@@ -6,6 +6,8 @@ collections_config:
       post-header:
         path: .cloudcannon/schemas/post-header.md
         name: 'Post: Header'
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:
@@ -36,6 +38,8 @@ collections_config:
       about:
         path: .cloudcannon/schemas/about.md
         name: About
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:

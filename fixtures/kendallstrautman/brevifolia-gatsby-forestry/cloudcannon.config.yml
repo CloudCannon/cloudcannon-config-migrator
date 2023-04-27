@@ -6,6 +6,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/blog-post.md
         name: Blog Post
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:

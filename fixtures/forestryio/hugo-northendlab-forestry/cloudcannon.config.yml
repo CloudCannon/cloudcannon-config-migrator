@@ -6,6 +6,8 @@ collections_config:
       default: &ref_0
         path: .cloudcannon/schemas/post.md
         name: Post
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:
@@ -25,6 +27,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/tools.yml
         name: Tools
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - data
         _inputs:
@@ -35,6 +39,8 @@ collections_config:
       tools:
         path: .cloudcannon/schemas/tools.md
         name: Tools
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - data
         _inputs:
@@ -49,6 +55,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/author.md
         name: Author
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
   default_hugo_pages:

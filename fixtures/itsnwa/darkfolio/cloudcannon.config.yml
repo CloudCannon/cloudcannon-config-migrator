@@ -6,6 +6,8 @@ collections_config:
       project:
         path: .cloudcannon/schemas/project.md
         name: Project
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:

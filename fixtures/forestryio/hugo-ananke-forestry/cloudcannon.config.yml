@@ -19,6 +19,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/post.md
         name: Post
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:
@@ -40,6 +42,8 @@ collections_config:
       contact:
         path: .cloudcannon/schemas/contact.md
         name: Contact
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:

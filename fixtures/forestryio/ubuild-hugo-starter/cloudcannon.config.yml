@@ -5,6 +5,8 @@ collections_config:
     schemas:
       page-builder:
         path: .cloudcannon/schemas/page-builder.md
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - data
         _inputs:

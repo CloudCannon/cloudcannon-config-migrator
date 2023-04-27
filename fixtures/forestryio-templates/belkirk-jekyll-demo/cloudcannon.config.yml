@@ -6,6 +6,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/post.md
         name: post
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:
@@ -33,6 +35,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/landing-page.md
         name: landing-page
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:
@@ -70,6 +74,8 @@ collections_config:
       information-yml:
         path: .cloudcannon/schemas/information-yml.md
         name: Contact Information
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - data
         _inputs:
@@ -82,6 +88,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/person.md
         name: person
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:
@@ -103,6 +111,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/project.md
         name: project
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:

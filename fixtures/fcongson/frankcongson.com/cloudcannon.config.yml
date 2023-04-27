@@ -6,6 +6,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/pages.json
         name: pages
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - data
         _inputs:
@@ -23,6 +25,8 @@ collections_config:
       pages:
         path: .cloudcannon/schemas/pages.md
         name: pages
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - data
         _inputs:
@@ -39,6 +43,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/posts.mdx
         name: posts
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:
@@ -55,6 +61,8 @@ collections_config:
       posts:
         path: .cloudcannon/schemas/posts.md
         name: posts
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:

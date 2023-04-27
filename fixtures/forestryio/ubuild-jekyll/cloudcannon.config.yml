@@ -16,6 +16,8 @@ collections_config:
       page-builder:
         path: .cloudcannon/schemas/page-builder.md
         name: page-builder
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - data
         _inputs:

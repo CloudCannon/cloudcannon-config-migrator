@@ -6,6 +6,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/page.md
         name: Parent Page
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:

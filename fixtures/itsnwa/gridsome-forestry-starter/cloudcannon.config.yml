@@ -6,6 +6,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/project.md
         name: Project
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:
@@ -36,6 +38,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/journal.md
         name: Journal
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
         _inputs:

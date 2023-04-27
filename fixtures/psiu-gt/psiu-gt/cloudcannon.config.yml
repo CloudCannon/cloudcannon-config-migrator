@@ -6,6 +6,8 @@ collections_config:
       default:
         path: .cloudcannon/schemas/post.md
         name: Post
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
     filter:
@@ -18,6 +20,8 @@ collections_config:
       blocks-page:
         path: .cloudcannon/schemas/blocks-page.md
         name: Blocks Page
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - data
         _inputs:
@@ -30,6 +34,8 @@ collections_config:
       page:
         path: .cloudcannon/schemas/page.md
         name: Page
+        remove_extra_inputs: false
+        hide_extra_inputs: true
         _enabled_editors:
           - content
     filter:
