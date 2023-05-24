@@ -25,7 +25,7 @@ collections_config:
             type: multiselect
             options:
               values: collections.posts
-              value_key: content_path
+              value_key: path
           $.layout:
             hidden: true
   pages:

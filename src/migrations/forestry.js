@@ -147,7 +147,7 @@ async function readSource(field, safeConfigPath, templateName, migrator) {
 	if (field.config?.source?.type === 'pages') {
 		return {
 			values: `collections.${field.config?.source?.section}`,
-			value_key: 'content_path'
+			value_key: 'path'
 		};
 	}
 
