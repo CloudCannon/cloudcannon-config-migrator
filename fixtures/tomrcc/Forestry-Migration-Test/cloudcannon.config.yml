@@ -1,33 +1,4 @@
 collections_config:
-  posts:
-    name: Posts
-    path: _posts
-    schemas:
-      default:
-        path: .cloudcannon/schemas/post.md
-        name: post
-        remove_extra_inputs: false
-        hide_extra_inputs: true
-        _enabled_editors:
-          - content
-        _inputs:
-          $.date:
-            label: Publish Date
-          $.tags:
-            type: multiselect
-            options:
-              values: []
-              allow_create: true
-              allow_empty: true
-          $.banner_image:
-            comment: Ideal dimensions 2500px by 1200px
-          $.related_posts:
-            type: multiselect
-            options:
-              values: collections.posts
-              value_key: path
-          $.layout:
-            hidden: true
   cocktails:
     name: Cocktails
     path: _cocktails
@@ -50,124 +21,22 @@ collections_config:
   spirits:
     name: Spirits
     path: _spirits
-  pages:
-    name: Pages
-    path: ''
     schemas:
       default:
-        path: .cloudcannon/schemas/landing-page.md
-        name: landing-page
+        path: .cloudcannon/schemas/spirit.md
+        name: spirit
         remove_extra_inputs: false
         hide_extra_inputs: true
         _enabled_editors:
           - content
-        _inputs:
-          $.heading:
-            label: Hero Heading
-          $.sub_heading:
-            label: Hero Sub heading
-          $.banner_image:
-            label: Hero Image
-            comment: 'Dimensions: 1200px by 580px'
-          $.hero_button.href:
-            label: Link
-          $.textline:
-            type: markdown
-            label: Description
-          $.services:
-            type: array
-            options:
-              structures: _structures.services
-          $.show_news:
-            label: Show News?
-            comment: Enables a news section with a twitter feed & latest posts
-          $.partners[*]:
-            type: image
-          $.partners:
-            type: array
-            label: Partner Logos
-          $.show_staff:
-            label: Show Staff?
-            comment: >-
-              Enables a staff section that lists each person in the People
-              collection
-          $.layout:
-            hidden: true
-      information-yml:
-        path: .cloudcannon/schemas/information-yml.md
-        name: Contact Information
-        remove_extra_inputs: false
-        hide_extra_inputs: true
-        _enabled_editors:
-          - data
-        _inputs:
-          $.twitter:
-            type: text
-  people:
-    name: People
-    path: _people
-    schemas:
-      default:
-        path: .cloudcannon/schemas/person.md
-        name: person
-        remove_extra_inputs: false
-        hide_extra_inputs: true
-        _enabled_editors:
-          - content
-        _inputs:
-          $.title:
-            label: Name
-          $.thumbnail:
-            comment: 'Square image, Max 500 pixels '
-          $.role:
-            hidden: true
-            type: array
-            label: Departments
-            comment: ''
-          $.layout:
-            hidden: true
-  projects:
-    name: Projects
-    path: _projects
-    schemas:
-      default:
-        path: .cloudcannon/schemas/project.md
-        name: project
-        remove_extra_inputs: false
-        hide_extra_inputs: true
-        _enabled_editors:
-          - content
-        _inputs:
-          $.banner_image:
-            comment: Dimensions work best at 1200 pixels by 400 pixels
-          $.tags:
-            type: multiselect
-            options:
-              values: []
-              allow_create: true
-              allow_empty: true
 collection_groups:
   - heading: Content
     collections:
-      - posts
       - cocktails
       - spirits
-      - pages
-      - people
-      - projects
 paths:
   static: ''
   uploads: uploads
-_structures:
-  services:
-    values:
-      - value:
-          heading: ''
-          description: ''
-          icon: ''
-        _inputs:
-          icon:
-            type: file
 _inputs:
   template:
     hidden: true
