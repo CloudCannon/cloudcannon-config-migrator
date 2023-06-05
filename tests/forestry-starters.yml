@@ -130,12 +130,17 @@ repos:
     - level: 'medium'
       message: 'Section template "page" not found for section "Pages" at .forestry/front_matter/templates/page.yml'
 
-- repo: fcongson/frankcongson.com
+- repo: tomrcc/Forestry-Migration-Test
   branch: main
-  ssg: gatsby
-  expectedWarnings:
-    - level: 'medium'
-      message: 'content/data/images.json could not append inputs to a non-object json file'
+  ssg: jekyll
+  preview: https://res.cloudinary.com/forestry-io/image/fetch/w_400,h_300,c_fill,f_jpg/https://forestry.io/img/starters/belkirk.jpg"
+
+# - repo: fcongson/frankcongson.com
+#   branch: main
+#   ssg: gatsby
+#   expectedWarnings:
+#     - level: 'medium'
+#       message: 'content/data/images.json could not append inputs to a non-object json file'
       
 - repo: psiu-gt/psiu-gt
   branch: dev

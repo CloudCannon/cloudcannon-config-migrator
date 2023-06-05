@@ -1,0 +1,42 @@
+collections_config:
+  cocktails:
+    name: Cocktails
+    path: _cocktails
+    schemas:
+      default:
+        path: .cloudcannon/schemas/cocktails.md
+        name: cocktails
+        remove_extra_inputs: false
+        hide_extra_inputs: true
+        _enabled_editors:
+          - content
+        _inputs:
+          $.spirit:
+            type: multiselect
+            options:
+              values: collections.spirits
+              value_key: path
+          $.ingredients:
+            type: array
+  spirits:
+    name: Spirits
+    path: _spirits
+    schemas:
+      default:
+        path: .cloudcannon/schemas/spirit.md
+        name: spirit
+        remove_extra_inputs: false
+        hide_extra_inputs: true
+        _enabled_editors:
+          - content
+collection_groups:
+  - heading: Content
+    collections:
+      - cocktails
+      - spirits
+paths:
+  static: ''
+  uploads: uploads
+_inputs:
+  template:
+    hidden: true
