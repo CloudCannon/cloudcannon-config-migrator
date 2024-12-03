@@ -15,6 +15,9 @@
   "bin": {
     "cloudcannon-config-migrator": "src/index.js"
   },
+  "engines": {
+    "node": "*"
+  },
   "files": [
     "src/**/*.js"
   ],
