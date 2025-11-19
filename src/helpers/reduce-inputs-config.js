@@ -1,5 +1,4 @@
 import moment from "moment";
-import _ from "underscore";
 import { titleise } from "./string-helper.js";
 
 const keyOverrides = {
@@ -80,11 +79,11 @@ function getInputType(key, value, inputConfig) {
 		return inputConfig?.type;
 	}
 
-	if (_.isBoolean(value)) {
+	if (typeof value === "boolean") {
 		return "checkbox";
 	}
 
-	if (_.isNumber(value)) {
+	if (typeof value === "number") {
 		return "number";
 	}
 
@@ -109,7 +108,8 @@ function getInputType(key, value, inputConfig) {
 }
 
 function getLabel(key, inputConfig) {
-	const label = _.isString(inputConfig?.label) ? inputConfig?.label : "";
+	const label =
+		typeof inputConfig?.label === "string" ? inputConfig?.label : "";
 	return label || titleise(key);
 }
 

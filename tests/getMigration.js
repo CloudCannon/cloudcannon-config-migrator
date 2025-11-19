@@ -1,4 +1,5 @@
-import test from "ava";
+import { test } from "node:test";
+import assert from "node:assert";
 import MigrationClient from "../src/MigrationClient.js";
 
 function getConfigMigrationId(files) {
@@ -6,17 +7,17 @@ function getConfigMigrationId(files) {
 	return client.getConfigMigration()?.id;
 }
 
-test("CloudCannon migration detection", (t) => {
+test("CloudCannon migration detection", () => {
 	const id = getConfigMigrationId(["cloudcannon.config.json"]);
-	t.is(id, "cloudcannon");
+	assert.strictEqual(id, "cloudcannon");
 });
 
-test("Forestry migration detection", (t) => {
+test("Forestry migration detection", () => {
 	const id = getConfigMigrationId([".forestry/settings.yml"]);
-	t.is(id, "forestry");
+	assert.strictEqual(id, "forestry");
 });
 
-test("NetlifyCMS migration detection", (t) => {
+test("NetlifyCMS migration detection", () => {
 	const id = getConfigMigrationId(["static/admin/config.yml"]);
-	t.is(id, "netlifycms");
+	assert.strictEqual(id, "netlifycms");
 });

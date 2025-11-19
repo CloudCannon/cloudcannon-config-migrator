@@ -2,7 +2,8 @@ import childProcess from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { promisify } from "node:util";
-import test from "ava";
+import { test } from "node:test";
+import assert from "node:assert";
 import { loadYaml, stringifyYaml } from "../src/helpers/yaml-helper.js";
 import runner from "../src/runner.js";
 import { toggleLogging } from "../src/util/logger.js";
@@ -63,7 +64,6 @@ const readFixtures = async (destFolder) => {
 };
 
 const testMigration = async (
-	t,
 	srcFolder,
 	destFolder,
 	fixturesFolder,
@@ -81,11 +81,11 @@ const testMigration = async (
 		fileTests = await readFixtures(fixturesFolder);
 	}
 
-	t.is(migration.id, migratorId);
+	assert.strictEqual(migration.id, migratorId);
 
 	fileTests.forEach((fileTest) => {
 		if (fileTest.path === "cloudcannon.config.yml") {
-			t.is(
+			assert.strictEqual(
 				stringifyYaml(migration?.siteConfig || {}),
 				fileTest.contents,
 				`${fileTest.path} does not match expected output`,
@@ -95,28 +95,27 @@ const testMigration = async (
 		const newFile = client.extraFiles.find(
 			(file) => file.path === fileTest.path,
 		);
-		t.assert(newFile, `${fileTest.path} does not exist`);
+		assert.ok(newFile, `${fileTest.path} does not exist`);
 
-		t.is(
+		assert.strictEqual(
 			newFile?.contents,
 			fileTest.contents,
 			`${fileTest.path} does not match expected output`,
 		);
 	});
 
-	t.is(client.extraFiles?.length, fileTests.length - 1);
+	assert.strictEqual(client.extraFiles?.length, fileTests.length - 1);
 
 	const noLevelWarnings = client.warnings.filter((warning) => !warning.level);
-	t.is(noLevelWarnings.length, 0, "Warnings should all have levels attached");
+	assert.strictEqual(noLevelWarnings.length, 0, "Warnings should all have levels attached");
 
 	const badWarnings = client.warnings
 		.filter((warning) => !ignoredWarningLevels[warning.level])
 		.map((warning) => ({ level: warning.level, message: warning.message }));
-	t.deepEqual(badWarnings, expectedWarnings || []);
+	assert.deepStrictEqual(badWarnings, expectedWarnings || []);
 };
 
-const runGitTest = async (t, owner, repo, options) => {
-	t.timeout(60000);
+const runGitTest = async (owner, repo, options) => {
 	const parentFolder = path.join(clonedReposPath, owner);
 	await fs.promises.mkdir(parentFolder, { recursive: true });
 	try {
@@ -143,13 +142,13 @@ const runGitTest = async (t, owner, repo, options) => {
 		}
 	}
 
-	await testMigration(t, srcFolder, destFolder, fixturesFolder, options);
+	await testMigration(srcFolder, destFolder, fixturesFolder, options);
 };
 
 forestryStarters.repos.forEach((row) => {
 	const [owner, name] = row.repo.split("/");
-	test(`https://github.com/${row.repo}`, async (t) =>
-		runGitTest(t, owner, name, {
+	test(`https://github.com/${row.repo}`, { timeout: 60000 }, async () =>
+		runGitTest(owner, name, {
 			...row,
 			migratorId: "forestry",
 		}));
@@ -157,8 +156,8 @@ forestryStarters.repos.forEach((row) => {
 
 netlifycmsStarters.repos.forEach((row) => {
 	const [owner, name] = row.repo.split("/");
-	test(`https://github.com/${row.repo}`, async (t) =>
-		runGitTest(t, owner, name, {
+	test(`https://github.com/${row.repo}`, { timeout: 60000 }, async () =>
+		runGitTest(owner, name, {
 			...row,
 			migratorId: "netlifycms",
 		}));

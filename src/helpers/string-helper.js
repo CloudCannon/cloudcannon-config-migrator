@@ -1,5 +1,3 @@
-import _ from "underscore";
-
 const abbreviations = {
 	api: "API",
 	guuid: "GUUID",
@@ -88,7 +86,7 @@ export function stripHTML(html) {
 }
 
 export function tryString(str) {
-	if (_.isString(str)) {
+	if (typeof str === "string") {
 		return str;
 	}
 }

@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/MigrationClient.js",
   "scripts": {
-    "test": "ava",
+    "test": "node --test tests/**/*.js",
     "lint-autofix": "biome check --fix",
     "lint-code": "biome check",
     "lint": "npm run lint-autofix && npm run lint-code",
@@ -35,8 +35,7 @@
   },
   "homepage": "https://github.com/CloudCannon/cloudcannon-config-migrator#readme",
   "devDependencies": {
-    "@biomejs/biome": "2.3.6",
-    "ava": "^5.0.1"
+    "@biomejs/biome": "2.3.6"
   },
   "dependencies": {
     "@iarna/toml": "^2.2.5",
@@ -45,16 +44,6 @@
     "js-yaml": "^4.1.1",
     "meow": "^11.0.0",
     "moment": "^2.29.4",
-    "slugify": "^1.6.5",
-    "underscore": "^1.13.6"
-  },
-  "ava": {
-    "files": [
-      "tests/**/*",
-      "!cloned/**/*",
-      "!output/**/*",
-      "!tests/TestMigrationClient.js"
-    ],
-    "concurrency": 5
+    "slugify": "^1.6.5"
   }
 }
