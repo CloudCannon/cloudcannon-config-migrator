@@ -1,18 +1,18 @@
-import globToRegExp from "glob-to-regexp";
-import slugify from "slugify";
-import convertSettings from "../helpers/conversions-helper.js";
-import reduceInputsConfig from "../helpers/reduce-inputs-config.js";
-import { loadYaml, stringifyYaml } from "../helpers/yaml-helper.js";
+import globToRegExp from 'glob-to-regexp';
+import slugify from 'slugify';
+import convertSettings from '../helpers/conversions-helper.js';
+import reduceInputsConfig from '../helpers/reduce-inputs-config.js';
+import { loadYaml, stringifyYaml } from '../helpers/yaml-helper.js';
 
 function getExtension(filename) {
-	return filename.split(".").pop().toLowerCase();
+	return filename.split('.').pop().toLowerCase();
 }
 
 function checkEmpty(obj) {
 	return obj && Object.keys(obj).length > 0 ? obj : undefined;
 }
 
-const configFileName = ".forestry/settings.yml";
+const configFileName = '.forestry/settings.yml';
 const supportedExtensions = {
 	md: true,
 	json: true,
@@ -24,15 +24,15 @@ const supportedExtensions = {
 };
 
 function getEnabledEditors(extension, hideBody) {
-	if (extension === "html" || extension === "htm") {
-		return ["visual", "data"];
+	if (extension === 'html' || extension === 'htm') {
+		return ['visual', 'data'];
 	}
 
 	if (hideBody) {
-		return ["data"];
+		return ['data'];
 	}
 
-	return ["content"];
+	return ['content'];
 }
 
 const supportedExtensionsFilter = (filename) => {
@@ -43,18 +43,18 @@ const supportedExtensionsFilter = (filename) => {
 };
 
 function getSSG(settings) {
-	if (settings.build?.instant_preview_command?.includes("hugo")) {
-		return "hugo";
+	if (settings.build?.instant_preview_command?.includes('hugo')) {
+		return 'hugo';
 	}
 
-	return "unknown";
+	return 'unknown';
 }
 
 function getCollectionsReferenced(pages, collections) {
 	const collectionsReferenced = {};
 	const collectionKeys = Object.keys(collections);
 	pages.forEach((filepath) => {
-		if (filepath.endsWith("/_index.md")) {
+		if (filepath.endsWith('/_index.md')) {
 			return;
 		}
 
@@ -77,8 +77,7 @@ function getCollectionsReferenced(pages, collections) {
 			return currentBest;
 		}, collectionMatches[0]);
 
-		collectionsReferenced[bestCollection] =
-			collectionsReferenced[bestCollection] || 0;
+		collectionsReferenced[bestCollection] = collectionsReferenced[bestCollection] || 0;
 		collectionsReferenced[bestCollection] += 1;
 	});
 
@@ -117,7 +116,7 @@ function getUnclashedConfigName(initialName, configObj) {
 }
 
 async function loadTemplate(migrator, templateName) {
-	const extensions = ["yaml", "yml"];
+	const extensions = ['yaml', 'yml'];
 	// TODO: support subpaths on .forestry
 	for (let i = 0; i < extensions.length; i += 1) {
 		const filename = `.forestry/front_matter/templates/${templateName}.${extensions[i]}`;
@@ -130,20 +129,15 @@ async function loadTemplate(migrator, templateName) {
 }
 
 function arrayEquals(first, second) {
-	return first.sort().join(",") === second.sort().join(",");
+	return first.sort().join(',') === second.sort().join(',');
 }
 
 async function readSource(field, safeConfigPath, templateName, migrator) {
 	let options;
-	if (field.config?.source?.type === "simple") {
+	if (field.config?.source?.type === 'simple') {
 		let selectName = field.name;
 		if (migrator.globalSelectData[selectName]) {
-			if (
-				!arrayEquals(
-					migrator.globalSelectData[selectName],
-					field.config?.options,
-				)
-			) {
+			if (!arrayEquals(migrator.globalSelectData[selectName], field.config?.options)) {
 				selectName = `${templateName}-${selectName}`;
 			}
 		}
@@ -152,47 +146,37 @@ async function readSource(field, safeConfigPath, templateName, migrator) {
 			values: `_select_data.${selectName}`,
 		};
 	}
-	if (field.config?.source?.type === "pages") {
+	if (field.config?.source?.type === 'pages') {
 		return {
 			values: `collections.${field.config?.source?.section}`,
-			value_key: "path",
+			value_key: 'path',
 		};
 	}
 
 	let dataName;
-	if (field.config?.source?.type === "documents") {
-		const subkey =
-			field.config?.source?.path || field.config?.source?.section || "";
-		const filename = (field.config?.source?.file || "")
-			.replace(/^.*\//, "")
-			.replace(/\.[a-z]+$/, "")
-			.replace("forestry", "");
+	if (field.config?.source?.type === 'documents') {
+		const subkey = field.config?.source?.path || field.config?.source?.section || '';
+		const filename = (field.config?.source?.file || '')
+			.replace(/^.*\//, '')
+			.replace(/\.[a-z]+$/, '')
+			.replace('forestry', '');
 
 		dataName =
-			filename !== subkey
-				? [filename, subkey].join(" ").trim().replace(/ +/g, "_")
-				: filename;
+			filename !== subkey ? [filename, subkey].join(' ').trim().replace(/ +/g, '_') : filename;
 
 		if (subkey) {
-			const dataFileContents = await loadYaml(
-				await migrator.readFile(field.config?.source?.file),
-			);
+			const dataFileContents = await loadYaml(await migrator.readFile(field.config?.source?.file));
 			migrator.addWarning(
-				"select data on a subkey is not supported: translating to simple select",
+				'select data on a subkey is not supported: translating to simple select',
 				{
 					safeConfigPath: safeConfigPath,
-					level: "info",
-				},
+					level: 'info',
+				}
 			);
 
 			let selectName = dataName;
 			if (migrator.globalSelectData[selectName]) {
-				if (
-					!arrayEquals(
-						migrator.globalSelectData[selectName],
-						dataFileContents[subkey],
-					)
-				) {
+				if (!arrayEquals(migrator.globalSelectData[selectName], dataFileContents[subkey])) {
 					selectName = `${templateName}-${selectName}`;
 				}
 			}
@@ -208,8 +192,8 @@ async function readSource(field, safeConfigPath, templateName, migrator) {
 		`${field.config?.source?.type} select source not yet implemented ${safeConfigPath} ${dataName}`,
 		{
 			safeConfigPath: safeConfigPath,
-			level: "critical",
-		},
+			level: 'critical',
+		}
 	);
 
 	return options;
@@ -220,9 +204,7 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 
 	for (let i = 0; i < fields.length; i += 1) {
 		const field = fields[i];
-		const safeConfigPath = parentConfigPath
-			? `${parentConfigPath}.${field.name}`
-			: field.name;
+		const safeConfigPath = parentConfigPath ? `${parentConfigPath}.${field.name}` : field.name;
 		let value = field.default ?? null;
 		let type = null;
 		let options;
@@ -230,58 +212,56 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 
 		try {
 			switch (field.type) {
-				case "text":
-					value = value || "";
-					type = "text";
+				case 'text':
+					value = value || '';
+					type = 'text';
 					break;
-				case "boolean":
-					type = "switch";
+				case 'boolean':
+					type = 'switch';
 					value = !!value;
 					break;
-				case "color": {
+				case 'color': {
 					const colorFormat = field.config?.color_format?.toLowerCase();
-					if (colorFormat && colorFormat !== "rgb" && colorFormat !== "hex") {
-						throw new Error(
-							`${safeConfigPath}: Unknown color format ${colorFormat}`,
-						);
+					if (colorFormat && colorFormat !== 'rgb' && colorFormat !== 'hex') {
+						throw new Error(`${safeConfigPath}: Unknown color format ${colorFormat}`);
 					}
-					type = "color";
+					type = 'color';
 					options = {
 						format: colorFormat.toLowerCase(),
 					};
 					break;
 				}
-				case "datetime":
+				case 'datetime':
 					type = field.type;
 					value = null;
 
 					if (field.config?.export_format) {
-						if (field.config?.export_format === "YYYY-MM-DD") {
-							type = "date";
+						if (field.config?.export_format === 'YYYY-MM-DD') {
+							type = 'date';
 						} else {
 							migrator.addWarning(
 								`Unsupported export date format: ${field.config?.export_format}`,
 								{
 									safeConfigPath: safeConfigPath,
-									level: "medium",
-								},
+									level: 'medium',
+								}
 							);
 						}
 					}
 
-					if (field.default === "now") {
+					if (field.default === 'now') {
 						value = null;
-						extraParams.instance_value = "NOW";
+						extraParams.instance_value = 'NOW';
 					}
 					break;
-				case "number":
+				case 'number':
 					type = field.type;
 					if (
 						Number.isInteger(field.config?.min) &&
 						Number.isInteger(field.config?.max) &&
 						Number.isInteger(field.config?.step)
 					) {
-						type = "range";
+						type = 'range';
 						options = {
 							min: field.config.min,
 							max: field.config.max,
@@ -289,46 +269,40 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 						};
 					}
 					break;
-				case "textarea":
-					value = value || "";
+				case 'textarea':
+					value = value || '';
 					if (field.wysiwyg || field.config?.wysiwyg) {
-						if (
-							field.config?.schema?.format &&
-							field.config?.schema?.format === "markdown"
-						) {
-							type = "markdown";
+						if (field.config?.schema?.format && field.config?.schema?.format === 'markdown') {
+							type = 'markdown';
 						} else {
-							type = "html";
+							type = 'html';
 						}
 						break;
 					}
 					type = field.type;
 					break;
-				case "file":
+				case 'file':
 					type = field.type;
 					migrator.addUnsupportedKeysWarning(
 						field.type,
 						field.config,
-						["maxSize"],
+						['maxSize'],
 						{ safeConfigPath: safeConfigPath },
-						"low",
+						'low'
 					);
 					// Unsupported fields:
 					// config: { maxSize: 64 },
 					break;
-				case "include": {
+				case 'include': {
 					const templateKey = `template-${field.template}`;
 					if (!migrator.downloadMemos[templateKey]) {
 						migrator.downloadMemos[templateKey] = (async () => {
-							const templateContents = await loadTemplate(
-								migrator,
-								field.template,
-							);
+							const templateContents = await loadTemplate(migrator, field.template);
 							const childField = await processFields(
 								field.template,
 								migrator,
 								templateContents.fields,
-								"===",
+								'==='
 							);
 							return childField;
 						})();
@@ -339,74 +313,59 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 						Object.keys(childField.inputConfig).forEach((key) => {
 							const newKey = parentConfigPath
 								? key.replace(/===/, parentConfigPath)
-								: key.replace(/===\./, "");
+								: key.replace(/===\./, '');
 
 							inputConfig[newKey] = childField.inputConfig[key];
 						});
 					}
 
 					Object.keys(childField.contents).forEach((key) => {
-						contents[key] = JSON.parse(
-							JSON.stringify(childField.contents[key]),
-						);
+						contents[key] = JSON.parse(JSON.stringify(childField.contents[key]));
 					});
 					break;
 				}
-				case "tag_list":
-					type = "multiselect";
+				case 'tag_list':
+					type = 'multiselect';
 					options = {
 						values: [],
 						allow_create: true,
 						allow_empty: true,
 					};
 					break;
-				case "image_gallery":
-					type = "array";
+				case 'image_gallery':
+					type = 'array';
 					value = [];
 					inputConfig[`${safeConfigPath}[*]`] = {
-						type: "image",
+						type: 'image',
 					};
 					break;
-				case "select":
-					type = "select";
+				case 'select':
+					type = 'select';
 					if (Array.isArray(value)) {
-						type = "multiselect";
+						type = 'multiselect';
 					}
-					options = await readSource(
-						field,
-						safeConfigPath,
-						templateName,
-						migrator,
-					);
+					options = await readSource(field, safeConfigPath, templateName, migrator);
 					break;
-				case "list":
+				case 'list':
 					if (!field.config?.use_select) {
-						type = "array";
+						type = 'array';
 						value = [];
 						break;
 					}
 
-					type = "multiselect";
+					type = 'multiselect';
 					value = value || [];
-					options = await readSource(
-						field,
-						safeConfigPath,
-						templateName,
-						migrator,
-					);
+					options = await readSource(field, safeConfigPath, templateName, migrator);
 					break;
-				case "blocks": {
-					type = "array";
+				case 'blocks': {
+					type = 'array';
 					value = [];
 
 					const structuresId = field.template_types.join();
 					if (!migrator.globalStructures[structuresId]) {
 						migrator.globalStructures[structuresId] = {
-							id_key: "template",
-							name: getUnclashedConfigName(
-								field.name,
-								migrator.globalStructures,
-							),
+							id_key: 'template',
+							name: getUnclashedConfigName(field.name, migrator.globalStructures),
 							pendingTemplates: {
 								templateName,
 								templates: field.template_types,
@@ -419,26 +378,16 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 					};
 					break;
 				}
-				case "field_group_list": {
-					type = "array";
+				case 'field_group_list': {
+					type = 'array';
 					value = [];
 
-					const structuresId = field.fields
-						.map((entry) => entry.name)
-						.join(",");
+					const structuresId = field.fields.map((entry) => entry.name).join(',');
 					if (!migrator.globalStructures[structuresId]) {
 						migrator.globalStructures[structuresId] = {
-							name: getUnclashedConfigName(
-								field.name,
-								migrator.globalStructures,
-							),
+							name: getUnclashedConfigName(field.name, migrator.globalStructures),
 						};
-						const childField = await processFields(
-							templateName,
-							migrator,
-							field.fields,
-							null,
-						);
+						const childField = await processFields(templateName, migrator, field.fields, null);
 						const structuresDef = [
 							{
 								value: childField.contents,
@@ -454,12 +403,12 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 					};
 					break;
 				}
-				case "field_group": {
+				case 'field_group': {
 					const childField = await processFields(
 						templateName,
 						migrator,
 						field.fields,
-						safeConfigPath,
+						safeConfigPath
 					);
 
 					contents[field.name] = childField.contents;
@@ -473,7 +422,7 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 					break;
 			}
 		} catch (error) {
-			console.error("Failed to parse field", field, error);
+			console.error('Failed to parse field', field, error);
 			throw error;
 		}
 
@@ -497,28 +446,20 @@ async function processFields(templateName, migrator, fields, parentConfigPath) {
 }
 
 async function buildSchema(migrator, templatePath, extension) {
-	extension = extension || "md";
+	extension = extension || 'md';
 	const memoKey = `${templatePath}-${extension}`;
 	if (!migrator.schemas[memoKey]) {
 		migrator.schemas[memoKey] = (async () => {
 			const templateName = templatePath
-				.replace(/^.forestry\/front_matter\/templates\//, "")
-				.replace(/\.yml$/, "");
+				.replace(/^.forestry\/front_matter\/templates\//, '')
+				.replace(/\.yml$/, '');
 			const templateContents = loadYaml(await migrator.readFile(templatePath));
 			const filePath = `.cloudcannon/schemas/${templateName}.${extension}`;
-			const schema = await processFields(
-				templateName,
-				migrator,
-				templateContents.fields,
-				"$",
-			);
+			const schema = await processFields(templateName, migrator, templateContents.fields, '$');
 
 			const schemaFile = {
 				path: filePath,
-				contents: `---\n${stringifyYaml(schema.contents)}---`.replace(
-					/: null/gim,
-					":",
-				),
+				contents: `---\n${stringifyYaml(schema.contents)}---`.replace(/: null/gim, ':'),
 			};
 
 			const schemaDef = {
@@ -526,10 +467,7 @@ async function buildSchema(migrator, templatePath, extension) {
 				name: templateContents.label,
 				remove_extra_inputs: false,
 				hide_extra_inputs: true,
-				_enabled_editors: getEnabledEditors(
-					extension,
-					templateContents.hide_body,
-				),
+				_enabled_editors: getEnabledEditors(extension, templateContents.hide_body),
 				_inputs: schema.inputConfig,
 			};
 
@@ -550,84 +488,73 @@ async function buildSchema(migrator, templatePath, extension) {
 // https://forestry.io/docs/settings/config-files/
 const conversions = {
 	new_page_extension: {
-		description:
-			"Allows you to configure whether new pages are created as .md or .html files.",
-		ignoredReason: "This setting is set per collection item instead",
+		description: 'Allows you to configure whether new pages are created as .md or .html files.',
+		ignoredReason: 'This setting is set per collection item instead',
 	},
 	auto_deploy: {
 		description:
-			"Allows you to configure if publishing should be triggered when a commit is made to the source repository.",
-		ignoredReason:
-			"CloudCannon always builds, contact support about pinned builds.",
+			'Allows you to configure if publishing should be triggered when a commit is made to the source repository.',
+		ignoredReason: 'CloudCannon always builds, contact support about pinned builds.',
 	},
 	admin_path: {
-		description:
-			"Allows you to configure the path where the Remote Admin will be deployed.",
-		ignoredReason: "CloudCannon has no remote admin.",
+		description: 'Allows you to configure the path where the Remote Admin will be deployed.',
+		ignoredReason: 'CloudCannon has no remote admin.',
 	},
 	webhook_url: {
-		description:
-			"Allows you to provide a webhook to be triggered when events occur in Forestry.",
-		ignoredReason: "Webhooks are achieved using postbuild scripts",
+		description: 'Allows you to provide a webhook to be triggered when events occur in Forestry.',
+		ignoredReason: 'Webhooks are achieved using postbuild scripts',
 	},
 	version: {
 		description:
-			"This allows you to configure the version of Hugo your site uses. This is limited to the latest versions of Hugo supported by Forestry.",
-		ignoredReason: "CloudCannon has a full CI with configurable Hugo versions.",
+			'This allows you to configure the version of Hugo your site uses. This is limited to the latest versions of Hugo supported by Forestry.',
+		ignoredReason: 'CloudCannon has a full CI with configurable Hugo versions.',
 	},
 	frontmatter_file_url_template: {
-		name: "Front Matter File URL",
+		name: 'Front Matter File URL',
 		description:
-			"Allows you to configure the path that is set when adding images to Front Matter Fields. Note: this value is set at upload time.",
+			'Allows you to configure the path that is set when adding images to Front Matter Fields. Note: this value is set at upload time.',
 	},
 	body_file_url_template: {
-		name: "Body File URL Template",
+		name: 'Body File URL Template',
 		description:
-			"Allows you to configure the path that is used when adding images to the body of a page. Note: this value is set at upload time",
+			'Allows you to configure the path that is used when adding images to the body of a page. Note: this value is set at upload time',
 	},
 	front_matter_path: {
-		ignoredReason: "Not listed in Forestry documentation.",
+		ignoredReason: 'Not listed in Forestry documentation.',
 	},
 	use_front_matter_path: {
-		ignoredReason: "Not listed in Forestry documentation.",
+		ignoredReason: 'Not listed in Forestry documentation.',
 	},
 	file_template: {
-		ignoredReason: "Not listed in Forestry documentation.",
+		ignoredReason: 'Not listed in Forestry documentation.',
 	},
 	build: {
-		ignoredReason: "Not listed in Forestry documentation.",
+		ignoredReason: 'Not listed in Forestry documentation.',
 	},
 	public_path: {
 		description:
-			"The public_path option specifies the folder path where the files uploaded by the media library will be accessed.",
+			'The public_path option specifies the folder path where the files uploaded by the media library will be accessed.',
 		usedInternally: true,
 	},
 	upload_dir: {
-		description:
-			"Allows you to configure the path where media assets are uploaded",
+		description: 'Allows you to configure the path where media assets are uploaded',
 		converter: (uploadDir, migrator, forestrySettings) => {
-			if (uploadDir.indexOf(":") >= 0) {
+			if (uploadDir.indexOf(':') >= 0) {
 				migrator.addWarning(
-					"upload_dir key contains placeholders which are not migrated automatically",
+					'upload_dir key contains placeholders which are not migrated automatically',
 					{
-						level: "high",
-					},
+						level: 'high',
+					}
 				);
 			}
 
-			const publicPath = (forestrySettings.public_path || "").replace(
-				/^\/+/,
-				"",
-			);
+			const publicPath = (forestrySettings.public_path || '').replace(/^\/+/, '');
 			if (!uploadDir.endsWith(publicPath)) {
-				migrator.addWarning(
-					"upload_dir does not share a path with public_path",
-					{
-						publicPath,
-						uploadDir,
-						level: "critical",
-					},
-				);
+				migrator.addWarning('upload_dir does not share a path with public_path', {
+					publicPath,
+					uploadDir,
+					level: 'critical',
+				});
 
 				return;
 			}
@@ -635,11 +562,8 @@ const conversions = {
 			return {
 				config: {
 					paths: {
-						static: uploadDir.substring(
-							0,
-							uploadDir.length - publicPath.length,
-						),
-						uploads: publicPath.replace(/^\/+/, ""),
+						static: uploadDir.substring(0, uploadDir.length - publicPath.length),
+						uploads: publicPath.replace(/^\/+/, ''),
 					},
 				},
 			};
@@ -658,16 +582,13 @@ const conversions = {
 
 			async function addCollection(section) {
 				if (migrator.collectionGroups.length === 0) {
-					addCollectionGroup("Content");
+					addCollectionGroup('Content');
 				}
 
-				if (!("path" in section)) {
-					migrator.addWarning(
-						`Section config 'path' missing on "${section.label}"`,
-						{
-							level: "critical",
-						},
-					);
+				if (!('path' in section)) {
+					migrator.addWarning(`Section config 'path' missing on "${section.label}"`, {
+						level: 'critical',
+					});
 					return;
 				}
 
@@ -677,7 +598,7 @@ const conversions = {
 					path: section.path,
 				};
 
-				if (section.create === "none") {
+				if (section.create === 'none') {
 					migrator.collections[id].add_options = [];
 				}
 
@@ -686,12 +607,8 @@ const conversions = {
 						const templateName = section.templates[index];
 						const templatePath = `.forestry/front_matter/templates/${templateName}.yml`;
 						try {
-							const schema = await buildSchema(
-								migrator,
-								templatePath,
-								section.new_doc_ext,
-							);
-							const templateId = index === 0 ? "default" : schema.name;
+							const schema = await buildSchema(migrator, templatePath, section.new_doc_ext);
+							const templateId = index === 0 ? 'default' : schema.name;
 
 							migrator.addFile(schema.file);
 							migrator.collections[id].schemas = {};
@@ -701,59 +618,44 @@ const conversions = {
 							migrator.addWarning(
 								`Section template "${templateName}" not found for section "${section.label}" at ${templatePath}`,
 								{
-									level: "medium",
-								},
+									level: 'medium',
+								}
 							);
 						}
 					}
 				}
 
-				const match = section.match || "**/*";
+				const match = section.match || '**/*';
 				const regex = globToRegExp(match, { globstar: true, extended: true });
 				const filesInPath = migrator.files
 					.filter((filename) => filename.startsWith(section.path))
 					.filter(supportedExtensionsFilter)
-					.map((filename) =>
-						filename.substring(section.path.length).replace(/^\/+/, ""),
-					)
+					.map((filename) => filename.substring(section.path.length).replace(/^\/+/, ''))
 					.filter((filename) => {
-						const parts = filename.split("/");
+						const parts = filename.split('/');
 						const firstChar = filename.charAt(0);
 
-						return (
-							parts.length === 1 || (firstChar !== "." && firstChar !== "_")
-						);
+						return parts.length === 1 || (firstChar !== '.' && firstChar !== '_');
 					});
 
-				let filesMatched = filesInPath.filter((filename) =>
-					regex.test(filename),
-				);
-				let filesNotMatched = filesInPath.filter(
-					(filename) => !regex.test(filename),
-				);
+				let filesMatched = filesInPath.filter((filename) => regex.test(filename));
+				let filesNotMatched = filesInPath.filter((filename) => !regex.test(filename));
 				let excludedFiles = [];
 				if (section.exclude) {
 					const excludeRegex = globToRegExp(section.exclude, {
 						globstar: true,
 					});
 
-					excludedFiles = filesInPath.filter(
-						(filename) => !excludeRegex.test(filename),
-					);
+					excludedFiles = filesInPath.filter((filename) => !excludeRegex.test(filename));
 					if (excludedFiles.length === 0) {
-						migrator.addWarning(
-							"Section config 'exclude' ignored as it had zero matches",
-							{
-								level: "info",
-							},
-						);
+						migrator.addWarning("Section config 'exclude' ignored as it had zero matches", {
+							level: 'info',
+						});
 					}
 
-					filesMatched = filesMatched.filter(
-						(filename) => !excludeRegex.test(filename),
-					);
+					filesMatched = filesMatched.filter((filename) => !excludeRegex.test(filename));
 					filesNotMatched = filesInPath.filter(
-						(filename) => !regex.test(filename) && excludeRegex.test(filename),
+						(filename) => !regex.test(filename) && excludeRegex.test(filename)
 					);
 				}
 
@@ -763,8 +665,7 @@ const conversions = {
 					};
 				} else {
 					const excluded = filesInPath.filter(
-						(filename) =>
-							filename !== "_index.md" && !filesMatched.includes(filename),
+						(filename) => filename !== '_index.md' && !filesMatched.includes(filename)
 					);
 					if (excluded.length > 0) {
 						migrator.collections[id].filter = {
@@ -774,96 +675,80 @@ const conversions = {
 				}
 
 				if (filesMatched.length === 0) {
-					migrator.addWarning(
-						`Section "${section.label}" found nothing using match and exclude`,
-						{
-							section: section,
-							filesInPath: filesInPath,
-							filesNotMatched: filesNotMatched,
-							level: "low",
-						},
-					);
+					migrator.addWarning(`Section "${section.label}" found nothing using match and exclude`, {
+						section: section,
+						filesInPath: filesInPath,
+						filesNotMatched: filesNotMatched,
+						level: 'low',
+					});
 				}
 
 				if (section.read_only) {
-					migrator.addWarning(
-						`Section config 'read_only' unsupported on "${section.label}"`,
-						{
-							level: "medium",
-						},
-					);
+					migrator.addWarning(`Section config 'read_only' unsupported on "${section.label}"`, {
+						level: 'medium',
+					});
 				}
 
-				migrator.collectionGroups[
-					migrator.collectionGroups.length - 1
-				].collections.push(id);
+				migrator.collectionGroups[migrator.collectionGroups.length - 1].collections.push(id);
 			}
 
 			const jeykllConfigFile =
-				migrator.files.find(
-					(filename) => filename.replace(/.*\//, "") === "_config.yml",
-				) || "_config.yml";
-			const jekyllConfigPathParts = jeykllConfigFile.split("/");
+				migrator.files.find((filename) => filename.replace(/.*\//, '') === '_config.yml') ||
+				'_config.yml';
+			const jekyllConfigPathParts = jeykllConfigFile.split('/');
 			jekyllConfigPathParts.pop();
-			const jekyllConfigPath = jekyllConfigPathParts.join("/");
+			const jekyllConfigPath = jekyllConfigPathParts.join('/');
 			for (let i = 0; i < sections.length; i += 1) {
 				const section = sections[i];
 
 				// directory is the default type
-				if (!section.type || section.type === "directory") {
+				if (!section.type || section.type === 'directory') {
 					await addCollection(section);
-				} else if (section.type === "jekyll-posts") {
+				} else if (section.type === 'jekyll-posts') {
 					await addCollection({
 						...section,
-						type: "directory",
+						type: 'directory',
 						path: `${jekyllConfigPath}_posts`,
 					});
-				} else if (section.type === "jekyll-pages") {
+				} else if (section.type === 'jekyll-pages') {
 					await addCollection({
 						...section,
-						type: "directory",
+						type: 'directory',
 						path: jekyllConfigPath,
 					});
-				} else if (section.type === "heading") {
+				} else if (section.type === 'heading') {
 					addCollectionGroup(section.label);
-				} else if (section.type === "document") {
+				} else if (section.type === 'document') {
 					if (section.read_only) {
 						migrator.addWarning(
 							`Section "${section.label}" is a read_only document which is unsupported and not on our roadmap`,
 							{
 								section: section,
-								level: "low",
-							},
+								level: 'low',
+							}
 						);
 					} else {
-						migrator.addWarning(
-							`Section "${section.label}" is a document which is unsupported`,
-							{
-								section: section,
-								level: "low",
-							},
-						);
+						migrator.addWarning(`Section "${section.label}" is a document which is unsupported`, {
+							section: section,
+							level: 'low',
+						});
 					}
 				} else {
-					migrator.addWarning(
-						`Section "${section.label}" has unknown type ${section.type}`,
-						{
-							section: section,
-							level: "high",
-						},
-					);
+					migrator.addWarning(`Section "${section.label}" has unknown type ${section.type}`, {
+						section: section,
+						level: 'high',
+					});
 				}
 			}
 
 			const filteredGroups = migrator.collectionGroups.filter(
-				(group) => group.collections.length > 0,
+				(group) => group.collections.length > 0
 			);
 
 			return {
 				config: {
 					collections_config: migrator.collections,
-					collection_groups:
-						filteredGroups.length > 0 ? filteredGroups : undefined,
+					collection_groups: filteredGroups.length > 0 ? filteredGroups : undefined,
 				},
 			};
 		},
@@ -886,12 +771,7 @@ async function fetchAllPendingStructures(migrator) {
 				const template = value.pendingTemplates.templates[j];
 				const templateContents = await loadTemplate(migrator, template);
 
-				const childField = await processFields(
-					template,
-					migrator,
-					templateContents.fields,
-					null,
-				);
+				const childField = await processFields(template, migrator, templateContents.fields, null);
 
 				structuresDef.push({
 					label: templateContents.label,
@@ -922,26 +802,22 @@ function detect(migrator) {
 async function migrate(migrator) {
 	const forestrySettings = loadYaml(await migrator.readFile(configFileName));
 
-	const { siteConfig } = await convertSettings(
-		forestrySettings,
-		conversions,
-		migrator,
-	);
+	const { siteConfig } = await convertSettings(forestrySettings, conversions, migrator);
 
 	siteConfig.collections_config = siteConfig.collections_config || {};
 
 	const ssg = getSSG(forestrySettings);
-	if (ssg === "hugo") {
+	if (ssg === 'hugo') {
 		siteConfig.collections_config.default_hugo_pages = {
-			name: "Pages",
-			path: "content/",
+			name: 'Pages',
+			path: 'content/',
 		};
 	}
 
 	// TODO support subpaths on .forestry
 	await Promise.all(
 		migrator.files.map(async (filePath) => {
-			if (!filePath.startsWith(".forestry/front_matter/templates/")) {
+			if (!filePath.startsWith('.forestry/front_matter/templates/')) {
 				return null;
 			}
 
@@ -954,7 +830,7 @@ async function migrate(migrator) {
 			const schemaDef = await buildSchema(migrator, filePath);
 			const collectionsReferenced = getCollectionsReferenced(
 				templateContents.pages,
-				siteConfig.collections_config,
+				siteConfig.collections_config
 			);
 			let schemaId = schemaDef.name;
 			if (collectionsReferenced.length > 0) {
@@ -963,8 +839,7 @@ async function migrate(migrator) {
 
 					collection.schemas = collection.schemas || {};
 					const existingId = Object.keys(collection.schemas).find(
-						(schemaKey) =>
-							collection.schemas[schemaKey].path === schemaDef.def.path,
+						(schemaKey) => collection.schemas[schemaKey].path === schemaDef.def.path
 					);
 
 					if (existingId) {
@@ -976,14 +851,12 @@ async function migrate(migrator) {
 
 				migrator.addFile(schemaDef.file);
 
-				if (schemaId !== "default") {
+				if (schemaId !== 'default') {
 					await migrator.appendDataToFiles(templateContents.pages, {
 						_schema: schemaId,
 					});
 				}
-			} else if (
-				!(ssg === "hugo" && templateContents.pages[0] === "config.toml")
-			) {
+			} else if (!(ssg === 'hugo' && templateContents.pages[0] === 'config.toml')) {
 				const options = {
 					_inputs: schemaDef.def._inputs,
 					_enabled_editors: schemaDef.def.__enabled_editors,
@@ -993,16 +866,14 @@ async function migrate(migrator) {
 					await migrator.appendDataToFiles(templateContents.pages, options);
 				}
 			}
-		}),
+		})
 	);
 
 	await fetchAllPendingStructures(migrator);
 
 	siteConfig.data_config = checkEmpty(migrator.dataConfig);
 	siteConfig._select_data = checkEmpty(migrator.globalSelectData);
-	siteConfig._structures = checkEmpty(
-		formatStructuresObject(migrator.globalStructures),
-	);
+	siteConfig._structures = checkEmpty(formatStructuresObject(migrator.globalStructures));
 
 	// Used as the id_key for blocks
 	siteConfig._inputs = {
@@ -1018,7 +889,7 @@ async function migrate(migrator) {
 }
 
 export default {
-	id: "forestry",
+	id: 'forestry',
 	detect: detect,
 	migrate: migrate,
 };

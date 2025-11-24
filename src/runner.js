@@ -1,33 +1,33 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import chalk from "chalk";
-import DiskMigrationClient from "./DiskMigrationClient.js";
-import { stringifyYaml } from "./helpers/yaml-helper.js";
-import log from "./util/logger.js";
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import chalk from 'chalk';
+import DiskMigrationClient from './DiskMigrationClient.js';
+import { stringifyYaml } from './helpers/yaml-helper.js';
+import log from './util/logger.js';
 
 const warningLevels = {
 	info: {
-		prefix: "🗒️",
+		prefix: '🗒️',
 		color: chalk.grey,
 		order: 1,
 	},
 	low: {
-		prefix: "📝",
+		prefix: '📝',
 		color: chalk.blue,
 		order: 2,
 	},
 	medium: {
-		prefix: "😒",
+		prefix: '😒',
 		color: chalk.red,
 		order: 3,
 	},
 	high: {
-		prefix: "⛔️",
+		prefix: '⛔️',
 		color: chalk.redBright,
 		order: 4,
 	},
 	critical: {
-		prefix: "🏴",
+		prefix: '🏴',
 		color: chalk.magentaBright,
 		order: 5,
 	},
@@ -35,13 +35,10 @@ const warningLevels = {
 
 export default {
 	run: async (flags) => {
-		log(`⭐️ Starting ${chalk.blue("cloudcannon-config-migrator")}`);
+		log(`⭐️ Starting ${chalk.blue('cloudcannon-config-migrator')}`);
 		const client = new DiskMigrationClient(flags.source);
 
-		const destFolder = path.resolve(
-			process.cwd(),
-			flags.output || flags.source,
-		);
+		const destFolder = path.resolve(process.cwd(), flags.output || flags.source);
 		log(`💡 Using ${chalk.blue(client.getConfigMigration().id)} migration`);
 		const migration = await client.generateMigration();
 
@@ -53,13 +50,13 @@ export default {
 			await fs.writeFile(fullpath, file.contents);
 		}
 
-		log(chalk.bold("\nNew files:"));
+		log(chalk.bold('\nNew files:'));
 		let empty = true;
 		if (migration?.siteConfig) {
 			empty = false;
 			const configContents = stringifyYaml(migration?.siteConfig || {});
 			await saveToOutput({
-				path: "cloudcannon.config.yml",
+				path: 'cloudcannon.config.yml',
 				contents: configContents,
 			});
 		}
@@ -67,8 +64,8 @@ export default {
 		if (migration?.buildConfig) {
 			empty = false;
 			await saveToOutput({
-				path: path.join(".cloudcannon", "initial-site-settings.json"),
-				contents: JSON.stringify(migration?.buildConfig || {}, null, "\t"),
+				path: path.join('.cloudcannon', 'initial-site-settings.json'),
+				contents: JSON.stringify(migration?.buildConfig || {}, null, '\t'),
 			});
 		}
 
@@ -78,15 +75,13 @@ export default {
 		}
 
 		if (empty) {
-			log(chalk.green("No files added"));
+			log(chalk.green('No files added'));
 		}
 
-		log(chalk.bold("\nWarnings:"));
+		log(chalk.bold('\nWarnings:'));
 		if (client.warnings.length) {
 			client.warnings
-				.sort(
-					(a, b) => warningLevels[b.level].order - warningLevels[a.level].order,
-				)
+				.sort((a, b) => warningLevels[b.level].order - warningLevels[a.level].order)
 				.forEach((warning) => {
 					const details = warningLevels[warning.level] || {
 						prefix: warning.level,
@@ -96,7 +91,7 @@ export default {
 					log(details.color(`${details.prefix} : ${warning.message}`));
 				});
 		} else {
-			log(chalk.green("No warnings"));
+			log(chalk.green('No warnings'));
 		}
 
 		return {

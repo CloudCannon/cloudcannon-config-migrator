@@ -5,10 +5,9 @@ export default async function convertSettings(json, conversions, migrator) {
 		const key = Object.keys(json)[i];
 
 		if (!conversions[key]) {
-			migrator.addWarning(`Unused root key ${key}`, { level: "medium" });
+			migrator.addWarning(`Unused root key ${key}`, { level: 'medium' });
 		} else if (conversions[key]?.converter) {
-			const { config } =
-				(await conversions[key].converter(json[key], migrator, json)) || {};
+			const { config } = (await conversions[key].converter(json[key], migrator, json)) || {};
 			if (config) {
 				result = {
 					...result,
@@ -16,10 +15,9 @@ export default async function convertSettings(json, conversions, migrator) {
 				};
 			}
 		} else if (!conversions[key].usedInternally) {
-			migrator.addWarning(
-				`Ignored setting ${key}: ${conversions[key].ignoredReason}`,
-				{ level: "info" },
-			);
+			migrator.addWarning(`Ignored setting ${key}: ${conversions[key].ignoredReason}`, {
+				level: 'info',
+			});
 		}
 	}
 

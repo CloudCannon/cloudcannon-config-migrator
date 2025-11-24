@@ -1,19 +1,15 @@
-import TOML from "@iarna/toml";
-import NotYetImplementedError from "./errors/NotYetImplementedError.js";
-import { stringifyYaml } from "./helpers/yaml-helper.js";
-import cloudcannonMigration from "./migrations/cloudcannon.js";
-import forestryMigration from "./migrations/forestry.js";
-import netlifycmsMigration from "./migrations/netlifycms.js";
+import TOML from '@iarna/toml';
+import NotYetImplementedError from './errors/NotYetImplementedError.js';
+import { stringifyYaml } from './helpers/yaml-helper.js';
+import cloudcannonMigration from './migrations/cloudcannon.js';
+import forestryMigration from './migrations/forestry.js';
+import netlifycmsMigration from './migrations/netlifycms.js';
 
 function getExtension(filename) {
-	return filename.split(".").pop();
+	return filename.split('.').pop();
 }
 
-const configMigrations = [
-	cloudcannonMigration,
-	forestryMigration,
-	netlifycmsMigration,
-];
+const configMigrations = [cloudcannonMigration, forestryMigration, netlifycmsMigration];
 
 export default class MigrationClient {
 	constructor(files) {
@@ -53,13 +49,11 @@ export default class MigrationClient {
 	}
 
 	addFile(file) {
-		const existingFile = this.extraFiles.find(
-			(existing) => existing.path === file.path,
-		);
+		const existingFile = this.extraFiles.find((existing) => existing.path === file.path);
 		if (!existingFile) {
 			this.extraFiles.push(file);
 		} else if (existingFile.contents !== file.contents) {
-			throw new Error("File collision", {
+			throw new Error('File collision', {
 				existingFile: existingFile,
 				file: file,
 			});
@@ -80,58 +74,55 @@ export default class MigrationClient {
 			contents = await this.readFile(file);
 		} catch (_readError) {
 			this.addWarning(`${file} could not be opened to append new data`, {
-				level: "low",
+				level: 'low',
 				extraData: extraData,
 			});
 			return;
 		}
 
-		const lines = contents.split("\n");
+		const lines = contents.split('\n');
 
 		let updatedContents = null;
 		switch (extension) {
-			case "md":
-				if (lines[0] === "+++") {
+			case 'md':
+				if (lines[0] === '+++') {
 					lines[1] = `${TOML.stringify(extraData)}${lines[1]}`;
-				} else if (lines[0] === "---") {
+				} else if (lines[0] === '---') {
 					lines[1] = `${stringifyYaml(extraData)}${lines[1]}`;
 				} else {
-					console.warn(file, "unknown front matter format");
+					console.warn(file, 'unknown front matter format');
 					break;
 				}
-				updatedContents = lines.join("\n");
+				updatedContents = lines.join('\n');
 				break;
-			case "json":
+			case 'json':
 				try {
 					const parsed = JSON.parse(contents);
 
-					if (contents.trim().charAt(0) !== "{") {
-						this.addWarning(
-							`${file} could not append inputs to a non-object json file`,
-							{
-								level: "medium",
-								extraData: extraData,
-							},
-						);
+					if (contents.trim().charAt(0) !== '{') {
+						this.addWarning(`${file} could not append inputs to a non-object json file`, {
+							level: 'medium',
+							extraData: extraData,
+						});
 					} else {
 						// TODO detect original indentation
-						const indentation = "\t";
+						const indentation = '\t';
 						updatedContents = JSON.stringify(
 							{
 								...parsed,
 								...extraData,
 							},
 							null,
-							indentation,
+							indentation
 						);
 					}
 				} catch (error) {
-					console.warn(file, "failed to parse", error);
+					console.warn(file, 'failed to parse', error);
 				}
 				break;
-			case "yaml":
+			case 'yaml':
 				lines.push(stringifyYaml(extraData));
-				updatedContents = lines.join("\n");
+				updatedContents = lines.join('\n');
 				break;
 			default:
 				break;
@@ -148,18 +139,10 @@ export default class MigrationClient {
 	}
 
 	async appendDataToFiles(files, extraData) {
-		return Promise.all(
-			files.map((file) => this.appendDataToFile(file, extraData)),
-		);
+		return Promise.all(files.map((file) => this.appendDataToFile(file, extraData)));
 	}
 
-	addUnsupportedKeysWarning(
-		parentId,
-		config,
-		keys,
-		extraOptions,
-		level = "medium",
-	) {
+	addUnsupportedKeysWarning(parentId, config, keys, extraOptions, level = 'medium') {
 		keys.forEach((key) => {
 			if (config?.[key]) {
 				this.addWarning(`"${parentId}" ${key} config is not supported`, {
@@ -172,6 +155,6 @@ export default class MigrationClient {
 	}
 
 	readFile() {
-		throw new NotYetImplementedError("readFile");
+		throw new NotYetImplementedError('readFile');
 	}
 }

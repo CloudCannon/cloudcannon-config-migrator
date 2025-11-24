@@ -1,4 +1,4 @@
-import yaml from "js-yaml";
+import yaml from 'js-yaml';
 
 export const loadYaml = (str) => yaml.load(str);
 
