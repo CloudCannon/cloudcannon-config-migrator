@@ -1,8 +1,8 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import MigrationClient from './MigrationClient.js';
 
-const getAllFiles = function (directory, result) {
+const getAllFiles = (directory, result) => {
 	const files = fs.readdirSync(directory);
 
 	result = result || [];
@@ -22,9 +22,9 @@ const getAllFiles = function (directory, result) {
 export default class DiskMigrationClient extends MigrationClient {
 	constructor(directory) {
 		const absolutePath = path.resolve(process.cwd(), directory);
-		const files = getAllFiles(absolutePath)
-			.map((filename) => filename.substring(absolutePath.length + 1)
-				.replace(/\\/g, '/'));
+		const files = getAllFiles(absolutePath).map((filename) =>
+			filename.substring(absolutePath.length + 1).replace(/\\/g, '/')
+		);
 		super(files);
 		this.downloadCounts = {};
 		this.directory = directory;

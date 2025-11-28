@@ -1,6 +1,6 @@
 import TOML from '@iarna/toml';
-import { stringifyYaml } from './helpers/yaml-helper.js';
 import NotYetImplementedError from './errors/NotYetImplementedError.js';
+import { stringifyYaml } from './helpers/yaml-helper.js';
 import cloudcannonMigration from './migrations/cloudcannon.js';
 import forestryMigration from './migrations/forestry.js';
 import netlifycmsMigration from './migrations/netlifycms.js';
@@ -9,11 +9,7 @@ function getExtension(filename) {
 	return filename.split('.').pop();
 }
 
-const configMigrations = [
-	cloudcannonMigration,
-	forestryMigration,
-	netlifycmsMigration
-];
+const configMigrations = [cloudcannonMigration, forestryMigration, netlifycmsMigration];
 
 export default class MigrationClient {
 	constructor(files) {
@@ -53,15 +49,13 @@ export default class MigrationClient {
 	}
 
 	addFile(file) {
-		const existingFile = this.extraFiles.find(
-			(existing) => existing.path === file.path
-		);
+		const existingFile = this.extraFiles.find((existing) => existing.path === file.path);
 		if (!existingFile) {
 			this.extraFiles.push(file);
 		} else if (existingFile.contents !== file.contents) {
 			throw new Error('File collision', {
 				existingFile: existingFile,
-				file: file
+				file: file,
 			});
 		}
 	}
@@ -69,7 +63,7 @@ export default class MigrationClient {
 	addWarning(message, options) {
 		this.warnings.push({
 			...options,
-			message: message
+			message: message,
 		});
 	}
 
@@ -78,10 +72,10 @@ export default class MigrationClient {
 		let contents;
 		try {
 			contents = await this.readFile(file);
-		} catch (readError) {
+		} catch (_readError) {
 			this.addWarning(`${file} could not be opened to append new data`, {
 				level: 'low',
-				extraData: extraData
+				extraData: extraData,
 			});
 			return;
 		}
@@ -90,50 +84,54 @@ export default class MigrationClient {
 
 		let updatedContents = null;
 		switch (extension) {
-		case 'md':
-			if (lines[0] === '+++') {
-				lines[1] = `${TOML.stringify(extraData)}${lines[1]}`;
-			} else if (lines[0] === '---') {
-				lines[1] = `${stringifyYaml(extraData)}${lines[1]}`;
-			} else {
-				console.warn(file, 'unknown front matter format');
-				break;
-			}
-			updatedContents = lines.join('\n');
-			break;
-		case 'json':
-			try {
-				const parsed = JSON.parse(contents);
-
-				if (contents.trim().charAt(0) !== '{') {
-					this.addWarning(`${file} could not append inputs to a non-object json file`, {
-						level: 'medium',
-						extraData: extraData
-					});
+			case 'md':
+				if (lines[0] === '+++') {
+					lines[1] = `${TOML.stringify(extraData)}${lines[1]}`;
+				} else if (lines[0] === '---') {
+					lines[1] = `${stringifyYaml(extraData)}${lines[1]}`;
 				} else {
-					// TODO detect original indentation
-					const indentation = '\t';
-					updatedContents = JSON.stringify({
-						...parsed,
-						...extraData
-					}, null, indentation);
+					console.warn(file, 'unknown front matter format');
+					break;
 				}
-			} catch (error) {
-				console.warn(file, 'failed to parse', error);
-			}
-			break;
-		case 'yaml':
-			lines.push(stringifyYaml(extraData));
-			updatedContents = lines.join('\n');
-			break;
-		default:
-			break;
+				updatedContents = lines.join('\n');
+				break;
+			case 'json':
+				try {
+					const parsed = JSON.parse(contents);
+
+					if (contents.trim().charAt(0) !== '{') {
+						this.addWarning(`${file} could not append inputs to a non-object json file`, {
+							level: 'medium',
+							extraData: extraData,
+						});
+					} else {
+						// TODO detect original indentation
+						const indentation = '\t';
+						updatedContents = JSON.stringify(
+							{
+								...parsed,
+								...extraData,
+							},
+							null,
+							indentation
+						);
+					}
+				} catch (error) {
+					console.warn(file, 'failed to parse', error);
+				}
+				break;
+			case 'yaml':
+				lines.push(stringifyYaml(extraData));
+				updatedContents = lines.join('\n');
+				break;
+			default:
+				break;
 		}
 
 		if (updatedContents) {
 			this.addFile({
 				path: file,
-				contents: updatedContents
+				contents: updatedContents,
 			});
 		} else {
 			// console.log(file, extension);
@@ -141,9 +139,7 @@ export default class MigrationClient {
 	}
 
 	async appendDataToFiles(files, extraData) {
-		return Promise.all(
-			files.map((file) => this.appendDataToFile(file, extraData))
-		);
+		return Promise.all(files.map((file) => this.appendDataToFile(file, extraData)));
 	}
 
 	addUnsupportedKeysWarning(parentId, config, keys, extraOptions, level = 'medium') {
@@ -152,13 +148,12 @@ export default class MigrationClient {
 				this.addWarning(`"${parentId}" ${key} config is not supported`, {
 					...extraOptions,
 					level: level,
-					config: config
+					config: config,
 				});
 			}
 		});
 	}
 
-	// eslint-disable-next-line class-methods-use-this
 	readFile() {
 		throw new NotYetImplementedError('readFile');
 	}

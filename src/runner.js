@@ -1,36 +1,36 @@
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import chalk from 'chalk';
+import DiskMigrationClient from './DiskMigrationClient.js';
 import { stringifyYaml } from './helpers/yaml-helper.js';
 import log from './util/logger.js';
-import DiskMigrationClient from './DiskMigrationClient.js';
 
 const warningLevels = {
 	info: {
 		prefix: '🗒️',
 		color: chalk.grey,
-		order: 1
+		order: 1,
 	},
 	low: {
 		prefix: '📝',
 		color: chalk.blue,
-		order: 2
+		order: 2,
 	},
 	medium: {
 		prefix: '😒',
 		color: chalk.red,
-		order: 3
+		order: 3,
 	},
 	high: {
 		prefix: '⛔️',
 		color: chalk.redBright,
-		order: 4
+		order: 4,
 	},
 	critical: {
 		prefix: '🏴',
 		color: chalk.magentaBright,
-		order: 5
-	}
+		order: 5,
+	},
 };
 
 export default {
@@ -57,7 +57,7 @@ export default {
 			const configContents = stringifyYaml(migration?.siteConfig || {});
 			await saveToOutput({
 				path: 'cloudcannon.config.yml',
-				contents: configContents
+				contents: configContents,
 			});
 		}
 
@@ -65,7 +65,7 @@ export default {
 			empty = false;
 			await saveToOutput({
 				path: path.join('.cloudcannon', 'initial-site-settings.json'),
-				contents: JSON.stringify(migration?.buildConfig || {}, null, '\t')
+				contents: JSON.stringify(migration?.buildConfig || {}, null, '\t'),
 			});
 		}
 
@@ -85,7 +85,7 @@ export default {
 				.forEach((warning) => {
 					const details = warningLevels[warning.level] || {
 						prefix: warning.level,
-						color: chalk.yellow
+						color: chalk.yellow,
 					};
 
 					log(details.color(`${details.prefix} : ${warning.message}`));
@@ -96,7 +96,7 @@ export default {
 
 		return {
 			client: client,
-			migration: migration
+			migration: migration,
 		};
-	}
+	},
 };

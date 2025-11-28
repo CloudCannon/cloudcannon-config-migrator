@@ -1,12 +1,8 @@
-// eslint-disable-next-line no-restricted-imports
-import _ from 'underscore';
 import moment from 'moment';
-import {
-	titleise
-} from './string-helper.js';
+import { titleise } from './string-helper.js';
 
 const keyOverrides = {
-	date: 'datetime'
+	date: 'datetime',
 };
 
 const keySuffixes = {
@@ -53,7 +49,7 @@ const keySuffixes = {
 	link: 'url',
 	number: 'number',
 	textarea: 'textarea',
-	description: 'textarea'
+	description: 'textarea',
 };
 
 function normaliseKey(key) {
@@ -83,11 +79,11 @@ function getInputType(key, value, inputConfig) {
 		return inputConfig?.type;
 	}
 
-	if (_.isBoolean(value)) {
+	if (typeof value === 'boolean') {
 		return 'checkbox';
 	}
 
-	if (_.isNumber(value)) {
+	if (typeof value === 'number') {
 		return 'number';
 	}
 
@@ -112,7 +108,7 @@ function getInputType(key, value, inputConfig) {
 }
 
 function getLabel(key, inputConfig) {
-	const label = _.isString(inputConfig?.label) ? inputConfig?.label : '';
+	const label = typeof inputConfig?.label === 'string' ? inputConfig?.label : '';
 	return label || titleise(key);
 }
 
@@ -126,14 +122,14 @@ const reducedTypes = {
 		textarea: true,
 		email: true,
 		file: true,
-		url: true
+		url: true,
 	},
 	textarea: {
-		text: true
+		text: true,
 	},
 	file: {
-		image: true
-	}
+		image: true,
+	},
 };
 
 function keysWithValue(obj) {
@@ -178,7 +174,5 @@ export default function reduceInputsConfig(inputConfig) {
 		}
 	});
 
-	return keysWithValue(reducedConfig) > 0
-		? reducedConfig
-		: undefined;
+	return keysWithValue(reducedConfig) > 0 ? reducedConfig : undefined;
 }

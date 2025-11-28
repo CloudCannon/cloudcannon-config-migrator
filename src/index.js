@@ -4,7 +4,8 @@ import meow from 'meow';
 import runner from './runner.js';
 import { toggleLogging } from './util/logger.js';
 
-const cli = meow(`
+const cli = meow(
+	`
 Usage
   $ cloudcannon-config-migrator [options]
 Options
@@ -17,27 +18,29 @@ Examples
   $ cloudcannon-config-migrator --config "cloudcannon.dev.config.json"
   $ cloudcannon-config-migrator --source "public"
   $ cloudcannon-config-migrator --source "public" --output "public"
-`, {
-	importMeta: import.meta,
-	flags: {
-		config: {
-			type: 'string',
-			alias: 'c'
+`,
+	{
+		importMeta: import.meta,
+		flags: {
+			config: {
+				type: 'string',
+				alias: 'c',
+			},
+			source: {
+				type: 'string',
+				alias: 's',
+			},
+			output: {
+				type: 'string',
+				alias: 'o',
+			},
+			quiet: {
+				type: 'boolean',
+				alias: 'q',
+			},
 		},
-		source: {
-			type: 'string',
-			alias: 's'
-		},
-		output: {
-			type: 'string',
-			alias: 'o'
-		},
-		quiet: {
-			type: 'boolean',
-			alias: 'q'
-		}
 	}
-});
+);
 
 if (cli.flags.quiet) {
 	toggleLogging(false);

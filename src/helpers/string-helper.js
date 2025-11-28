@@ -1,6 +1,3 @@
-// eslint-disable-next-line no-restricted-imports
-import _ from 'underscore';
-
 const abbreviations = {
 	api: 'API',
 	guuid: 'GUUID',
@@ -32,19 +29,21 @@ const abbreviations = {
 	json: 'JSON',
 	toml: 'TOML',
 	yaml: 'YAML',
-	javascript: 'JavaScript'
+	javascript: 'JavaScript',
 };
 
 const smallWords = /^(a|an|and|as|at|but|by|en|for|if|in|nor|of|on|or|per|the|to|vs?\.?|via)$/i;
 
 export function toTitleCase(str) {
 	return str?.replace?.(/[A-Za-z0-9\u00C0-\u00FF]+[^\s-]*/g, (match, index, title) => {
-		if (index > 0
-			&& index + match.length !== title.length
-			&& match.search(smallWords) > -1
-			&& title.charAt(index - 2) !== ':'
-			&& (title.charAt(index + match.length) !== '-' || title.charAt(index - 1) === '-')
-			&& title.charAt(index - 1).search(/[^\s-]/) < 0) {
+		if (
+			index > 0 &&
+			index + match.length !== title.length &&
+			match.search(smallWords) > -1 &&
+			title.charAt(index - 2) !== ':' &&
+			(title.charAt(index + match.length) !== '-' || title.charAt(index - 1) === '-') &&
+			title.charAt(index - 1).search(/[^\s-]/) < 0
+		) {
 			return match.toLowerCase();
 		}
 
@@ -82,7 +81,7 @@ export function stripHTML(html) {
 }
 
 export function tryString(str) {
-	if (_.isString(str)) {
+	if (typeof str === 'string') {
 		return str;
 	}
 }

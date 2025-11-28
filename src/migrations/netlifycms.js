@@ -1,6 +1,6 @@
-import { loadYaml, stringifyYaml } from '../helpers/yaml-helper.js';
 import convertSettings from '../helpers/conversions-helper.js';
 import reduceInputsConfig from '../helpers/reduce-inputs-config.js';
+import { loadYaml, stringifyYaml } from '../helpers/yaml-helper.js';
 
 const validExtensions = {
 	yml: true,
@@ -9,7 +9,7 @@ const validExtensions = {
 	json: true,
 	md: true,
 	markdown: true,
-	html: true
+	html: true,
 };
 
 function getEnabledEditors(extension, hideBody) {
@@ -40,254 +40,250 @@ function processFields(migrator, fields, parentConfigPath) {
 		if (field.comment) {
 			console.log('NYI comments:', field);
 		}
-		const safeConfigPath = parentConfigPath
-			? `${parentConfigPath}.${field.name}`
-			: field.name;
+		const safeConfigPath = parentConfigPath ? `${parentConfigPath}.${field.name}` : field.name;
 
 		switch (field.widget || 'string') {
-		case 'string':
-			contents[field.name] = field.default || '';
-			inputConfig[safeConfigPath] = {
-				type: 'text',
-				label: field.label
-			};
-			break;
-		case 'text':
-			contents[field.name] = field.default || '';
-			inputConfig[safeConfigPath] = {
-				type: 'textarea',
-				label: field.label
-			};
-			break;
-		case 'hidden':
-			contents[field.name] = field.default || null;
-			inputConfig[safeConfigPath] = {
-				type: 'text',
-				label: field.label,
-				hidden: true
-			};
-			break;
-		case 'boolean':
-			contents[field.name] = field.default || false;
-			inputConfig[safeConfigPath] = {
-				type: 'switch',
-				label: field.label
-			};
-			break;
-		case 'number':
-			contents[field.name] = field.default || null;
-			inputConfig[safeConfigPath] = {
-				type: 'number',
-				label: field.label
-			};
-			break;
-		case 'datetime':
-			contents[field.name] = field.default || null;
-			inputConfig[safeConfigPath] = {
-				type: 'datetime',
-				label: field.label
-			};
-
-			if (field.format) {
-				// TODO warn about format console.log('datetime', field);
-			}
-			break;
-		case 'date':
-			contents[field.name] = field.default || null;
-			inputConfig[safeConfigPath] = {
-				type: 'date',
-				label: field.label
-			};
-
-			if (field.format) {
-				// TODO warn about format console.log('date', field);
-			}
-			break;
-
-		case 'image':
-			contents[field.name] = field.default || null;
-			inputConfig[safeConfigPath] = {
-				type: 'image',
-				label: field.label
-			};
-			break;
-		case 'markdown':
-			contents[field.name] = field.default || '';
-			inputConfig[safeConfigPath] = {
-				type: 'markdown',
-				label: field.label
-			};
-			break;
-		case 'mdx':
-			// TODO warn about config or add mdx snippets
-			contents[field.name] = field.default || '';
-			inputConfig[safeConfigPath] = {
-				type: 'markdown',
-				label: field.label
-			};
-			break;
-		case 'list':
-			contents[field.name] = field.default || [];
-			inputConfig[safeConfigPath] = {
-				type: 'array',
-				label: field.label
-			};
-
-			if (field.fields) {
-				const recursiveContent = processFields(migrator, field.fields, null);
-
-				inputConfig[safeConfigPath].structures = [{
-					value: recursiveContent.contents,
-					_inputs: recursiveContent.inputConfig
-				}];
-			}
-			break;
-		case 'object': {
-			const recursiveContent = processFields(migrator, field.fields, safeConfigPath);
-
-			contents[field.name] = recursiveContent.contents;
-
-			inputConfig = {
-				...inputConfig,
-				...recursiveContent.inputConfig
-			};
-			break;
-		}
-		case 'select':
-			contents[field.name] = field.default || (field.multiple ? [] : null);
-			inputConfig[safeConfigPath] = {
-				type: field.multiple
-					? 'multiselect'
-					: 'select',
-				label: field.label,
-				options: {
-					values: field.options,
-					allow_create: field.create || false,
-					allow_empty: true
-				}
-			};
-			break;
-		case 'relation': {
-			contents[field.name] = field.default || (field.multiple ? [] : null);
-			let options = null;
-			if (field.collection) {
-				options = {
-					values: `collection.${field.collection}`,
-					value_key: field.valueField
+			case 'string':
+				contents[field.name] = field.default || '';
+				inputConfig[safeConfigPath] = {
+					type: 'text',
+					label: field.label,
 				};
-			} else {
-				console.log('unkown relation type', field);
-			}
+				break;
+			case 'text':
+				contents[field.name] = field.default || '';
+				inputConfig[safeConfigPath] = {
+					type: 'textarea',
+					label: field.label,
+				};
+				break;
+			case 'hidden':
+				contents[field.name] = field.default || null;
+				inputConfig[safeConfigPath] = {
+					type: 'text',
+					label: field.label,
+					hidden: true,
+				};
+				break;
+			case 'boolean':
+				contents[field.name] = field.default || false;
+				inputConfig[safeConfigPath] = {
+					type: 'switch',
+					label: field.label,
+				};
+				break;
+			case 'number':
+				contents[field.name] = field.default || null;
+				inputConfig[safeConfigPath] = {
+					type: 'number',
+					label: field.label,
+				};
+				break;
+			case 'datetime':
+				contents[field.name] = field.default || null;
+				inputConfig[safeConfigPath] = {
+					type: 'datetime',
+					label: field.label,
+				};
 
-			inputConfig[safeConfigPath] = {
-				type: field.multiple
-					? 'multiselect'
-					: 'select',
-				label: field.label,
-				options: options
-			};
-			break;
-		}
-		case 'color': {
-			inputConfig[safeConfigPath] = {
-				type: 'color',
-				options: {
-					format: field.enableAlpha
-						? 'rgba'
-						: 'rgb'
+				if (field.format) {
+					// TODO warn about format console.log('datetime', field);
 				}
-			};
-			break;
-		}
-		case 'file':
-			inputConfig[safeConfigPath] = {
-				type: 'file'
-			};
-			break;
-		default:
-			migrator.addWarning(`Unknown field widget ${field.widget}`, {
-				level: 'high',
-				field: field
-			});
-			break;
+				break;
+			case 'date':
+				contents[field.name] = field.default || null;
+				inputConfig[safeConfigPath] = {
+					type: 'date',
+					label: field.label,
+				};
+
+				if (field.format) {
+					// TODO warn about format console.log('date', field);
+				}
+				break;
+
+			case 'image':
+				contents[field.name] = field.default || null;
+				inputConfig[safeConfigPath] = {
+					type: 'image',
+					label: field.label,
+				};
+				break;
+			case 'markdown':
+				contents[field.name] = field.default || '';
+				inputConfig[safeConfigPath] = {
+					type: 'markdown',
+					label: field.label,
+				};
+				break;
+			case 'mdx':
+				// TODO warn about config or add mdx snippets
+				contents[field.name] = field.default || '';
+				inputConfig[safeConfigPath] = {
+					type: 'markdown',
+					label: field.label,
+				};
+				break;
+			case 'list':
+				contents[field.name] = field.default || [];
+				inputConfig[safeConfigPath] = {
+					type: 'array',
+					label: field.label,
+				};
+
+				if (field.fields) {
+					const recursiveContent = processFields(migrator, field.fields, null);
+
+					inputConfig[safeConfigPath].structures = [
+						{
+							value: recursiveContent.contents,
+							_inputs: recursiveContent.inputConfig,
+						},
+					];
+				}
+				break;
+			case 'object': {
+				const recursiveContent = processFields(migrator, field.fields, safeConfigPath);
+
+				contents[field.name] = recursiveContent.contents;
+
+				inputConfig = {
+					...inputConfig,
+					...recursiveContent.inputConfig,
+				};
+				break;
+			}
+			case 'select':
+				contents[field.name] = field.default || (field.multiple ? [] : null);
+				inputConfig[safeConfigPath] = {
+					type: field.multiple ? 'multiselect' : 'select',
+					label: field.label,
+					options: {
+						values: field.options,
+						allow_create: field.create || false,
+						allow_empty: true,
+					},
+				};
+				break;
+			case 'relation': {
+				contents[field.name] = field.default || (field.multiple ? [] : null);
+				let options = null;
+				if (field.collection) {
+					options = {
+						values: `collection.${field.collection}`,
+						value_key: field.valueField,
+					};
+				} else {
+					console.log('unkown relation type', field);
+				}
+
+				inputConfig[safeConfigPath] = {
+					type: field.multiple ? 'multiselect' : 'select',
+					label: field.label,
+					options: options,
+				};
+				break;
+			}
+			case 'color': {
+				inputConfig[safeConfigPath] = {
+					type: 'color',
+					options: {
+						format: field.enableAlpha ? 'rgba' : 'rgb',
+					},
+				};
+				break;
+			}
+			case 'file':
+				inputConfig[safeConfigPath] = {
+					type: 'file',
+				};
+				break;
+			default:
+				migrator.addWarning(`Unknown field widget ${field.widget}`, {
+					level: 'high',
+					field: field,
+				});
+				break;
 		}
 	});
 
 	return {
 		contents: contents,
 		inputConfig: reduceInputsConfig(inputConfig),
-		bodyFormat: bodyFormat
+		bodyFormat: bodyFormat,
 	};
 }
 
 const conversions = {
 	// https://www.netlifycms.org/docs/configuration-options/
 	site_url: {
-		description: 'The site_url setting should provide a URL to your published site. May be used by the CMS for various functionality. Used together with a collection\'s preview_path to create links to live content.',
-		ignoredReason: 'N/A'
+		description:
+			"The site_url setting should provide a URL to your published site. May be used by the CMS for various functionality. Used together with a collection's preview_path to create links to live content.",
+		ignoredReason: 'N/A',
 	},
 
 	show_preview_links: {
 		description: 'Unknown',
-		ignoredReason: 'N/A'
+		ignoredReason: 'N/A',
 	},
 
 	search: {
 		description: 'Unknown',
-		ignoredReason: 'N/A'
+		ignoredReason: 'N/A',
 	},
 
 	backend: {
 		description: 'Unknown',
-		ignoredReason: 'N/A'
+		ignoredReason: 'N/A',
 	},
 
 	publish_mode: {
 		description: 'Unknown',
-		ignoredReason: 'N/A'
+		ignoredReason: 'N/A',
 	},
 
 	local_backend: {
 		description: 'Unknown',
-		ignoredReason: 'N/A'
+		ignoredReason: 'N/A',
 	},
 
 	localhost_development: {
 		description: 'Unknown',
-		ignoredReason: 'N/A'
+		ignoredReason: 'N/A',
 	},
 
 	media_library: {
 		description: 'Unknown',
-		ignoredReason: 'N/A'
+		ignoredReason: 'N/A',
 	},
 
 	editor: {
 		description: 'Unknown',
-		ignoredReason: 'N/A'
+		ignoredReason: 'N/A',
 	},
 
 	display_url: {
 		description: 'Unknown',
-		ignoredReason: 'N/A'
+		ignoredReason: 'N/A',
 	},
 
 	logo_url: {
 		description: 'Unknown',
-		ignoredReason: 'N/A'
+		ignoredReason: 'N/A',
 	},
 
 	collections: {
 		converter: async (input, migrator) => {
-			await Promise.all(input.map(async (section) => {
-				if (!section.name) {
-					migrator.addWarning('Section has no name defined', {
-						section: section,
-						level: 'critical'
-					});
-					return;
-				}
-				/*
+			await Promise.all(
+				input.map(async (section) => {
+					if (!section.name) {
+						migrator.addWarning('Section has no name defined', {
+							section: section,
+							level: 'critical',
+						});
+						return;
+					}
+					/*
                 name (required): unique identifier for the collection,
                 used as the key when referenced in other contexts (like the relation widget)
                 identifier_field: see detailed description below
@@ -319,258 +315,268 @@ const conversions = {
 				view_groups: see detailed description below
                 */
 
-				if (!('folder' in section) && !('files' in section)) {
-					migrator.addWarning('Section has no files or folder defined', {
-						section: section,
-						level: 'critical'
-					});
-					return;
-				}
-
-				const id = section.name;
-				migrator.collections[id] = {
-					name: section.label
-				};
-
-				if (('files' in section)) {
-					await Promise.all(section.files.map(async (fileDef) => {
-						const schema = processFields(migrator, fileDef.fields, '$');
-
-						const extension = 'md'; // TODO read from fileDef.file
-						const schemaId = fileDef.name;
-						const filePath = `.cloudcannon/schemas/${section.name}/${schemaId}.${extension}`;
-
-						const schemaFile = {
-							path: filePath,
-							contents: await migrator.readFile(fileDef.file)
-						};
-
-						const enabledEditors = getEnabledEditors(extension, false);
-						const schemaDef = {
-							path: filePath,
-							name: section.name,
-							_enabled_editors: enabledEditors,
-							_inputs: schema.inputConfig
-						};
-
-						migrator.addFile(schemaFile);
-						migrator.collections[id].schemas = migrator.collections[id].schemas || {};
-						migrator.collections[id].schemas[schemaId] = schemaDef;
-
-						if (schemaId !== 'default') {
-							await migrator.appendDataToFiles([fileDef.file], {
-								_schema: schemaId
-							});
-						}
-					}));
-
-					migrator.collections[id].filter = {
-						base: 'none',
-						include: section.files.map((files) => files.file)
-					};
-				} else {
-					migrator.collections[id].path = section.folder;
-
-					if (section.fields && section.fields.length > 0) {
-						if (section.frontmatter_delimiter) {
-							// If you have an explicit frontmatter format declared, this option
-							// allows you to specify a custom delimiter like ~~~. If you need
-							// different beginning and ending delimiters, you can use an array
-							// like ["(", ")"].
-							migrator.addWarning(`Section has custom frontmatter_delimiter "${section.frontmatter_delimiter}`, {
-								section: section,
-								level: 'critical'
-							});
-						}
-
-						const schema = processFields(migrator, section.fields, '$');
-
-						let { extension } = section;
-						const format = section.format || section.extension || 'frontmatter';
-						let frontmatterDelimiter = section.frontmatter_delimiter;
-						let stringifiedContents;
-						switch (format) {
-						case 'yml':
-						case 'yaml':
-							// parses and saves files as YAML-formatted data files; saves with yml
-							// extension by default
-							extension = extension || 'yml';
-							frontmatterDelimiter = null;
-							stringifiedContents = stringifyYaml(schema.contents).replace(/: null/img, ':');
-							break;
-						case 'json':
-							// parses and saves files as JSON-formatted data files; saves with json
-							// extension by default
-							extension = extension || 'json';
-							frontmatterDelimiter = null;
-							stringifiedContents = JSON.stringify(schema.contents, null, '\t');
-							break;
-						case 'md':
-						case 'markdown':
-						case 'frontmatter':
-							extension = extension || 'md';
-							frontmatterDelimiter = frontmatterDelimiter || '---';
-							stringifiedContents = stringifyYaml(schema.contents);
-							// parses files and saves files with data frontmatter followed by an unparsed body
-							// text (edited using a body field); saves with md extension by default;
-							// default for collections that can't be inferred. Collections with
-							// frontmatter format (either inferred or explicitly set) can parse files
-							// with frontmatter in YAML, TOML, or JSON format. However, they will be saved
-							// with YAML frontmatter.
-							break;
-						case 'yaml-frontmatter':
-							frontmatterDelimiter = frontmatterDelimiter || '---';
-							stringifiedContents = stringifyYaml(schema.contents);
-							// same as the frontmatter format above, except frontmatter will be both
-							// parsed and saved only as YAML, followed by unparsed body text. The
-							// default delimiter for this option is ---.
-							break;
-						default:
-							migrator.addWarning(`Section has unknown collection file format "${format}`, {
-								level: 'critical'
-							});
-							break;
-						}
-
-						if (schema.bodyFormat !== 'markdown') {
-							migrator.addWarning(`Section has unknown body format "${schema.bodyFormat}`, {
-								level: 'critical'
-							});
-						}
-
-						const filePath = `.cloudcannon/schemas/${section.name}.${extension.replace(/\.+/, '.')}`;
-
-						const schemaFile = {
-							path: filePath,
-							contents: frontmatterDelimiter
-								? `${frontmatterDelimiter}\n${stringifiedContents}${frontmatterDelimiter}`
-								: stringifiedContents
-						};
-
-						const enabledEditors = getEnabledEditors(extension, !frontmatterDelimiter);
-						const schemaDef = {
-							path: filePath,
-							name: section.label,
-							_enabled_editors: enabledEditors,
-							_inputs: schema.inputConfig
-						};
-
-						migrator.addFile(schemaFile);
-						migrator.collections[id].schemas = {};
-						migrator.collections[id].schemas.default = schemaDef;
-					}
-				}
-
-				if (!section.create) {
-					migrator.collections[id].add_options = [];
-				}
-
-				if (section.extension && !validExtensions[section.extension] && !section.format) {
-					throw new Error('Custom format with no format parser');
-				}
-
-				const identifierField = section.identifier_field || 'title';
-				// Netlify CMS expects every entry to provide a field named "title" that serves
-				// as an identifier for the entry. The identifier field serves as an entry's
-				// title when viewing a list of entries, and is used in slug creation. If you
-				// would like to use a field other than "title" as the identifier, you can set
-				// identifier_field to the name of the other field.
-				migrator.collections[id].text_key = identifierField;
-
-				if (section.preview_path) {
-					// preview_path_date_field
-					// The name of a date field for parsing date-based template tags from preview_path.
-					// If this field is not provided and preview_path contains date-based template
-					// tags (eg. {{year}}), Netlify CMS will attempt to infer a usable date field
-					// by checking for common date field names, such as date. If you find that you
-					// need to specify a date field, you can use preview_path_date_field
-					// to tell Netlify CMS which field to use for preview path template tags.
-					const previewDate = section.preview_path_date_field || 'date';
-
-					// preview_path
-					// A string representing the path where content in this collection can be found
-					// on the live site. This allows deploy preview links to direct to lead to a
-					// specific piece of content rather than the site root of a deploy preview.
-					const ccTemplate = section.preview_path
-					// {{extension}} excludes the dot and [ext] includes it
-						.replace(/\.{{extension}}/g, '[ext]')
-						.replace(/{{(.*)}}/g, (template, param) => {
-							// {{slug}} is the entire slug for the current entry (not
-							// just the url-safe identifier, as is the case with slug configuration)
-							if (param === 'slug') {
-								return `{${identifierField}|slugify}`;
-							}
-
-							// {{filename}} The file name without the extension part.
-							if (param === 'filename') {
-								return '[slug]';
-							}
-
-							// {{dirname}} The path to the file's parent directory, relative to the
-							// collection's folder.
-							if (param === 'dirname') {
-								return '[relative_base_path]';
-							}
-
-							// {{extension}} The file extension.
-							if (param === 'extension') {
-								throw new Error('Unsupported preview path extension, [ext] will add an extra dot');
-							}
-
-							// {{year}}: 4-digit year of the file creation date
-							// {{month}}: 2-digit month of the file creation date
-							// {{day}}: 2-digit day of the month of the file creation date
-							if (param === 'year' || param === 'month' || param === 'day') {
-								return `{${previewDate}|${param}}`;
-							}
-
-							// {{hour}}: 2-digit hour of the file creation date
-							// {{minute}}: 2-digit minute of the file creation date
-							// {{second}}: 2-digit second of the file creation date
-							if (param === 'hour' || param === 'minute' || param === 'second') {
-								throw new Error(`Unsupported preview path param ${param}`);
-							}
-
-							return `{${param.replace(/^field\./, '')}}`;
-							// The slug template can also reference a field value by name, eg. {{title}}.
-							// If a field name conflicts with a built in template tag name - for example,
-							// if you have a field named slug, and would like to reference that field
-							// via {{slug}}, you can do so by adding the explicit fields. prefix,
-							// eg. {{fields.slug}}.
+					if (!('folder' in section) && !('files' in section)) {
+						migrator.addWarning('Section has no files or folder defined', {
+							section: section,
+							level: 'critical',
 						});
+						return;
+					}
 
-					migrator.collections[id].url = ccTemplate;
-					migrator.collections[id].output = true;
-				}
+					const id = section.name;
+					migrator.collections[id] = {
+						name: section.label,
+					};
 
-				if (section.delete) {
-					migrator.collections[id].disable_file_actions = true;
-				}
+					if ('files' in section) {
+						await Promise.all(
+							section.files.map(async (fileDef) => {
+								const schema = processFields(migrator, fileDef.fields, '$');
 
-				if (section.editor) {
-					migrator.addWarning('Collections config \'editor\' unsupported', {
-						section: section,
-						level: 'info'
-					});
-				}
-			}));
+								const extension = 'md'; // TODO read from fileDef.file
+								const schemaId = fileDef.name;
+								const filePath = `.cloudcannon/schemas/${section.name}/${schemaId}.${extension}`;
+
+								const schemaFile = {
+									path: filePath,
+									contents: await migrator.readFile(fileDef.file),
+								};
+
+								const enabledEditors = getEnabledEditors(extension, false);
+								const schemaDef = {
+									path: filePath,
+									name: section.name,
+									_enabled_editors: enabledEditors,
+									_inputs: schema.inputConfig,
+								};
+
+								migrator.addFile(schemaFile);
+								migrator.collections[id].schemas = migrator.collections[id].schemas || {};
+								migrator.collections[id].schemas[schemaId] = schemaDef;
+
+								if (schemaId !== 'default') {
+									await migrator.appendDataToFiles([fileDef.file], {
+										_schema: schemaId,
+									});
+								}
+							})
+						);
+
+						migrator.collections[id].filter = {
+							base: 'none',
+							include: section.files.map((files) => files.file),
+						};
+					} else {
+						migrator.collections[id].path = section.folder;
+
+						if (section.fields && section.fields.length > 0) {
+							if (section.frontmatter_delimiter) {
+								// If you have an explicit frontmatter format declared, this option
+								// allows you to specify a custom delimiter like ~~~. If you need
+								// different beginning and ending delimiters, you can use an array
+								// like ["(", ")"].
+								migrator.addWarning(
+									`Section has custom frontmatter_delimiter "${section.frontmatter_delimiter}`,
+									{
+										section: section,
+										level: 'critical',
+									}
+								);
+							}
+
+							const schema = processFields(migrator, section.fields, '$');
+
+							let { extension } = section;
+							const format = section.format || section.extension || 'frontmatter';
+							let frontmatterDelimiter = section.frontmatter_delimiter;
+							let stringifiedContents;
+							switch (format) {
+								case 'yml':
+								case 'yaml':
+									// parses and saves files as YAML-formatted data files; saves with yml
+									// extension by default
+									extension = extension || 'yml';
+									frontmatterDelimiter = null;
+									stringifiedContents = stringifyYaml(schema.contents).replace(/: null/gim, ':');
+									break;
+								case 'json':
+									// parses and saves files as JSON-formatted data files; saves with json
+									// extension by default
+									extension = extension || 'json';
+									frontmatterDelimiter = null;
+									stringifiedContents = JSON.stringify(schema.contents, null, '\t');
+									break;
+								case 'md':
+								case 'markdown':
+								case 'frontmatter':
+									extension = extension || 'md';
+									frontmatterDelimiter = frontmatterDelimiter || '---';
+									stringifiedContents = stringifyYaml(schema.contents);
+									// parses files and saves files with data frontmatter followed by an unparsed body
+									// text (edited using a body field); saves with md extension by default;
+									// default for collections that can't be inferred. Collections with
+									// frontmatter format (either inferred or explicitly set) can parse files
+									// with frontmatter in YAML, TOML, or JSON format. However, they will be saved
+									// with YAML frontmatter.
+									break;
+								case 'yaml-frontmatter':
+									frontmatterDelimiter = frontmatterDelimiter || '---';
+									stringifiedContents = stringifyYaml(schema.contents);
+									// same as the frontmatter format above, except frontmatter will be both
+									// parsed and saved only as YAML, followed by unparsed body text. The
+									// default delimiter for this option is ---.
+									break;
+								default:
+									migrator.addWarning(`Section has unknown collection file format "${format}`, {
+										level: 'critical',
+									});
+									break;
+							}
+
+							if (schema.bodyFormat !== 'markdown') {
+								migrator.addWarning(`Section has unknown body format "${schema.bodyFormat}`, {
+									level: 'critical',
+								});
+							}
+
+							const filePath = `.cloudcannon/schemas/${section.name}.${extension.replace(/\.+/, '.')}`;
+
+							const schemaFile = {
+								path: filePath,
+								contents: frontmatterDelimiter
+									? `${frontmatterDelimiter}\n${stringifiedContents}${frontmatterDelimiter}`
+									: stringifiedContents,
+							};
+
+							const enabledEditors = getEnabledEditors(extension, !frontmatterDelimiter);
+							const schemaDef = {
+								path: filePath,
+								name: section.label,
+								_enabled_editors: enabledEditors,
+								_inputs: schema.inputConfig,
+							};
+
+							migrator.addFile(schemaFile);
+							migrator.collections[id].schemas = {};
+							migrator.collections[id].schemas.default = schemaDef;
+						}
+					}
+
+					if (!section.create) {
+						migrator.collections[id].add_options = [];
+					}
+
+					if (section.extension && !validExtensions[section.extension] && !section.format) {
+						throw new Error('Custom format with no format parser');
+					}
+
+					const identifierField = section.identifier_field || 'title';
+					// Netlify CMS expects every entry to provide a field named "title" that serves
+					// as an identifier for the entry. The identifier field serves as an entry's
+					// title when viewing a list of entries, and is used in slug creation. If you
+					// would like to use a field other than "title" as the identifier, you can set
+					// identifier_field to the name of the other field.
+					migrator.collections[id].text_key = identifierField;
+
+					if (section.preview_path) {
+						// preview_path_date_field
+						// The name of a date field for parsing date-based template tags from preview_path.
+						// If this field is not provided and preview_path contains date-based template
+						// tags (eg. {{year}}), Netlify CMS will attempt to infer a usable date field
+						// by checking for common date field names, such as date. If you find that you
+						// need to specify a date field, you can use preview_path_date_field
+						// to tell Netlify CMS which field to use for preview path template tags.
+						const previewDate = section.preview_path_date_field || 'date';
+
+						// preview_path
+						// A string representing the path where content in this collection can be found
+						// on the live site. This allows deploy preview links to direct to lead to a
+						// specific piece of content rather than the site root of a deploy preview.
+						const ccTemplate = section.preview_path
+							// {{extension}} excludes the dot and [ext] includes it
+							.replace(/\.{{extension}}/g, '[ext]')
+							.replace(/{{(.*)}}/g, (_template, param) => {
+								// {{slug}} is the entire slug for the current entry (not
+								// just the url-safe identifier, as is the case with slug configuration)
+								if (param === 'slug') {
+									return `{${identifierField}|slugify}`;
+								}
+
+								// {{filename}} The file name without the extension part.
+								if (param === 'filename') {
+									return '[slug]';
+								}
+
+								// {{dirname}} The path to the file's parent directory, relative to the
+								// collection's folder.
+								if (param === 'dirname') {
+									return '[relative_base_path]';
+								}
+
+								// {{extension}} The file extension.
+								if (param === 'extension') {
+									throw new Error(
+										'Unsupported preview path extension, [ext] will add an extra dot'
+									);
+								}
+
+								// {{year}}: 4-digit year of the file creation date
+								// {{month}}: 2-digit month of the file creation date
+								// {{day}}: 2-digit day of the month of the file creation date
+								if (param === 'year' || param === 'month' || param === 'day') {
+									return `{${previewDate}|${param}}`;
+								}
+
+								// {{hour}}: 2-digit hour of the file creation date
+								// {{minute}}: 2-digit minute of the file creation date
+								// {{second}}: 2-digit second of the file creation date
+								if (param === 'hour' || param === 'minute' || param === 'second') {
+									throw new Error(`Unsupported preview path param ${param}`);
+								}
+
+								return `{${param.replace(/^field\./, '')}}`;
+								// The slug template can also reference a field value by name, eg. {{title}}.
+								// If a field name conflicts with a built in template tag name - for example,
+								// if you have a field named slug, and would like to reference that field
+								// via {{slug}}, you can do so by adding the explicit fields. prefix,
+								// eg. {{fields.slug}}.
+							});
+
+						migrator.collections[id].url = ccTemplate;
+						migrator.collections[id].output = true;
+					}
+
+					if (section.delete) {
+						migrator.collections[id].disable_file_actions = true;
+					}
+
+					if (section.editor) {
+						migrator.addWarning("Collections config 'editor' unsupported", {
+							section: section,
+							level: 'info',
+						});
+					}
+				})
+			);
 
 			return {
 				config: {
-					collections_config: migrator.collections
-				}
+					collections_config: migrator.collections,
+				},
 			};
-		}
+		},
 	},
 
 	media_folder: {
-		description: 'The media_folder option specifies the folder path where uploaded files should be saved, relative to the base of the repo.',
-		usedInternally: true
+		description:
+			'The media_folder option specifies the folder path where uploaded files should be saved, relative to the base of the repo.',
+		usedInternally: true,
 	},
 	public_folder: {
-		description: 'The public_folder option specifies the folder path where the files uploaded by the media library will be accessed.',
-		usedInternally: true
-	}
+		description:
+			'The public_folder option specifies the folder path where the files uploaded by the media library will be accessed.',
+		usedInternally: true,
+	},
 
 	// TODO editor:
 	// This setting changes options for the editor view of a collection or a file inside a
@@ -687,10 +693,12 @@ async function migrate(migrator) {
 		const publicFolder = (netlifySettings.public_folder || '').replace(/\/+$/, '');
 
 		if (mediaFolder.endsWith(publicFolder)) {
-			const staticFolder = mediaFolder.substring(0, mediaFolder.length - publicFolder.length).replace(/\/+$/, '');
+			const staticFolder = mediaFolder
+				.substring(0, mediaFolder.length - publicFolder.length)
+				.replace(/\/+$/, '');
 			siteConfig.paths = {
 				static: staticFolder,
-				uploads: `${staticFolder}/${publicFolder}`.replace(/\/+/g, '/').replace(/\/$/, '')
+				uploads: `${staticFolder}/${publicFolder}`.replace(/\/+/g, '/').replace(/\/$/, ''),
 			};
 		} else {
 			console.log('Unknown media folder format', mediaFolder, publicFolder);
@@ -699,12 +707,12 @@ async function migrate(migrator) {
 
 	return {
 		files: [],
-		siteConfig: siteConfig
+		siteConfig: siteConfig,
 	};
 }
 
 export default {
 	id: 'netlifycms',
 	detect: detect,
-	migrate: migrate
+	migrate: migrate,
 };
